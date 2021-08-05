@@ -1,0 +1,21 @@
+﻿<Window x:Class="LXLDevHelper.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="LXL接口编辑器" 
+        Height="450" 
+        Width="800">
+    <Grid>
+        <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <ui:ToggleSwitch FontSize="16" AutomationProperties.HelpText="切换主题" IsOn="True" OffContent="Light Theme" OnContent="Dark Theme" Toggled="DarkLight_Toggled"/>
+        </DockPanel>
+        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+    </Grid>
+</Window>
