@@ -53,5 +53,15 @@ namespace LXLDevHelper.ViewModels
             get { return _CurrentFuncCollection; }
             set { SetProperty(ref _CurrentFuncCollection, value); }
         }
+        private   LXLFunction _CurrentFunc = new() { };
+        /// <summary>
+        /// 当前正在编辑的方法定义
+        /// </summary>
+        [JsonIgnore]
+        public LXLFunction CurrentFunc
+        {
+            get { return _CurrentFunc; }
+            set { SetProperty(ref _CurrentFunc, value); }
+        }
     }
 }
