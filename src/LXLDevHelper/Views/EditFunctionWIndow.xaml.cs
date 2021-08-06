@@ -43,9 +43,9 @@ namespace LXLDevHelper.Views
                 if (edited)
                 {
                     try
-                    { 
+                    {
                         //ShowWarn("Function@" + Newtonsoft.Json.JsonConvert.SerializeObject(Data, Newtonsoft.Json.Formatting.None));
-                        return "Function@" +  JsonConvert.SerializeObject(Data,  Formatting.None);
+                        return "Function@" + JsonConvert.SerializeObject(Data, Formatting.None);
                     }
                     catch (System.Exception ex) { ShowWarn("保存方法参数出错\n" + ex.ToString()); }
                 }
@@ -86,6 +86,7 @@ namespace LXLDevHelper.Views
             var text = ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType;
             var result = EditFunction(text);
             ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType = result;
+            Dispatcher.InvokeAsync(() => ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType = result);
         }
         private void SelectTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -94,6 +95,7 @@ namespace LXLDevHelper.Views
             {
                 var result = EditFunction(me.Text);
                 ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType = result;
+                Dispatcher.InvokeAsync(() => ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType = result);
             }
         }
         private string EditFunction(string text)
