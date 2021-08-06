@@ -34,11 +34,11 @@ namespace LXLDevHelper.Views
         /// <param name="s">内容</param>
         private void ShowMessage(string s)
         {
-            ModernWpf.MessageBox.Show("提示", s);
+            ModernWpf.MessageBox.Show( s, "提示");
         }
-        private bool ConfirmDialog(string s )
+        private bool ConfirmDialog(string s)
         {
-            return ModernWpf.MessageBox.Show("确认执行", s, MessageBoxButton.OKCancel) == MessageBoxResult.OK;
+            return ModernWpf.MessageBox.Show( s, "确认执行",MessageBoxButton.OKCancel) == MessageBoxResult.OK;
         }
 
         #endregion
@@ -69,7 +69,7 @@ namespace LXLDevHelper.Views
         }
         private void DeleteFuncButton_Click(object sender, RoutedEventArgs e)
         {
-            var i =FuncListBox.SelectedIndex;
+            var i = FuncListBox.SelectedIndex;
             if (i == -1)//未选中
             {
                 ShowMessage("请选中一个函数后再删除！");
@@ -88,14 +88,28 @@ namespace LXLDevHelper.Views
         private void ClassListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var i = ClassListBox.SelectedIndex;
-            if (i == -1) { return; }
-            Data.CurrentFuncCollection = Data.AllClass[i].AllFunc;
+            if (i == -1)
+            {
+                Data.CurrentFuncCollectionHasSet = false;
+            }
+            else
+            {
+                Data.CurrentFuncCollection = Data.AllClass[i].AllFunc;
+                Data.CurrentFuncCollectionHasSet = true;
+            }
         }
         private void FuncListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var i = FuncListBox.SelectedIndex;
-            if (i == -1) { return; }
-            Data.CurrentFunc = Data.CurrentFuncCollection[i];
+            if (i == -1)
+            {
+                Data.CurrentFuncHasSet = false;
+            }
+            else
+            {
+                Data.CurrentFunc = Data.CurrentFuncCollection[i];
+                Data.CurrentFuncHasSet = true;
+            }
         }
         #endregion
         #region 数据

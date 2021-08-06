@@ -20,7 +20,6 @@ namespace LXLDevHelper.ViewModels
             get { return _AllClass; }
             set { SetProperty(ref _AllClass, value); }
         }
-        private ObservableCollection<LXLFunction> _CurrentFuncCollection = new() { };
         /// <summary>
         /// 当前正在编辑的类的所有方法集合
         /// </summary>
@@ -30,7 +29,20 @@ namespace LXLDevHelper.ViewModels
             get { return _CurrentFuncCollection; }
             set { SetProperty(ref _CurrentFuncCollection, value); }
         }
-        private   LXLFunction _CurrentFunc = new() { };
+        private ObservableCollection<LXLFunction> _CurrentFuncCollection = new() { };
+        private bool _currentFuncCollectionHasSet = false;
+        [JsonIgnore]
+        public bool CurrentFuncCollectionHasSet
+        {
+            get => _currentFuncCollectionHasSet; set
+            {
+                SetProperty(ref _currentFuncCollectionHasSet, value);
+                if (!value)//设置false=>未设定，移除当前项
+                {
+                    CurrentFuncCollection = new();
+                }
+            }
+        }
         /// <summary>
         /// 当前正在编辑的方法定义
         /// </summary>
@@ -39,6 +51,20 @@ namespace LXLDevHelper.ViewModels
         {
             get { return _CurrentFunc; }
             set { SetProperty(ref _CurrentFunc, value); }
+        }
+        private LXLFunction _CurrentFunc = new() { };
+        private bool _currentFuncHasSet = false;
+        [JsonIgnore]
+        public bool CurrentFuncHasSet
+        {
+            get => _currentFuncHasSet; set
+            {
+                SetProperty(ref _currentFuncHasSet, value);
+                if (!value)//设置false=>未设定，移除当前项
+                {
+                    CurrentFunc = new();
+                }
+            }
         }
     }
 }
