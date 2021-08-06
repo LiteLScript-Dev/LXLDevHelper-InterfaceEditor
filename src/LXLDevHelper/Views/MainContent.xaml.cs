@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Collections.ObjectModel;
+
 namespace LXLDevHelper.Views
 {
     /// <summary>
@@ -33,6 +23,14 @@ namespace LXLDevHelper.Views
         private void ShowMessage(string s)
         {
             ModernWpf.MessageBox.Show(s, "提示");
+        }
+        /// <summary>
+        /// 对话框显示错误
+        /// </summary>
+        /// <param name="s">内容</param>
+        private void ShowWarn(string s)
+        {
+            ModernWpf.MessageBox.Show(s, "出错啦！");
         }
         private bool ConfirmDialog(string s)
         {
@@ -113,7 +111,7 @@ namespace LXLDevHelper.Views
         }
         private void DeleteParams_Click(object sender, RoutedEventArgs e)
         {
-            if (ParamsDataGrid.SelectedIndex != -1 && ParamsDataGrid.SelectedIndex < ParamsDataGrid.Items.Count-1 && ConfirmDialog("确认删除当前选中行？"))
+            if (ParamsDataGrid.SelectedIndex != -1 && ParamsDataGrid.SelectedIndex < ParamsDataGrid.Items.Count - 1 && ConfirmDialog("确认删除当前选中行？"))
             {
                 try
                 {
@@ -158,16 +156,77 @@ namespace LXLDevHelper.Views
         #endregion
         #region 数据
         public static ViewModels.MainContentViewModel Data = new();
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        const string RootDir = "src";
+        private void CopyButton_Click(object sender, RoutedEventArgs e)
         {
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(Data, Newtonsoft.Json.Formatting.None);
             ModernWpf.MessageBox.Show(json);
             json = Newtonsoft.Json.JsonConvert.SerializeObject(Data, Newtonsoft.Json.Formatting.Indented);
             Clipboard.SetText(json);
         }
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //检查
+                foreach (var dir in Data.DirCollection)
+                {
+                    if (Data.DirCollection.Any(x => x != dir && x.DirName == dir.DirName))
+                    {
+                        ShowWarn("文件名不得重复！"); return;
+                    }
+                    foreach (var cla in dir.AllClass)
+                    {
+                        if (dir.AllClass.Any(x => x != cla && x.ClassName == cla.ClassName))
+                        {
+                            ShowWarn("类名不得重复！"); return;
+                        }
+                    }
+                }
+                //写入
+                string root = Path.GetFullPath(RootDir);
+                foreach (var dir in Data.DirCollection)
+                {
+                    string DirPath = Path.Combine(root, dir.DirName);
+                    if (!Directory.Exists(DirPath)) { Directory.CreateDirectory(DirPath); }
+                    foreach (var cla in dir.AllClass)
+                    {
+                        string fileName = Path.Combine(DirPath, cla.ClassName + ".json");
+                        File.WriteAllText(fileName, Newtonsoft.Json.JsonConvert.SerializeObject(cla));
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ShowWarn(ex.ToString());
+            }
+        }
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
-            ((Button)sender).IsEnabled = false;
+            ((Button)sender).Content = "重新载入";
+            string root = Path.GetFullPath(RootDir);
+            if (!Directory.Exists(root))
+            {
+                ShowWarn("载入失败！\n未找到数据。");
+            }
+            Data.DirCollection.Clear();
+            foreach (var dir in Directory.GetDirectories(root))
+            {
+                var dirInfo = new ViewModels.LXLDirectory() { DirName = Path.GetDirectoryName(dir) };
+                foreach (var file in Directory.GetFiles(dir))
+                {
+                    try
+                    {
+                        var raw = File.ReadAllText(file);
+                        dirInfo.AllClass.Add(Newtonsoft.Json.JsonConvert.DeserializeObject<ViewModels.LXLClass>(raw));
+                    }
+                    catch (System.Exception ex)
+                    {
+                        ShowWarn($"读取{file}时遇到错误\n{ex}");
+                    }
+                }
+                Data.DirCollection.Add(dirInfo);
+            }
         }
         #endregion
     }

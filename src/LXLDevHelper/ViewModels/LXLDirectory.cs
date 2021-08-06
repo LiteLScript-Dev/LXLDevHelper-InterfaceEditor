@@ -11,7 +11,7 @@ namespace LXLDevHelper.ViewModels
     public class LXLDirectory : BindableBase
     {
         private string _DirName = "新建文件夹";
-        public string DirName { get => _DirName; set => SetProperty(ref _DirName, value); }
+        public string DirName { get => _DirName; set => SetProperty(ref _DirName, value.Trim()); }
         /// <summary>
         /// 当前文件夹下所有类型集合
         /// </summary>
