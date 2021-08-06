@@ -8,9 +8,23 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:MainContentViewModel}"
              xmlns:local="clr-namespace:LXLDevHelper.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="850">
     <UserControl.Resources>
-        <Style TargetType="TextBox" BasedOn="{StaticResource ComboBoxTextBoxStyle}"/>
+        <Style TargetType="TextBox" BasedOn="{StaticResource ComboBoxTextBoxStyle}">
+            <Setter Property="ui:ControlHelper.CornerRadius" Value="0" />
+        </Style>
+        <Style x:Key="DataTextBlock" TargetType="TextBlock" BasedOn="{StaticResource DataGridTextBlockStyle}">
+            <Setter Property="Padding" Value="5,0,0,0" />
+        </Style>
+        <Style x:Key="EditingTextbox" TargetType="TextBox" BasedOn="{StaticResource ComboBoxTextBoxStyle}">
+            <!--<Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="SelectionBrush" Value="Transparent"/>
+            <Setter Property="CaretBrush" Value="Transparent"/>-->
+            <!--<Setter Property="Margin" Value="2" />-->
+            <Setter Property="Padding" Value="5,0,0,0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="ui:ControlHelper.CornerRadius" Value="0" />
+        </Style>
 
         <!--<Setter Property="Padding" Value="0" />-->
             <!--
@@ -39,9 +53,9 @@
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <DockPanel>
-                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" >
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
                         <Button Content="增加" Margin="5" Click="AddDirButton_Click"/>
-                        <Button Content="删除选中" Margin="5" Click="DeleteDirButton_Click"/>
+                        <Button Content="删除选中" Margin="0,5" Click="DeleteDirButton_Click"/>
                     </StackPanel>
                     <TextBlock Text="文件夹：" DockPanel.Dock="Top"/>
                     <ListBox Name="DirListBox" HorizontalContentAlignment="Stretch" ItemsSource="{Binding DirCollection}" Margin="5,5,0,5" SelectionChanged="DirListBox_SelectionChanged">
@@ -55,9 +69,9 @@
                     </ListBox>
                 </DockPanel>
                 <DockPanel Grid.Column="1" IsEnabled="{Binding CurrentClassCollectionHasSet}">
-                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" >
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" >
                         <Button Content="增加" Margin="5" Click="AddClassButton_Click"/>
-                        <Button Content="删除选中" Margin="5" Click="DeleteClassButton_Click"/>
+                        <Button Content="删除选中" Margin="0,5" Click="DeleteClassButton_Click"/>
                     </StackPanel>
                     <TextBlock Text="类：" DockPanel.Dock="Top"/>
                     <ListBox Name="ClassListBox" HorizontalContentAlignment="Stretch" ItemsSource="{Binding CurrentClassCollection}" Margin="5,5,0,5" SelectionChanged="ClassListBox_SelectionChanged">
@@ -71,9 +85,9 @@
                     </ListBox>
                 </DockPanel>
                 <DockPanel Grid.Column="2" IsEnabled="{Binding CurrentFuncCollectionHasSet}">
-                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" >
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom"  HorizontalAlignment="Center">
                         <Button Content="增加" Margin="5" Click="AddFuncButton_Click"/>
-                        <Button Content="删除选中" Margin="5" Click="DeleteFuncButton_Click"/>
+                        <Button Content="删除选中" Margin="0,5" Click="DeleteFuncButton_Click"/>
                     </StackPanel>
                     <TextBlock Text="方法：" DockPanel.Dock="Top"/>
                     <ListBox Name="FuncListBox" Margin="5,5,0,5" ItemsSource="{Binding CurrentFuncCollection}" SelectionChanged="FuncListBox_SelectionChanged">
@@ -97,7 +111,7 @@
                     </DockPanel>
                     <DockPanel IsEnabled="{Binding CurrentFuncHasSet}">
                         <TextBlock Text="方法参数表：" DockPanel.Dock="Top"/>
-                        <DataGrid Name="ParamsDataGrid" CanUserSortColumns="False" ItemsSource="{Binding CurrentFunc.Params}" AutoGenerateColumns="False" >
+                        <DataGrid Name="ParamsDataGrid" CanUserSortColumns="False" ItemsSource="{Binding CurrentFunc.Params}" AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserResizeRows="False">
                             <DataGrid.ContextMenu>
                                 <ContextMenu StaysOpen="true">
                                     <MenuItem Header="添加" Click="AddParams_Click" />
@@ -107,9 +121,9 @@
                             </DataGrid.ContextMenu>
                             <DataGrid.Columns>
                                 <DataGridCheckBoxColumn Width ="44" Header="可选" Binding="{Binding Optional}" CanUserResize="False" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}"/>
-                                <DataGridTextColumn Width ="3*" Header="参数名称" Binding="{Binding ParamName}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource ComboBoxTextBoxStyle}"/>
-                                <DataGridTextColumn Width ="2*" Header="类型" Binding="{Binding ParamType}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource ComboBoxTextBoxStyle}"/>
-                                <DataGridTextColumn Width ="6*" Header="描述" Binding="{Binding Description}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource ComboBoxTextBoxStyle}"/>
+                                <DataGridTextColumn Width ="3*" Header="参数名称" Binding="{Binding ParamName}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
+                                <DataGridTextColumn Width ="2*" Header="类型" Binding="{Binding ParamType}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
+                                <DataGridTextColumn Width ="6*" Header="描述" Binding="{Binding Description}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
                                 <!--<DataGridTemplateColumn Width ="7*" Header="描述" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}">
                                     <DataGridTemplateColumn.CellEditingTemplate>
                                         <ItemContainerTemplate>
