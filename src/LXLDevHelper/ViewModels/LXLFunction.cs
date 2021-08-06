@@ -19,7 +19,7 @@ namespace LXLDevHelper.ViewModels
         public string Description { get => _description; set => SetProperty(ref _description, value); }
         private string _description = "方法描述";
         /// <summary>
-        /// 方法描述
+        /// 方法参数
         /// </summary>
         public ObservableCollection<LXLFuncParams> Params { get => _params; set => SetProperty(ref _params, value); }
         private ObservableCollection<LXLFuncParams> _params = new();

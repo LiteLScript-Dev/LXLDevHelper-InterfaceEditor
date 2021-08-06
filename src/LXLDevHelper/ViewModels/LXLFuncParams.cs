@@ -23,6 +23,5 @@ namespace LXLDevHelper.ViewModels
         /// </summary>
         public string Description { get => _description; set => SetProperty(ref _description, value); }
         private string _description = "参数描述";
-
     }
 }

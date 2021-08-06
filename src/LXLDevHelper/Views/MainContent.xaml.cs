@@ -20,8 +20,6 @@ namespace LXLDevHelper.Views
     /// </summary>
     public partial class MainContent : UserControl
     {
-        public static ViewModels.MainContentViewModel Data = new();
-        public ViewModels.LXLFunction CurrentFunction = new();
         public MainContent()
         {
             InitializeComponent();
@@ -29,23 +27,7 @@ namespace LXLDevHelper.Views
             DataContext = Data;
         }
 
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            ModernWpf.MessageBox.Show(Newtonsoft.Json.JsonConvert.SerializeObject(Data));
-        }
-        private void LoadButton_Click(object sender, RoutedEventArgs e)
-        {
-            ((Button)sender).IsEnabled = false;
-        }
-
-        private void ClassListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var i = ClassListBox.SelectedIndex;
-            if (i == -1) { return; }
-            Data.CurrentFuncCollection = Data.AllClass[i].AllFunc;
-            //ShowMessage(i.ToString());
-            //ShowMessage(Data.CurrentFuncCollection.Count.ToString());
-        }
+        #region 交互
         /// <summary>
         /// 对话框显示信息
         /// </summary>
@@ -59,6 +41,8 @@ namespace LXLDevHelper.Views
             return ModernWpf.MessageBox.Show("确认执行", s, MessageBoxButton.OKCancel) == MessageBoxResult.OK;
         }
 
+        #endregion
+        #region 增删
         private void AddClassButton_Click(object sender, RoutedEventArgs e)
         {
             Data.AllClass.Add(new());
@@ -99,5 +83,31 @@ namespace LXLDevHelper.Views
                 }
             }
         }
+        #endregion
+        #region 事件
+        private void ClassListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var i = ClassListBox.SelectedIndex;
+            if (i == -1) { return; }
+            Data.CurrentFuncCollection = Data.AllClass[i].AllFunc;
+        }
+        private void FuncListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var i = FuncListBox.SelectedIndex;
+            if (i == -1) { return; }
+            Data.CurrentFunc = Data.CurrentFuncCollection[i];
+        }
+        #endregion
+        #region 数据
+        public static ViewModels.MainContentViewModel Data = new();
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            ModernWpf.MessageBox.Show(Newtonsoft.Json.JsonConvert.SerializeObject(Data));
+        }
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((Button)sender).IsEnabled = false;
+        }
+        #endregion
     }
 }

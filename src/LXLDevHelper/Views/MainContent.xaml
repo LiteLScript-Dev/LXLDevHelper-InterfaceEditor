@@ -23,9 +23,9 @@
                 <Button Content="加载" Click="LoadButton_Click" Margin="5,5,0,5"/>
                 <Button Content="保存" Click="SaveButton_Click" Margin="5,5,0,5"/>
             </StackPanel>
-            <Grid>
+            <Grid x:Name="grid">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*" Name="OneColumnDefinition"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
@@ -38,9 +38,11 @@
                     <ListBox Name="ClassListBox" HorizontalContentAlignment="Stretch" ItemsSource="{Binding AllClass}" Margin="5,5,0,5" SelectionChanged="ClassListBox_SelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid  Margin="-8">
-                                    <TextBox Text="{Binding ClassName,Mode=TwoWay}"/>
-                                </Grid>
+                                <!--<Grid Width="{Binding ColumnDefinitions/ActualWidth, ElementName=grid, Mode=OneWay}">-->
+                                    <Grid Margin="-8">
+                                        <TextBox Text="{Binding ClassName,Mode=TwoWay}"/>
+                                    </Grid>
+                                <!--</Grid>-->
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
