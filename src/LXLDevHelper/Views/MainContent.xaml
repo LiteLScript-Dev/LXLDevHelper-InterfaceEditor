@@ -26,19 +26,36 @@
                 <Button Content="加载" Click="LoadButton_Click" Margin="5,5,0,5"/>
                 <Button Content="保存" Click="SaveButton_Click" Margin="5,5,0,5"/>
             </StackPanel>
-            <Grid x:Name="grid">
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*" Name="OneColumnDefinition"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <DockPanel>
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" >
+                        <Button Content="增加" Margin="5" Click="AddDirButton_Click"/>
+                        <Button Content="删除选中" Margin="5" Click="DeleteDirButton_Click"/>
+                    </StackPanel>
+                    <TextBlock Text="文件夹：" DockPanel.Dock="Top"/>
+                    <ListBox Name="DirListBox" HorizontalContentAlignment="Stretch" ItemsSource="{Binding DirCollection}" Margin="5,5,0,5" SelectionChanged="DirListBox_SelectionChanged">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="-8">
+                                    <TextBox Text="{Binding DirName,Mode=TwoWay}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+                <DockPanel Grid.Column="1" IsEnabled="{Binding CurrentClassCollectionHasSet}">
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" >
                         <Button Content="增加" Margin="5" Click="AddClassButton_Click"/>
                         <Button Content="删除选中" Margin="5" Click="DeleteClassButton_Click"/>
                     </StackPanel>
                     <TextBlock Text="类：" DockPanel.Dock="Top"/>
-                    <ListBox Name="ClassListBox" HorizontalContentAlignment="Stretch" ItemsSource="{Binding AllClass}" Margin="5,5,0,5" SelectionChanged="ClassListBox_SelectionChanged">
+                    <ListBox Name="ClassListBox" HorizontalContentAlignment="Stretch" ItemsSource="{Binding CurrentClassCollection}" Margin="5,5,0,5" SelectionChanged="ClassListBox_SelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid Margin="-8">
@@ -48,13 +65,13 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </DockPanel>
-                <DockPanel Grid.Column="1" IsEnabled="{Binding CurrentFuncCollectionHasSet}">
+                <DockPanel Grid.Column="2" IsEnabled="{Binding CurrentFuncCollectionHasSet}">
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" >
                         <Button Content="增加" Margin="5" Click="AddFuncButton_Click"/>
                         <Button Content="删除选中" Margin="5" Click="DeleteFuncButton_Click"/>
                     </StackPanel>
                     <TextBlock Text="方法：" DockPanel.Dock="Top"/>
-                    <ListBox Name="FuncListBox"  Margin="5,5,0,5" ItemsSource="{Binding CurrentFuncCollection}" SelectionChanged="FuncListBox_SelectionChanged">
+                    <ListBox Name="FuncListBox" Margin="5,5,0,5" ItemsSource="{Binding CurrentFuncCollection}" SelectionChanged="FuncListBox_SelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate >
                                 <Grid  Margin="-8" >
@@ -64,7 +81,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </DockPanel>
-                <DockPanel Grid.Column="2" IsEnabled="{Binding CurrentFuncCollectionHasSet}">
+                <DockPanel Grid.Column="3" IsEnabled="{Binding CurrentFuncCollectionHasSet}">
                     <DockPanel DockPanel.Dock="Top" Margin="2">
                         <TextBlock Text="类描述：" VerticalAlignment="Center"/>
                         <TextBox Text="" AcceptsReturn="True" AcceptsTab="True"/>
@@ -75,7 +92,7 @@
                     </DockPanel>
                     <DockPanel IsEnabled="{Binding CurrentFuncHasSet}">
                         <TextBlock Text="方法参数表：" DockPanel.Dock="Top"/>
-                        <DataGrid ItemsSource="{Binding CurrentFunc.Params}" AutoGenerateColumns="False">
+                        <DataGrid Name="ParamsDataGrid" CanUserSortColumns="False" ItemsSource="{Binding CurrentFunc.Params}" AutoGenerateColumns="False">
                             <DataGrid.ContextMenu>
                                 <ContextMenu StaysOpen="true">
                                     <MenuItem Header="添加" Click="AddParams_Click" />

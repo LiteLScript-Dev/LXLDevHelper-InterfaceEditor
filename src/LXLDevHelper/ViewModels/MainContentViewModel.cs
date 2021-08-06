@@ -8,17 +8,39 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 namespace LXLDevHelper.ViewModels
 {
-
     public class MainContentViewModel : BindableBase
     {
-        private ObservableCollection<LXLClass> _AllClass = new() { new LXLClass() };
         /// <summary>
-        /// 所有类型集合
+        /// 当前正在编辑的类的所有方法集合
         /// </summary>
-        public ObservableCollection<LXLClass> AllClass
+        public ObservableCollection<LXLDirectory> DirCollection
         {
-            get { return _AllClass; }
-            set { SetProperty(ref _AllClass, value); }
+            get { return _DirCollection; }
+            set { SetProperty(ref _DirCollection, value); }
+        }
+        private ObservableCollection<LXLDirectory> _DirCollection = new() { };
+        /// <summary>
+        /// 当前正在编辑的文件夹的所有类定义
+        /// </summary>
+        [JsonIgnore]
+        public ObservableCollection<LXLClass> CurrentClassCollection
+        {
+            get { return _CurrentClassCollection; }
+            set { SetProperty(ref _CurrentClassCollection, value); }
+        }
+        private ObservableCollection<LXLClass> _CurrentClassCollection = new() ;
+        private bool _CurrentClassCollectionHasSet = false;
+        [JsonIgnore]
+        public bool CurrentClassCollectionHasSet
+        {
+            get => _CurrentClassCollectionHasSet; set
+            {
+                SetProperty(ref _CurrentClassCollectionHasSet, value);
+                if (!value)//设置false=>未设定，移除当前项
+                {
+                    CurrentClassCollection = new();
+                }
+            }
         }
         /// <summary>
         /// 当前正在编辑的类的所有方法集合

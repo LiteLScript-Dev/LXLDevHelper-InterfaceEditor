@@ -38,26 +38,45 @@ namespace LXLDevHelper.Views
         {
             return ModernWpf.MessageBox.Show(s, "确认执行", MessageBoxButton.OKCancel) == MessageBoxResult.OK;
         }
-
         #endregion
         #region 增删
+        private void AddDirButton_Click(object sender, RoutedEventArgs e)
+        {
+            Data.DirCollection.Add(new());
+        }
+        private void DeleteDirButton_Click(object sender, RoutedEventArgs e)
+        {
+            var i = DirListBox.SelectedIndex;
+            if (i == -1)//未选中
+            {
+                ShowMessage("请选中一个文件夹后再删除！");
+            }
+            else
+            {
+                var item = Data.DirCollection[i];
+                if (ConfirmDialog($"确认删除\"{item.DirName}\"文件夹？"))
+                {
+                    Data.DirCollection.RemoveAt(i);
+                }
+            }
+        }
         private void AddClassButton_Click(object sender, RoutedEventArgs e)
         {
-            Data.AllClass.Add(new());
+            Data.CurrentClassCollection.Add(new());
         }
         private void DeleteClassButton_Click(object sender, RoutedEventArgs e)
         {
             var i = ClassListBox.SelectedIndex;
             if (i == -1)//未选中
             {
-                ShowMessage("请选中一个类后再删除！");
+                ShowMessage("请选中一个方法后再删除！");
             }
             else
             {
-                var item = Data.AllClass[i];
-                if (ConfirmDialog($"确认删除{item.ClassName}类定义及其所有子内容？"))
+                var item = Data.CurrentClassCollection[i];
+                if (ConfirmDialog($"确认删除\"{item.ClassName}\"类定义及其所有子内容？"))
                 {
-                    Data.AllClass.RemoveAt(i);
+                    Data.CurrentClassCollection.RemoveAt(i);
                 }
             }
         }
@@ -81,28 +100,55 @@ namespace LXLDevHelper.Views
                 }
             }
         }
+        private void InsertParams_Click(object sender, RoutedEventArgs e)
+        {
+            if (ParamsDataGrid.SelectedIndex == -1)
+                return;
+            Data.CurrentFunc.Params.Insert(ParamsDataGrid.SelectedIndex, new());
+            ParamsDataGrid.SelectedIndex = -1;//不选中任何行    
+        }
+        private void AddParams_Click(object sender, RoutedEventArgs e)
+        {
+            Data.CurrentFunc.Params.Add(new());
+        }
+        private void DeleteParams_Click(object sender, RoutedEventArgs e)
+        {
+            if (ParamsDataGrid.SelectedIndex != -1 && ParamsDataGrid.SelectedIndex < ParamsDataGrid.Items.Count-1 && ConfirmDialog("确认删除当前选中行？"))
+            {
+                try
+                {
+                    while (ParamsDataGrid.SelectedIndex != -1)
+                        Data.CurrentFunc.Params.RemoveAt(ParamsDataGrid.SelectedIndex);
+                }
+                catch { }
+            }
+        }
         #endregion
         #region 事件
+        private void DirListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var i = DirListBox.SelectedIndex;
+            if (i == -1) { Data.CurrentClassCollectionHasSet = false; }
+            else
+            {
+                Data.CurrentClassCollection = Data.DirCollection[i].AllClass;
+                Data.CurrentClassCollectionHasSet = true;
+            }
+        }
         private void ClassListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var i = ClassListBox.SelectedIndex;
-            if (i == -1)
-            {
-                Data.CurrentFuncCollectionHasSet = false;
-            }
+            if (i == -1) { Data.CurrentFuncCollectionHasSet = false; }
             else
             {
-                Data.CurrentFuncCollection = Data.AllClass[i].AllFunc;
+                Data.CurrentFuncCollection = Data.CurrentClassCollection[i].AllFunc;
                 Data.CurrentFuncCollectionHasSet = true;
             }
         }
         private void FuncListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var i = FuncListBox.SelectedIndex;
-            if (i == -1)
-            {
-                Data.CurrentFuncHasSet = false;
-            }
+            if (i == -1) { Data.CurrentFuncHasSet = false; }
             else
             {
                 Data.CurrentFunc = Data.CurrentFuncCollection[i];
@@ -114,8 +160,9 @@ namespace LXLDevHelper.Views
         public static ViewModels.MainContentViewModel Data = new();
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(Data, Newtonsoft.Json.Formatting.Indented);
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(Data, Newtonsoft.Json.Formatting.None);
             ModernWpf.MessageBox.Show(json);
+            json = Newtonsoft.Json.JsonConvert.SerializeObject(Data, Newtonsoft.Json.Formatting.Indented);
             Clipboard.SetText(json);
         }
         private void LoadButton_Click(object sender, RoutedEventArgs e)
@@ -123,18 +170,5 @@ namespace LXLDevHelper.Views
             ((Button)sender).IsEnabled = false;
         }
         #endregion
-
-        private void InsertParams_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-        private void AddParams_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-        private void DeleteParams_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
