@@ -37,5 +37,11 @@ namespace LXLDevHelper.ViewModels
             set { SetProperty(ref _AllProperty, value); }
         }
         private ObservableCollection<LXLProperty> _AllProperty = new();
+        /// <summary>
+        /// 是否静态类
+        /// </summary>
+        public bool IsStatic { get => _isStatic; set => SetProperty(ref _isStatic, value); }
+        private bool _isStatic = false;
+
     }
 }

@@ -23,6 +23,14 @@ namespace Elements.Converters
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
     }
+    public class RevBoolToVisibility : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (bool)value ? Visibility.Collapsed :  Visibility.Visible;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+    }
     public class BoolToOpacity : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

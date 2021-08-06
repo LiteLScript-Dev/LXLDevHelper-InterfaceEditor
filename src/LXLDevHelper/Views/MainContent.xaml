@@ -39,6 +39,7 @@
         <!--<Style TargetType="ListBox" BasedOn="{StaticResource DefaultListBoxStyle}">
             <Setter Property="Margin" Value="-10" />
         </Style>-->
+        <converters:RevBoolToVisibility x:Key="RevBoolToVisibility" />
         <converters:BoolToVisibility x:Key="BoolToVisibility" />
         <converters:BoolToOpacity  x:Key="BoolToOpacity" />
     </UserControl.Resources>
@@ -104,7 +105,7 @@
                                     <ListBox.ItemTemplate>
                                         <DataTemplate >
                                             <Grid  Margin="-8" >
-                                                <TextBox Text="{Binding FuncName,Mode=TwoWay}"/>
+                                                <TextBox  Tag="{Binding Me}"  Text="{Binding FuncName,Mode=TwoWay}" GotFocus="FuncNameTextBox_GotFocus"/>
                                             </Grid>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
@@ -124,7 +125,7 @@
                                     <ListBox.ItemTemplate>
                                         <DataTemplate >
                                             <Grid  Margin="-8" >
-                                                <TextBox Text="{Binding PropertyName,Mode=TwoWay}"/>
+                                                <TextBox Tag="{Binding Me}" Text="{Binding PropertyName,Mode=TwoWay}" GotFocus="PropertyNameTextBox_GotFocus"/>
                                             </Grid>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
@@ -135,6 +136,9 @@
                 </DockPanel>
                 <DockPanel Grid.Column="3" IsEnabled="{Binding CurrentClassHasSet,Mode=OneWay}">
                     <DockPanel DockPanel.Dock="Top" Margin="2" Opacity="{Binding CurrentClassHasSet,Mode=OneWay,Converter={StaticResource BoolToOpacity}}">
+                        <CheckBox Style="{StaticResource DataGridCheckBoxStyle}" DockPanel.Dock="Right" IsChecked="{Binding CurrentClass.IsStatic}" ToolTip="静态类下所有方法在保存时会自动设置静态">
+                            <TextBlock Text="静态" Opacity="{Binding CurrentClass.IsStatic,Mode=OneWay,Converter={StaticResource BoolToOpacity}}"/>
+                        </CheckBox>
                         <TextBlock Text="类描述：" VerticalAlignment="Center"/>
                         <TextBox Text="{Binding CurrentClass.ClassName,Mode=TwoWay}" AcceptsReturn="True" AcceptsTab="True"/>
                     </DockPanel>
@@ -142,7 +146,9 @@
                         <DockPanel Visibility="{Binding EditFunc,Converter={StaticResource BoolToVisibility},Mode=OneWay}"
                                     IsEnabled="{Binding CurrentFuncHasSet}" Opacity="{Binding CurrentFuncHasSet,Mode=OneWay,Converter={StaticResource BoolToOpacity}}">
                             <DockPanel DockPanel.Dock="Top" Margin="2">
-                                <CheckBox Content="静态"  Style="{StaticResource DataGridCheckBoxStyle}" DockPanel.Dock="Right" IsChecked="{Binding CurrentFunc.IsStatic}"/>
+                                <CheckBox Visibility="{Binding CurrentClass.IsStatic,Converter={StaticResource RevBoolToVisibility}}" Style="{StaticResource DataGridCheckBoxStyle}" DockPanel.Dock="Right" IsChecked="{Binding CurrentFunc.IsStatic}">
+                                    <TextBlock Text="静态" Opacity="{Binding CurrentFunc.IsStatic,Mode=OneWay,Converter={StaticResource BoolToOpacity}}"/>
+                                </CheckBox>
                                 <TextBlock Text="方法描述："/>
                                 <TextBox Text="{Binding CurrentFunc.Description}" AcceptsReturn="True" AcceptsTab="True"/>
                             </DockPanel>
@@ -150,8 +156,8 @@
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="3*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="返回值" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                     <DockPanel Grid.Column="1">
@@ -159,8 +165,21 @@
                                         <TextBox Text="{Binding CurrentFunc.ReturnName}"/>
                                     </DockPanel>
                                     <DockPanel Grid.Column="2">
-                                        <TextBlock Text="类型：" VerticalAlignment="Center"/>
-                                        <TextBox Text="{Binding CurrentFunc.ReturnType}"/>
+                                        <TextBlock Text=" 类型：" VerticalAlignment="Center"/>
+                                        <ComboBox HorizontalAlignment="Stretch" Text="{Binding CurrentFunc.ReturnType}" IsEditable="True"  ui:ControlHelper.CornerRadius="0" 
+                                                  ItemsSource="{Binding AvaliableTypes,Mode=OneWay}">
+                                            <ComboBox.ToolTip>
+                                                <StackPanel>
+                                                <TextBlock Text="选择或手动输入类型"/>
+                                                <TextBlock Text="右键下拉框箭头位置编辑匿名函数"/>
+                                                </StackPanel>
+                                            </ComboBox.ToolTip>
+                                            <ComboBox.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="编辑匿名函数" Click="MenuItem_Click"/>
+                                                </ContextMenu>
+                                            </ComboBox.ContextMenu>
+                                        </ComboBox>
                                     </DockPanel>
                                 </Grid>
                             </DockPanel>
@@ -180,8 +199,33 @@
                                     </DataGrid.ContextMenu>
                                     <DataGrid.Columns>
                                         <DataGridCheckBoxColumn Width ="44" Header="可选" Binding="{Binding Optional}" CanUserResize="False" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}"/>
-                                        <DataGridTextColumn Width ="3*" Header="参数名称" Binding="{Binding ParamName}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
-                                        <DataGridTextColumn Width ="2*" Header="类型" Binding="{Binding ParamType}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
+                                        <DataGridTextColumn Width ="4*" Header="参数名" Binding="{Binding ParamName}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
+                                        <DataGridTemplateColumn Width ="4*" Header="类型" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding ParamType}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                            <DataGridTemplateColumn.CellEditingTemplate>
+                                                <DataTemplate>
+                                                    <ComboBox HorizontalAlignment="Stretch" Text="{Binding ParamType}" IsEditable="True"  ui:ControlHelper.CornerRadius="0" 
+                                                  ItemsSource="{Binding AvaliableTypes,Mode=OneWay}">
+                                                        <ComboBox.ToolTip>
+                                                            <StackPanel>
+                                                                <TextBlock Text="选择或手动输入类型"/>
+                                                                <TextBlock Text="右键下拉框箭头位置编辑匿名函数"/>
+                                                            </StackPanel>
+                                                        </ComboBox.ToolTip>
+                                                        <ComboBox.ContextMenu>
+                                                            <ContextMenu>
+                                                                <MenuItem Header="编辑匿名函数" Click="MenuItem_Click"/>
+                                                            </ContextMenu>
+                                                        </ComboBox.ContextMenu>
+                                                    </ComboBox>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellEditingTemplate>
+                                        </DataGridTemplateColumn>
+                                        <!--<DataGridTextColumn Width ="3*" Header="类型" Binding="{Binding ParamType}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>-->
                                         <DataGridTextColumn Width ="6*" Header="描述" Binding="{Binding Description}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>

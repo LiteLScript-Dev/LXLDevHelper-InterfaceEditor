@@ -350,5 +350,10 @@ namespace LXLDevHelper.Views
             }
             catch { }
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

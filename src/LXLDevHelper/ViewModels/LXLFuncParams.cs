@@ -47,5 +47,7 @@ namespace LXLDevHelper.ViewModels
         public bool Optional { get => _optional; set => SetProperty(ref _optional, value); }
         private bool _optional = false;
 
+
+        public static ObservableCollection<string> AvaliableTypes { get => MainContentViewModel.AvaliableTypes; }
     }
 }

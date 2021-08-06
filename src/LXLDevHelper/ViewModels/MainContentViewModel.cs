@@ -66,29 +66,6 @@ namespace LXLDevHelper.ViewModels
                 }
             }
         }
-        /// <summary>
-        /// 当前正在编辑的类的所有属性集合
-        /// </summary>
-        //[JsonIgnore]
-        //public ObservableCollection<LXLProperty> CurrentPropertyCollection
-        //{
-        //    get { return _CurrentPropertyCollection; }
-        //    set { SetProperty(ref _CurrentPropertyCollection, value); }
-        //}
-        //private ObservableCollection<LXLProperty> _CurrentPropertyCollection = new() { };
-        //private bool _currentPropertyCollectionHasSet = false;
-        //[JsonIgnore]
-        //public bool CurrentPropertyCollectionHasSet
-        //{
-        //    get => _currentPropertyCollectionHasSet; set
-        //    {
-        //        SetProperty(ref _currentPropertyCollectionHasSet, value);
-        //        if (!value)//设置false=>未设定，移除当前项
-        //        {
-        //            CurrentPropertyCollection = new();
-        //        }
-        //    }
-        //}
 
         /// <summary>
         /// 当前正在编辑的方法定义
@@ -113,18 +90,6 @@ namespace LXLDevHelper.ViewModels
                 }
             }
         }
-        //[JsonIgnore]
-        //public bool CurrentFuncCollectionHasSet
-        //{
-        //    get => _currentFuncCollectionHasSet; set
-        //    {
-        //        SetProperty(ref _currentFuncCollectionHasSet, value);
-        //        if (!value)//设置false=>未设定，移除当前项
-        //        {
-        //            CurrentFuncCollection = new();
-        //        }
-        //    }
-        //}
         /// <summary>
         /// 当前正在编辑的属性定义
         /// </summary>
@@ -151,18 +116,6 @@ namespace LXLDevHelper.ViewModels
 
 
         private bool _editProperty = false;
-        //[JsonIgnore]
-        //public Visibility EditPropertyVisibility
-        //{
-        //    get => BoolToVisibility(_editProperty); set
-        //    {
-        //        SetProperty(ref _editProperty, VisibilityToBool(value));
-        //        if (value == Visibility.Visible)
-        //        { EditFuncVisibility = Visibility.Collapsed; }
-        //        else
-        //        { CurrentPropertyHasSet = false; }
-        //    }
-        //}
         [JsonIgnore]
         public bool EditProperty
         {
@@ -172,22 +125,10 @@ namespace LXLDevHelper.ViewModels
                 if (value)
                 {
                     EditFunc = false;
-                } 
+                }
             }
         }
         private bool _editFunc = true;
-        //[JsonIgnore]
-        //public Visibility EditFuncVisibility
-        //{
-        //    get => BoolToVisibility(_editFunc); set
-        //    {
-        //        SetProperty(ref _editFunc, VisibilityToBool(value));
-        //        if (value == Visibility.Visible)
-        //        { EditPropertyVisibility = Visibility.Collapsed; }
-        //        else
-        //        { CurrentFuncHasSet = false; }
-        //    }
-        //}
         [JsonIgnore]
         public bool EditFunc
         {
@@ -197,8 +138,24 @@ namespace LXLDevHelper.ViewModels
                 if (value)
                 {
                     EditProperty = false;
-                } 
+                }
             }
         }
+
+        [JsonIgnore]
+        public static ObservableCollection<string> _avaliableTypes = new()
+        {
+            "Null",
+            "Integer",
+            "Float",
+            "String",
+            "Boolean",
+            "Function",
+            "Array",
+            "Object",
+            "ByteBuffer"
+        };
+        public static ObservableCollection<string> AvaliableTypes { get => _avaliableTypes; }
+       
     }
 }
