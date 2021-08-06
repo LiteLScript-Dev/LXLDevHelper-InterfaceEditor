@@ -169,22 +169,29 @@ namespace LXLDevHelper.Views
             try
             {
                 //检查
+                if (Data.DirCollection.Count==0)
+                {
+                    ShowWarn("无数据！");
+                }
                 foreach (var dir in Data.DirCollection)
                 {
                     if (Data.DirCollection.Any(x => x != dir && x.DirName == dir.DirName))
                     {
+                        DirListBox.SelectedItem = Data.DirCollection.First(x => x != dir && x.DirName == dir.DirName);
                         ShowWarn("文件名不得重复！"); return;
                     }
                     foreach (var cla in dir.AllClass)
                     {
                         if (dir.AllClass.Any(x => x != cla && x.ClassName == cla.ClassName))
                         {
+                            DirListBox.SelectedItem = dir;
+                            ClassListBox.SelectedItem = dir.AllClass.First(x => x != cla && x.ClassName == cla.ClassName);
                             ShowWarn("类名不得重复！"); return;
                         }
                     }
                 }
                 //写入
-                string root = Path.GetFullPath(RootDir);
+                string root = Path.GetFullPath(RootDir + "_temp");
                 foreach (var dir in Data.DirCollection)
                 {
                     string DirPath = Path.Combine(root, dir.DirName);
@@ -195,6 +202,9 @@ namespace LXLDevHelper.Views
                         File.WriteAllText(fileName, Newtonsoft.Json.JsonConvert.SerializeObject(cla));
                     }
                 }
+                string rootbase = Path.GetFullPath(RootDir);
+                Directory.Delete(rootbase, true);
+                Directory.Move(root, rootbase);
             }
             catch (System.Exception ex)
             {
@@ -203,30 +213,45 @@ namespace LXLDevHelper.Views
         }
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
-            ((Button)sender).Content = "重新载入";
-            string root = Path.GetFullPath(RootDir);
-            if (!Directory.Exists(root))
+            try
             {
-                ShowWarn("载入失败！\n未找到数据。");
-            }
-            Data.DirCollection.Clear();
-            foreach (var dir in Directory.GetDirectories(root))
-            {
-                var dirInfo = new ViewModels.LXLDirectory() { DirName = Path.GetDirectoryName(dir) };
-                foreach (var file in Directory.GetFiles(dir))
+
+                bool loaded = !(((Button)sender).Tag is null);
+                if (loaded)
                 {
-                    try
+                    if (!ConfirmDialog("确认重新载入？\n当前编辑将无法恢复。"))
                     {
-                        var raw = File.ReadAllText(file);
-                        dirInfo.AllClass.Add(Newtonsoft.Json.JsonConvert.DeserializeObject<ViewModels.LXLClass>(raw));
-                    }
-                    catch (System.Exception ex)
-                    {
-                        ShowWarn($"读取{file}时遇到错误\n{ex}");
+                        return;
                     }
                 }
-                Data.DirCollection.Add(dirInfo);
+                string root = Path.GetFullPath(RootDir);
+                if (!Directory.Exists(root))
+                {
+                    ShowWarn("载入失败！\n未找到数据。");
+                }
+                Data.DirCollection.Clear();
+                foreach (var dir in Directory.GetDirectories(root))
+                {
+                    var dirInfo = new ViewModels.LXLDirectory() { DirName = Path.GetFileName(dir) };
+                    foreach (var file in Directory.GetFiles(dir))
+                    {
+                        try
+                        {
+                            var raw = File.ReadAllText(file);
+                            dirInfo.AllClass.Add(Newtonsoft.Json.JsonConvert.DeserializeObject<ViewModels.LXLClass>(raw));
+                        }
+                        catch (System.Exception ex)
+                        {
+                            ShowWarn($"读取{file}时遇到错误\n{ex}");
+                        }
+                    }
+                    Data.DirCollection.Add(dirInfo);
+                }
+                ((Button)sender).Tag = true;
+                ((Button)sender).Content = "重新载入";
             }
+            catch (System.Exception ex)
+            { ShowWarn($"载入失败！\n{ex}"); }
         }
         #endregion
     }
