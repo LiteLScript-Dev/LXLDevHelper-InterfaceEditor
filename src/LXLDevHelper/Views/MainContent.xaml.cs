@@ -304,7 +304,13 @@ namespace LXLDevHelper.Views
         }
         private void OpenDirButton_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("explorer.exe", Path.GetFullPath(RootDir));
+            var dir = Path.GetFullPath(RootDir);
+            if (!Directory.Exists(dir))
+            {
+                ShowWarn("未找到数据！");
+                return;
+            }
+            Process.Start("explorer.exe", dir);
         }
         #endregion
 
