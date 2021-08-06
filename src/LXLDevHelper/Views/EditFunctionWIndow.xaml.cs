@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Newtonsoft.Json;
+using System.Windows;
 using System.Windows.Controls;
 using static LXLDevHelper.Tools.Message;
 
@@ -20,12 +21,14 @@ namespace LXLDevHelper.Views
         public EditFunctionWindow(string text)
         {
             input = text;
-            const string prefix = "Function@";
-            if (text.StartsWith(prefix))
+            const string prefix = "Function@";//匿名函数前缀
+            //匿名函数样式:
+            //                      Function@{json信息}
+            if (text.StartsWith(prefix))//判断方式，以Function@开头
             {
                 try
-                {
-                    Data = Newtonsoft.Json.JsonConvert.DeserializeObject<ViewModels.EditFunctionWindowViewModel>(text.Substring(prefix.Length));
+                {//反序列化到结构体
+                    Data = JsonConvert.DeserializeObject<ViewModels.EditFunctionWindowViewModel>(text.Substring(prefix.Length));
                 }
                 catch (System.Exception ex) { ShowWarn($"加载数据失败！\n{text}\n{ex}"); }
             }
@@ -83,7 +86,6 @@ namespace LXLDevHelper.Views
             var text = ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType;
             var result = EditFunction(text);
             ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType = result;
-
         }
         private void SelectTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
