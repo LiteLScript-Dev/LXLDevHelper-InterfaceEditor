@@ -34,6 +34,11 @@ namespace LXLDevHelper.ViewModels
 #endif
             ;
         /// <summary>
+        /// 是否静态方法
+        /// </summary>
+        public bool IsStatic { get => _isStatic; set => SetProperty(ref _isStatic, value); }
+        private bool _isStatic = false;
+        /// <summary>
         /// 返回值名
         /// </summary>
         public string ReturnName { get => _returnName; set => SetProperty(ref _returnName, value); }
