@@ -39,6 +39,7 @@
             <Setter Property="Margin" Value="-10" />
         </Style>-->
         <converters:BoolToVisibility x:Key="BoolToVisibility" />
+        <converters:BoolToOpacity  x:Key="BoolToOpacity" />
     </UserControl.Resources>
     <Grid>
         <DockPanel>
@@ -88,10 +89,10 @@
                     </ListBox>
                 </DockPanel>
                 <DockPanel Grid.Column="2">
-                    <TabControl DockPanel.Dock="Top" Background="{x:Null}">
+                    <TabControl DockPanel.Dock="Top" Background="{x:Null}" BorderBrush="Transparent" Foreground="Transparent">
                         <TabItem IsEnabled="{Binding CurrentClassHasSet}" IsSelected="{Binding EditFunc}">
                             <TabItem.Header>
-                                <ToggleButton Content="方法" Margin="-5,-10" Padding="10,5" IsChecked="{Binding EditFunc}"/>
+                                <ToggleButton Content="方法" Margin="-5,-10,-5,-5" Padding="10,5" IsChecked="{Binding EditFunc}"/>
                             </TabItem.Header>
                             <DockPanel>
                                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom"  HorizontalAlignment="Center">
@@ -109,9 +110,9 @@
                                 </ListBox>
                             </DockPanel>
                         </TabItem>
-                        <TabItem  IsEnabled="{Binding CurrentClassHasSet}" IsSelected="{Binding EditProperty}">
+                        <TabItem IsEnabled="{Binding CurrentClassHasSet}" IsSelected="{Binding EditProperty}">
                             <TabItem.Header>
-                                <ToggleButton Content="属性" Margin="-5,-10" Padding="10,5" IsChecked="{Binding EditProperty}"/>
+                                <ToggleButton Content="属性" Margin="-5,-10,-5,-5" Padding="10,5" IsChecked="{Binding EditProperty}"/>
                             </TabItem.Header>
                             <DockPanel>
                                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom"  HorizontalAlignment="Center">
@@ -131,7 +132,7 @@
                         </TabItem>
                     </TabControl>
                 </DockPanel>
-                <DockPanel Grid.Column="3" IsEnabled="{Binding CurrentClassHasSet}">
+                <DockPanel Grid.Column="3" IsEnabled="{Binding CurrentClassHasSet,Mode=OneWay}" Opacity="{Binding CurrentClassHasSet,Mode=OneWay,Converter={StaticResource BoolToOpacity}}">
                     <DockPanel DockPanel.Dock="Top" Margin="2">
                         <TextBlock Text="类描述：" VerticalAlignment="Center"/>
                         <TextBox Text="{Binding CurrentClass.ClassName,Mode=TwoWay}" AcceptsReturn="True" AcceptsTab="True"/>
