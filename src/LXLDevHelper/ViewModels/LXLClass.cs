@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Prism.Mvvm;
+using System.Collections.ObjectModel;
 
 namespace LXLDevHelper.ViewModels
 {
+    /// <summary>
+    /// 类定义
+    /// </summary>
     public class LXLClass : BindableBase
     {
         private string _className = "类名称";
