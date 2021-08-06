@@ -31,5 +31,10 @@ namespace LXLDevHelper.Views
             });
             //ModernWpf.MessageBox.Show("test");
         }
+
+        private void TopToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            Topmost = ((ModernWpf.Controls.ToggleSwitch)sender).IsOn;
+        }
     }
 }
