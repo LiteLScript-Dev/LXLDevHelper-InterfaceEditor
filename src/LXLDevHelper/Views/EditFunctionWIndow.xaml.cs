@@ -92,7 +92,7 @@ namespace LXLDevHelper.Views
             var me = (ComboBox)sender;
             if (me.SelectedItem?.ToString() == "Function")
             {
-                var result = EditFunction("Function");
+                var result = EditFunction(me.Text);
                 ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType = result;
             }
         }

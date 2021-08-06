@@ -348,22 +348,28 @@ namespace LXLDevHelper.Views
         private void SelectTypeMenuItem_Click(object sender, RoutedEventArgs e)
         {
             var me = (MenuItem)sender;
-            if (me.GetType() == typeof(ViewModels.LXLFuncParams))
+            var tag = me.Tag;
+            var tagType = tag.GetType();
+            if (tagType == typeof(ViewModels.LXLFuncParams))
             {
-                var text = ((ViewModels.LXLFuncParams)me.Tag).ParamType;
+                var t = (ViewModels.LXLFuncParams)tag;
+                var text = t.ParamType;
                 var result = EditFunction(text);
-                ((ViewModels.LXLFuncParams)me.Tag).ParamType = result;
+                t.ParamType = result;
             }
-            else if (me.GetType() == typeof(ViewModels.LXLFunction))
+            else if (tagType == typeof(ViewModels.LXLFunction))
             {
-                var text = ((ViewModels.LXLFunction)me.Tag).ReturnType;
+                var t = (ViewModels.LXLFunction)tag;
+                var text = t.ReturnType;
                 var result = EditFunction(text);
-                ((ViewModels.LXLFunction)me.Tag).ReturnType = result;
-            }   else if (me.GetType() == typeof(ViewModels.LXLProperty))
+                t.ReturnType = result;
+            }
+            else if (tagType == typeof(ViewModels.LXLProperty))
             {
-                var text = ((ViewModels.LXLProperty)me.Tag).PropertyType;
+                var t = (ViewModels.LXLProperty)tag;
+                var text = t.PropertyType;
                 var result = EditFunction(text);
-                ((ViewModels.LXLProperty)me.Tag).PropertyType = result;
+                t.PropertyType = result;
             }
         }
         private void SelectTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -372,7 +378,7 @@ namespace LXLDevHelper.Views
             if (me.SelectedItem?.ToString() == "Function")
             {
                 //e.Handled = true;
-                var result = EditFunction(me.Text);//还未更新的Text
+                var result = EditFunction(me.Text);//还未因选择而更改的Text
                 Dispatcher.InvokeAsync(() => me.Text = result);//奇怪的bug，事件内直接改没效果，所以只能post到事件完成后运行
             }
         }
