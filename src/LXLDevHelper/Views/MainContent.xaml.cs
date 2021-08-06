@@ -171,7 +171,7 @@ namespace LXLDevHelper.Views
                 //检查
                 if (Data.DirCollection.Count==0)
                 {
-                    ShowWarn("无数据！");
+                    ShowWarn("无数据！");return;
                 }
                 foreach (var dir in Data.DirCollection)
                 {
