@@ -70,32 +70,18 @@ namespace LXLDevHelper.Views
         }
         private void SelectTypeMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var text = (string)((MenuItem)sender).Tag;
+            var text = ((ViewModels.LXLFuncParamsBase)((MenuItem)sender).Tag).ParamType;
             var result = EditFunction(text);
-            //System.Threading.Tasks.Task.Delay(1000).ContinueWith(_ =>
-            //{
-            //    Dispatcher.InvokeAsync(() =>);//奇怪的bug，事件内直接改没效果，所以只能post到事件完成后运行
-            //});
-            ((MenuItem)sender).Tag = result;
+            ((ViewModels.LXLFuncParamsBase)((MenuItem)sender).Tag).ParamType = result;
+
         }
         private void SelectTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var me = (ComboBox)sender;
             if (me.SelectedItem?.ToString() == "Function")
             {
-                //e.Handled = true;
                 var result = EditFunction("Function");
-                //ShowWarn(result);
-                System.Threading.Tasks.Task.Delay(1000).ContinueWith(_ =>
-                {
-                    Dispatcher.InvokeAsync(() => {
-                        me.Text = result;
-                        ShowWarn(result);
-                    });//奇怪的bug，事件内直接改没效果，所以只能post到事件完成后运行
-                });
-                //me.Text = result;
-                //ShowWarn(me.Text);
-                //e.Handled = true;
+                ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType = result;
             }
         }
         private string EditFunction(string text)

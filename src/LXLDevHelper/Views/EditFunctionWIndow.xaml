@@ -62,7 +62,7 @@
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
                                 <ComboBox HorizontalAlignment="Stretch" Text="{Binding ParamType,Mode=TwoWay}" IsEditable="True"  ui:ControlHelper.CornerRadius="0" 
-                                                    ItemsSource="{Binding AvaliableTypes,Mode=OneWay}" SelectionChanged="SelectTypeComboBox_SelectionChanged">
+                                                  Tag="{Binding Me,Mode=OneWay}"  ItemsSource="{Binding AvaliableTypes,Mode=OneWay}" SelectionChanged="SelectTypeComboBox_SelectionChanged">
                                     <ComboBox.ToolTip>
                                         <StackPanel>
                                             <TextBlock Text="选择或手动输入类型"/>
@@ -71,7 +71,7 @@
                                     </ComboBox.ToolTip>
                                     <ComboBox.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Tag="{Binding ParamType,Mode=TwoWay}" Header="编辑匿名函数" Click="SelectTypeMenuItem_Click"/>
+                                            <MenuItem Tag="{Binding Me,Mode=OneWay}" Header="编辑匿名函数" Click="SelectTypeMenuItem_Click"/>
                                         </ContextMenu>
                                     </ComboBox.ContextMenu>
                                 </ComboBox>
