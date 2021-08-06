@@ -11,7 +11,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="850">
     <UserControl.Resources>
-        
+
         <Style TargetType="TextBox" BasedOn="{StaticResource ComboBoxTextBoxStyle}">
             <Setter Property="ui:ControlHelper.CornerRadius" Value="0" />
         </Style>
@@ -89,7 +89,7 @@
                 </DockPanel>
                 <DockPanel Grid.Column="2">
                     <TabControl Name="EditFuncOrProperty" DockPanel.Dock="Top" Background="{x:Null}">
-                        <TabItem IsEnabled="{Binding CurrentFuncCollectionHasSet}" IsSelected="{Binding EditFunc}">
+                        <TabItem IsEnabled="{Binding CurrentClassHasSet}" IsSelected="{Binding EditFunc}">
                             <TabItem.Header>
                                 <TextBlock Text="方法" Margin="0,-5"/>
                             </TabItem.Header>
@@ -98,7 +98,7 @@
                                     <Button Content="增加" Margin="5" Click="AddFuncButton_Click"/>
                                     <Button Content="删除选中" Margin="0,5" Click="DeleteFuncButton_Click"/>
                                 </StackPanel>
-                                <ListBox Name="FuncListBox" Margin="5,5,0,5" ItemsSource="{Binding CurrentFuncCollection}" SelectionChanged="FuncListBox_SelectionChanged">
+                                <ListBox Name="FuncListBox" Margin="5,5,0,5" ItemsSource="{Binding CurrentClass.AllFunc}" SelectionChanged="FuncListBox_SelectionChanged">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate >
                                             <Grid  Margin="-8" >
@@ -109,7 +109,7 @@
                                 </ListBox>
                             </DockPanel>
                         </TabItem>
-                        <TabItem  IsEnabled="{Binding CurrentPropertyCollectionHasSet}" IsSelected="{Binding EditProperty}">
+                        <TabItem  IsEnabled="{Binding CurrentClassHasSet}" IsSelected="{Binding EditProperty}">
                             <TabItem.Header>
                                 <TextBlock Text="属性" Margin="0,-5"/>
                             </TabItem.Header>
@@ -118,7 +118,7 @@
                                     <Button Content="增加" Margin="5" Click="AddPropertyButton_Click"/>
                                     <Button Content="删除选中" Margin="0,5" Click="DeletePropertyButton_Click"/>
                                 </StackPanel>
-                                <ListBox Name="PropertyListBox" Margin="5,5,0,5" ItemsSource="{Binding CurrentPropertyCollection}" SelectionChanged="PropertyListBox_SelectionChanged">
+                                <ListBox Name="PropertyListBox" Margin="5,5,0,5" ItemsSource="{Binding CurrentClass.AllProperty}" SelectionChanged="PropertyListBox_SelectionChanged">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate >
                                             <Grid  Margin="-8" >
@@ -131,37 +131,63 @@
                         </TabItem>
                     </TabControl>
                 </DockPanel>
-                <DockPanel Grid.Column="3" IsEnabled="{Binding CurrentFuncCollectionHasSet}">
+                <DockPanel Grid.Column="3" IsEnabled="{Binding CurrentClassHasSet}">
                     <DockPanel DockPanel.Dock="Top" Margin="2">
                         <TextBlock Text="类描述：" VerticalAlignment="Center"/>
-                        <TextBox Text="" AcceptsReturn="True" AcceptsTab="True"/>
+                        <TextBox Text="{Binding CurrentClass.ClassName,Mode=TwoWay}" AcceptsReturn="True" AcceptsTab="True"/>
                     </DockPanel>
-                    <DockPanel Visibility="{Binding EditFunc,Converter={StaticResource BoolToVisibility}}">
-                        <DockPanel DockPanel.Dock="Top" Margin="2" IsEnabled="{Binding CurrentFuncHasSet}">
-                            <TextBlock Text="方法描述：" VerticalAlignment="Center"/>
-                            <TextBox Text="" AcceptsReturn="True" AcceptsTab="True"/>
-                        </DockPanel>
-                        <DockPanel IsEnabled="{Binding CurrentFuncHasSet}">
-                            <TextBlock Text="方法参数表：" DockPanel.Dock="Top"/>
-                            <DataGrid Name="ParamsDataGrid" CanUserSortColumns="False" ItemsSource="{Binding CurrentFunc.Params}" AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserResizeRows="False">
-                                <DataGrid.ContextMenu>
-                                    <ContextMenu StaysOpen="true">
-                                        <MenuItem Header="添加" Click="AddParams_Click" />
-                                        <MenuItem Header="删除" Click="DeleteParams_Click" />
-                                        <MenuItem Header="插入" Click="InsertParams_Click" />
-                                    </ContextMenu>
-                                </DataGrid.ContextMenu>
-                                <DataGrid.Columns>
-                                    <DataGridCheckBoxColumn Width ="44" Header="可选" Binding="{Binding Optional}" CanUserResize="False" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}"/>
-                                    <DataGridTextColumn Width ="3*" Header="参数名称" Binding="{Binding ParamName}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
-                                    <DataGridTextColumn Width ="2*" Header="类型" Binding="{Binding ParamType}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
-                                    <DataGridTextColumn Width ="6*" Header="描述" Binding="{Binding Description}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
-                                    
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </DockPanel>
+                    <Grid>
+                        <DockPanel Visibility="{Binding EditFunc,Converter={StaticResource BoolToVisibility}}">
+                            <DockPanel DockPanel.Dock="Top" Margin="2" IsEnabled="{Binding CurrentFuncHasSet}">
+                                <TextBlock Text="方法描述：" VerticalAlignment="Center"/>
+                                <TextBox Text="{Binding CurrentFunc.FuncName}" AcceptsReturn="True" AcceptsTab="True"/>
+                            </DockPanel>
+                            <DockPanel IsEnabled="{Binding CurrentFuncHasSet}">
+                                <TextBlock Text="方法参数表：" DockPanel.Dock="Top"/>
+                                <DataGrid Name="ParamsDataGrid" CanUserSortColumns="False" ItemsSource="{Binding CurrentFunc.Params}" AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserResizeRows="False">
+                                    <DataGrid.ContextMenu>
+                                        <ContextMenu StaysOpen="true">
+                                            <MenuItem Header="添加" Click="AddParams_Click" />
+                                            <MenuItem Header="删除" Click="DeleteParams_Click" />
+                                            <MenuItem Header="插入" Click="InsertParams_Click" />
+                                        </ContextMenu>
+                                    </DataGrid.ContextMenu>
+                                    <DataGrid.Columns>
+                                        <DataGridCheckBoxColumn Width ="44" Header="可选" Binding="{Binding Optional}" CanUserResize="False" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}"/>
+                                        <DataGridTextColumn Width ="3*" Header="参数名称" Binding="{Binding ParamName}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
+                                        <DataGridTextColumn Width ="2*" Header="类型" Binding="{Binding ParamType}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
+                                        <DataGridTextColumn Width ="6*" Header="描述" Binding="{Binding Description}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DockPanel>
 
-                    </DockPanel>
+                        </DockPanel>
+                        <DockPanel Visibility="{Binding EditProperty,Converter={StaticResource BoolToVisibility}}">
+                            <DockPanel DockPanel.Dock="Top" Margin="2" IsEnabled="{Binding CurrentFuncHasSet}">
+                                <TextBlock Text="方法描述：" VerticalAlignment="Center"/>
+                                <TextBox Text="{Binding CurrentFunc.FuncName}" AcceptsReturn="True" AcceptsTab="True"/>
+                            </DockPanel>
+                            <!--<DockPanel IsEnabled="{Binding CurrentFuncHasSet}">
+                                <TextBlock Text="方法参数表：" DockPanel.Dock="Top"/>
+                                <DataGrid Name="ParamsDataGrid" CanUserSortColumns="False" ItemsSource="{Binding CurrentFunc.Params}" AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserResizeRows="False">
+                                    <DataGrid.ContextMenu>
+                                        <ContextMenu StaysOpen="true">
+                                            <MenuItem Header="添加" Click="AddParams_Click" />
+                                            <MenuItem Header="删除" Click="DeleteParams_Click" />
+                                            <MenuItem Header="插入" Click="InsertParams_Click" />
+                                        </ContextMenu>
+                                    </DataGrid.ContextMenu>
+                                    <DataGrid.Columns>
+                                        <DataGridCheckBoxColumn Width ="44" Header="可选" Binding="{Binding Optional}" CanUserResize="False" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}"/>
+                                        <DataGridTextColumn Width ="3*" Header="参数名称" Binding="{Binding ParamName}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
+                                        <DataGridTextColumn Width ="2*" Header="类型" Binding="{Binding ParamType}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
+                                        <DataGridTextColumn Width ="6*" Header="描述" Binding="{Binding Description}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DockPanel>-->
+
+                        </DockPanel>
+                    </Grid>
                 </DockPanel>
             </Grid>
             <!--<ListView DockPanel.Dock="Bottom">

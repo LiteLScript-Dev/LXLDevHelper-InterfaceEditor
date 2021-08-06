@@ -82,7 +82,7 @@ namespace LXLDevHelper.Views
         }
         private void AddFuncButton_Click(object sender, RoutedEventArgs e)
         {
-            Data.CurrentFuncCollection.Add(new());
+            Data.CurrentClass.AllFunc.Add(new());
         }
         private void DeleteFuncButton_Click(object sender, RoutedEventArgs e)
         {
@@ -93,16 +93,16 @@ namespace LXLDevHelper.Views
             }
             else
             {
-                var item = Data.CurrentFuncCollection[i];
+                var item = Data.CurrentClass.AllFunc[i];
                 if (ConfirmDialog($"确认删除\"{item.FuncName}\"方法定义？"))
                 {
-                    Data.CurrentFuncCollection.RemoveAt(i);
+                    Data.CurrentClass.AllFunc.RemoveAt(i);
                 }
             }
         }
         private void AddPropertyButton_Click(object sender, RoutedEventArgs e)
         {
-            Data.CurrentPropertyCollection.Add(new());
+            Data.CurrentClass.AllProperty.Add(new());
         }
         private void DeletePropertyButton_Click(object sender, RoutedEventArgs e)
         {
@@ -113,10 +113,10 @@ namespace LXLDevHelper.Views
             }
             else
             {
-                var item = Data.CurrentPropertyCollection[i];
+                var item = Data.CurrentClass.AllProperty[i];
                 if (ConfirmDialog($"确认删除\"{item.PropertyName}\"属性定义？"))
                 {
-                    Data.CurrentPropertyCollection.RemoveAt(i);
+                    Data.CurrentClass.AllProperty.RemoveAt(i);
                 }
             }
         }
@@ -158,13 +158,11 @@ namespace LXLDevHelper.Views
         private void ClassListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var i = ClassListBox.SelectedIndex;
-            if (i == -1) { Data.CurrentFuncCollectionHasSet = false; Data.CurrentPropertyCollectionHasSet = false; }
+            if (i == -1) { Data.CurrentClassHasSet = false;   }
             else
             {
-                Data.CurrentFuncCollection = Data.CurrentClassCollection[i].AllFunc;
-                Data.CurrentFuncCollectionHasSet = true;
-                Data.CurrentPropertyCollection = Data.CurrentClassCollection[i].AllProperty;
-                Data.CurrentPropertyCollectionHasSet = true;
+                Data.CurrentClass = Data.CurrentClassCollection[i] ;
+                Data.CurrentClassHasSet = true;
             }
         }
         private void FuncListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -173,7 +171,7 @@ namespace LXLDevHelper.Views
             if (i == -1) { Data.CurrentFuncHasSet = false; }
             else
             {
-                Data.CurrentFunc = Data.CurrentFuncCollection[i];
+                Data.CurrentFunc = Data.CurrentClass.AllFunc[i];
                 Data.CurrentFuncHasSet = true;
             }
         }
@@ -183,7 +181,7 @@ namespace LXLDevHelper.Views
             if (i == -1) {; Data.CurrentPropertyHasSet = false; }
             else
             {
-                Data.CurrentProperty = Data.CurrentPropertyCollection[i];
+                Data.CurrentProperty = Data.CurrentClass.AllProperty[i];
                 Data.CurrentPropertyHasSet = true;
             }
         }

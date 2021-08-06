@@ -48,36 +48,47 @@ namespace LXLDevHelper.ViewModels
         /// 当前正在编辑的类的所有方法集合
         /// </summary>
         [JsonIgnore]
-        public ObservableCollection<LXLFunction> CurrentFuncCollection
+        public LXLClass CurrentClass
         {
-            get { return _CurrentFuncCollection; }
-            set { SetProperty(ref _CurrentFuncCollection, value); }
+            get { return _CurrentClass; }
+            set { SetProperty(ref _CurrentClass, value); }
         }
-        private ObservableCollection<LXLFunction> _CurrentFuncCollection = new() { };
-        private bool _currentFuncCollectionHasSet = false;
-        /// <summary>
-        /// 当前正在编辑的类的所有属性集合
-        /// </summary>
-        [JsonIgnore]
-        public ObservableCollection<LXLProperty> CurrentPropertyCollection
+        private LXLClass _CurrentClass = new() { };
+        private bool _currentClassHasSet = false;
+        public bool CurrentClassHasSet
         {
-            get { return _CurrentPropertyCollection; }
-            set { SetProperty(ref _CurrentPropertyCollection, value); }
-        }
-        private ObservableCollection<LXLProperty> _CurrentPropertyCollection = new() { };
-        private bool _currentPropertyCollectionHasSet = false;
-        [JsonIgnore]
-        public bool CurrentPropertyCollectionHasSet
-        {
-            get => _currentPropertyCollectionHasSet; set
+            get => _currentClassHasSet; set
             {
-                SetProperty(ref _currentPropertyCollectionHasSet, value);
+                SetProperty(ref _currentClassHasSet, value);
                 if (!value)//设置false=>未设定，移除当前项
                 {
-                    CurrentPropertyCollection = new();
+                    CurrentClass = new();
                 }
             }
         }
+        /// <summary>
+        /// 当前正在编辑的类的所有属性集合
+        /// </summary>
+        //[JsonIgnore]
+        //public ObservableCollection<LXLProperty> CurrentPropertyCollection
+        //{
+        //    get { return _CurrentPropertyCollection; }
+        //    set { SetProperty(ref _CurrentPropertyCollection, value); }
+        //}
+        //private ObservableCollection<LXLProperty> _CurrentPropertyCollection = new() { };
+        //private bool _currentPropertyCollectionHasSet = false;
+        //[JsonIgnore]
+        //public bool CurrentPropertyCollectionHasSet
+        //{
+        //    get => _currentPropertyCollectionHasSet; set
+        //    {
+        //        SetProperty(ref _currentPropertyCollectionHasSet, value);
+        //        if (!value)//设置false=>未设定，移除当前项
+        //        {
+        //            CurrentPropertyCollection = new();
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// 当前正在编辑的方法定义
@@ -102,18 +113,18 @@ namespace LXLDevHelper.ViewModels
                 }
             }
         }
-        [JsonIgnore]
-        public bool CurrentFuncCollectionHasSet
-        {
-            get => _currentFuncCollectionHasSet; set
-            {
-                SetProperty(ref _currentFuncCollectionHasSet, value);
-                if (!value)//设置false=>未设定，移除当前项
-                {
-                    CurrentFuncCollection = new();
-                }
-            }
-        }
+        //[JsonIgnore]
+        //public bool CurrentFuncCollectionHasSet
+        //{
+        //    get => _currentFuncCollectionHasSet; set
+        //    {
+        //        SetProperty(ref _currentFuncCollectionHasSet, value);
+        //        if (!value)//设置false=>未设定，移除当前项
+        //        {
+        //            CurrentFuncCollection = new();
+        //        }
+        //    }
+        //}
         /// <summary>
         /// 当前正在编辑的属性定义
         /// </summary>
@@ -139,8 +150,6 @@ namespace LXLDevHelper.ViewModels
         }
 
 
-
-
         private bool _editProperty = false;
         //[JsonIgnore]
         //public Visibility EditPropertyVisibility
@@ -163,9 +172,7 @@ namespace LXLDevHelper.ViewModels
                 if (value)
                 {
                     EditFunc = false;
-                }
-                else
-                { CurrentPropertyHasSet = false; }
+                } 
             }
         }
         private bool _editFunc = false;
@@ -189,10 +196,8 @@ namespace LXLDevHelper.ViewModels
                 SetProperty(ref _editFunc, value);
                 if (value)
                 {
-                    EditProperty =false;
-                }
-                else
-                { CurrentFuncHasSet = false; }
+                    EditProperty = false;
+                } 
             }
         }
     }
