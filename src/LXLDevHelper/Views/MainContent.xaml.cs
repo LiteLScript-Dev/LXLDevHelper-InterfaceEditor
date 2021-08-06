@@ -215,7 +215,6 @@ namespace LXLDevHelper.Views
         {
             try
             {
-
                 bool loaded = !(((Button)sender).Tag is null);
                 if (loaded)
                 {
@@ -227,7 +226,7 @@ namespace LXLDevHelper.Views
                 string root = Path.GetFullPath(RootDir);
                 if (!Directory.Exists(root))
                 {
-                    ShowWarn("载入失败！\n未找到数据。");
+                    ShowWarn("载入失败！\n未找到数据。");return;
                 }
                 Data.DirCollection.Clear();
                 foreach (var dir in Directory.GetDirectories(root))
