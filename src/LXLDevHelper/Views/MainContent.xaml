@@ -10,13 +10,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <Style TargetType="TextBox" BasedOn="{StaticResource   ComboBoxTextBoxStyle}">
-            <!--<Setter Property="Padding" Value="0" />-->
-        </Style>
-        <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="16" />
-        </Style>
-        <!--<Style TargetType="ListBox" BasedOn="{StaticResource DefaultListBoxStyle}">
+        <Style TargetType="TextBox" BasedOn="{StaticResource ComboBoxTextBoxStyle}"/>
+
+        <!--<Setter Property="Padding" Value="0" />-->
+            <!--
+        </Style>-->
+            <Style TargetType="TextBlock">
+                <Setter Property="FontSize" Value="16" />
+            </Style>
+
+            <!--<Style TargetType="ListBox" BasedOn="{StaticResource DefaultListBoxStyle}">
             <Setter Property="Margin" Value="-10" />
         </Style>-->
     </UserControl.Resources>
@@ -94,7 +97,7 @@
                     </DockPanel>
                     <DockPanel IsEnabled="{Binding CurrentFuncHasSet}">
                         <TextBlock Text="方法参数表：" DockPanel.Dock="Top"/>
-                        <DataGrid Name="ParamsDataGrid" CanUserSortColumns="False" ItemsSource="{Binding CurrentFunc.Params}" AutoGenerateColumns="False">
+                        <DataGrid Name="ParamsDataGrid" CanUserSortColumns="False" ItemsSource="{Binding CurrentFunc.Params}" AutoGenerateColumns="False" >
                             <DataGrid.ContextMenu>
                                 <ContextMenu StaysOpen="true">
                                     <MenuItem Header="添加" Click="AddParams_Click" />
@@ -103,10 +106,24 @@
                                 </ContextMenu>
                             </DataGrid.ContextMenu>
                             <DataGrid.Columns>
-                                <DataGridCheckBoxColumn Width ="50" Header="可选" Binding="{Binding Optional}"/>
-                                <DataGridTextColumn Width ="3*" Header="参数名称" Binding="{Binding ParamName}"/>
-                                <DataGridTextColumn Width ="2*" Header="类型" Binding="{Binding ParamType}"/>
-                                <DataGridTextColumn Width ="7*" Header="描述" Binding="{Binding Description}"/>
+                                <DataGridCheckBoxColumn Width ="44" Header="可选" Binding="{Binding Optional}" CanUserResize="False" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource ComboBoxTextBoxStyle}"/>
+                                <DataGridTextColumn Width ="3*" Header="参数名称" Binding="{Binding ParamName}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource ComboBoxTextBoxStyle}"/>
+                                <DataGridTextColumn Width ="2*" Header="类型" Binding="{Binding ParamType}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource ComboBoxTextBoxStyle}"/>
+                                <DataGridTextColumn Width ="6*" Header="描述" Binding="{Binding Description}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource ComboBoxTextBoxStyle}"/>
+                                <!--<DataGridTemplateColumn Width ="7*" Header="描述" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}">
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <ItemContainerTemplate>
+                                            <TextBox Text="{Binding Description}" AcceptsReturn="True" BorderBrush="Transparent" SelectionBrush="Transparent" CaretBrush="Transparent"/>
+                                        </ItemContainerTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Description}" VerticalAlignment="Center" Margin="11,0,0,0"/>
+                                            -->
+                                <!--<TextBox Text="{Binding Description}" IsHitTestVisible="False" AcceptsReturn="True" BorderBrush="Transparent"/>-->
+                                <!--</DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>-->
                             </DataGrid.Columns>
                         </DataGrid>
                     </DockPanel>
