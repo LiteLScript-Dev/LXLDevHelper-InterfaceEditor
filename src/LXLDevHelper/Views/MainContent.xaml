@@ -88,10 +88,10 @@
                     </ListBox>
                 </DockPanel>
                 <DockPanel Grid.Column="2">
-                    <TabControl Name="EditFuncOrProperty" DockPanel.Dock="Top" Background="{x:Null}">
+                    <TabControl DockPanel.Dock="Top" Background="{x:Null}">
                         <TabItem IsEnabled="{Binding CurrentClassHasSet}" IsSelected="{Binding EditFunc}">
                             <TabItem.Header>
-                                <TextBlock Text="方法" Margin="0,-5"/>
+                                <ToggleButton Content="方法" Margin="-5,-10" Padding="10,5" IsChecked="{Binding EditFunc}"/>
                             </TabItem.Header>
                             <DockPanel>
                                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom"  HorizontalAlignment="Center">
@@ -111,7 +111,7 @@
                         </TabItem>
                         <TabItem  IsEnabled="{Binding CurrentClassHasSet}" IsSelected="{Binding EditProperty}">
                             <TabItem.Header>
-                                <TextBlock Text="属性" Margin="0,-5"/>
+                                <ToggleButton Content="属性" Margin="-5,-10" Padding="10,5" IsChecked="{Binding EditProperty}"/>
                             </TabItem.Header>
                             <DockPanel>
                                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom"  HorizontalAlignment="Center">
@@ -137,10 +137,10 @@
                         <TextBox Text="{Binding CurrentClass.ClassName,Mode=TwoWay}" AcceptsReturn="True" AcceptsTab="True"/>
                     </DockPanel>
                     <Grid>
-                        <DockPanel Visibility="{Binding EditFunc,Converter={StaticResource BoolToVisibility}}">
+                        <DockPanel Visibility="{Binding EditFunc,Converter={StaticResource BoolToVisibility},Mode=OneWay}">
                             <DockPanel DockPanel.Dock="Top" Margin="2" IsEnabled="{Binding CurrentFuncHasSet}">
                                 <TextBlock Text="方法描述：" VerticalAlignment="Center"/>
-                                <TextBox Text="{Binding CurrentFunc.FuncName}" AcceptsReturn="True" AcceptsTab="True"/>
+                                <TextBox Text="{Binding CurrentFunc.Description}" AcceptsReturn="True" AcceptsTab="True"/>
                             </DockPanel>
                             <DockPanel IsEnabled="{Binding CurrentFuncHasSet}">
                                 <TextBlock Text="方法参数表：" DockPanel.Dock="Top"/>
@@ -162,10 +162,10 @@
                             </DockPanel>
 
                         </DockPanel>
-                        <DockPanel Visibility="{Binding EditProperty,Converter={StaticResource BoolToVisibility}}">
-                            <DockPanel DockPanel.Dock="Top" Margin="2" IsEnabled="{Binding CurrentFuncHasSet}">
-                                <TextBlock Text="方法描述：" VerticalAlignment="Center"/>
-                                <TextBox Text="{Binding CurrentFunc.FuncName}" AcceptsReturn="True" AcceptsTab="True"/>
+                        <DockPanel Visibility="{Binding EditProperty,Converter={StaticResource BoolToVisibility},Mode=OneWay}">
+                            <DockPanel DockPanel.Dock="Top" Margin="2" IsEnabled="{Binding CurrentPropertyHasSet}">
+                                <TextBlock Text="属性描述：" VerticalAlignment="Center"/>
+                                <TextBox Text="{Binding CurrentProperty.Description}" AcceptsReturn="True" AcceptsTab="True"/>
                             </DockPanel>
                             <!--<DockPanel IsEnabled="{Binding CurrentFuncHasSet}">
                                 <TextBlock Text="方法参数表：" DockPanel.Dock="Top"/>
@@ -185,7 +185,6 @@
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </DockPanel>-->
-
                         </DockPanel>
                     </Grid>
                 </DockPanel>

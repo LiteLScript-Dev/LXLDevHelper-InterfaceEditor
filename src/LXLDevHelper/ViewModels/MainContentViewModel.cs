@@ -175,7 +175,7 @@ namespace LXLDevHelper.ViewModels
                 } 
             }
         }
-        private bool _editFunc = false;
+        private bool _editFunc = true;
         //[JsonIgnore]
         //public Visibility EditFuncVisibility
         //{

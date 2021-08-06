@@ -15,7 +15,6 @@ namespace LXLDevHelper.Views
         {
             InitializeComponent();
             DataContext = Data;//设置数据源
-            EditFuncOrProperty.SelectedIndex = 0;//编辑方法
         }
         #region 交互
         /// <summary>
