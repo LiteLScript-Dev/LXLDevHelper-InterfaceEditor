@@ -103,6 +103,7 @@
                                 </ContextMenu>
                             </DataGrid.ContextMenu>
                             <DataGrid.Columns>
+                                <DataGridCheckBoxColumn Width ="50" Header="可选" Binding="{Binding Optional}"/>
                                 <DataGridTextColumn Width ="3*" Header="参数名称" Binding="{Binding ParamName}"/>
                                 <DataGridTextColumn Width ="2*" Header="类型" Binding="{Binding ParamType}"/>
                                 <DataGridTextColumn Width ="7*" Header="描述" Binding="{Binding Description}"/>

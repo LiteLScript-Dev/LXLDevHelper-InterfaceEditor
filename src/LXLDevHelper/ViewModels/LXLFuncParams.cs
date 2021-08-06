@@ -41,5 +41,11 @@ namespace LXLDevHelper.ViewModels
 ""
 #endif
             ;
+        /// <summary>
+        /// 参数可选
+        /// </summary>
+        public bool Optional { get => _optional; set => SetProperty(ref _optional, value); }
+        private bool _optional = false;
+
     }
 }
