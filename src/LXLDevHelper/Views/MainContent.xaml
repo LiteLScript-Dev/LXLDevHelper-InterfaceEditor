@@ -94,7 +94,7 @@
                     <TabControl DockPanel.Dock="Top" Background="{x:Null}" BorderBrush="Transparent" Foreground="Transparent">
                         <TabItem IsEnabled="{Binding CurrentClassHasSet}" IsSelected="{Binding EditFunc}"  Style="{StaticResource TabItemPivotStyle}">
                             <TabItem.Header>
-                                <ToggleButton Content="方法" Margin="-10,-10,-10,-5" Padding="15,5" IsChecked="{Binding EditFunc}"/>
+                                <ToggleButton Content="方法" Margin="-10,-10,-10,-5" Padding="10,5" IsChecked="{Binding EditFunc}"/>
                             </TabItem.Header>
                             <DockPanel>
                                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom"  HorizontalAlignment="Center">
@@ -114,7 +114,7 @@
                         </TabItem>
                         <TabItem IsEnabled="{Binding CurrentClassHasSet}" IsSelected="{Binding EditProperty}" Style="{StaticResource TabItemPivotStyle}"> 
                             <TabItem.Header>
-                                <ToggleButton Content="属性" Margin="-10,-10,-10,-5" Padding="15,5" IsChecked="{Binding EditProperty}"/>
+                                <ToggleButton Content="属性" Margin="-10,-10,-10,-5" Padding="10,5" IsChecked="{Binding EditProperty}"/>
                             </TabItem.Header>
                             <DockPanel>
                                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom"  HorizontalAlignment="Center">
@@ -244,8 +244,12 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <CheckBox   Content="只读" HorizontalAlignment="Center" Opacity="{Binding CurrentProperty.IsReadonly,Mode=OneWay,Converter={StaticResource BoolToOpacity}}"/>
-                                    <CheckBox  Content="静态" Grid.Column="1" HorizontalAlignment="Center" Opacity="{Binding CurrentProperty.IsStatic,Mode=OneWay,Converter={StaticResource BoolToOpacity}}"/>
+                                    <CheckBox Style="{StaticResource DataGridCheckBoxStyle}" HorizontalAlignment="Center" IsChecked="{Binding CurrentProperty.IsReadonly}">
+                                        <TextBlock Text="只读" Opacity="{Binding CurrentProperty.IsReadonly,Mode=OneWay,Converter={StaticResource BoolToOpacity}}"/>
+                                    </CheckBox>
+                                    <CheckBox Style="{StaticResource DataGridCheckBoxStyle}" Grid.Column="1" HorizontalAlignment="Center" IsChecked="{Binding CurrentProperty.IsStatic}" Visibility="{Binding CurrentClass.IsStatic,Converter={StaticResource RevBoolToVisibility}}">
+                                        <TextBlock Text="静态" Opacity="{Binding CurrentProperty.IsStatic,Mode=OneWay,Converter={StaticResource BoolToOpacity}}"/>
+                                    </CheckBox>
                                 </Grid>
                             </DockPanel>
                             <Grid/>

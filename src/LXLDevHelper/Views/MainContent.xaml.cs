@@ -238,7 +238,7 @@ namespace LXLDevHelper.Views
             {
                 if (!CheckData()) { return; }   //检查
                 //写入
-                int dircount = 0, classcount = 0, funccount = 0;
+                int dircount = 0, classcount = 0, funccount = 0, propertycount = 0;
 
                 string root = Path.GetFullPath(RootDir + "_temp");
                 if (!Directory.Exists(root)) { Directory.CreateDirectory(root); }
@@ -248,9 +248,15 @@ namespace LXLDevHelper.Views
                     if (!Directory.Exists(DirPath)) { Directory.CreateDirectory(DirPath); }
                     foreach (var cla in dir.AllClass)
                     {
+                        if (cla.IsStatic)
+                        {
+                            foreach (var fun in cla.AllFunc) { fun.IsStatic = true; }
+                            foreach (var p in cla.AllProperty) { p.IsStatic = true; }
+                        }
                         string fileName = Path.Combine(DirPath, cla.ClassName + ".json");
                         File.WriteAllText(fileName, Newtonsoft.Json.JsonConvert.SerializeObject(cla, Newtonsoft.Json.Formatting.Indented));
                         funccount += cla.AllFunc.Count;
+                        propertycount += cla.AllProperty.Count;
                         classcount++;
                     }
                     dircount++;
@@ -258,7 +264,7 @@ namespace LXLDevHelper.Views
                 string rootbase = Path.GetFullPath(RootDir);
                 if (Directory.Exists(rootbase)) { Directory.Delete(rootbase, true); }
                 Directory.Move(root, rootbase);
-                ShowMessage($"保存成功！\n总计：\n    {dircount}个文件夹\n    {classcount}个类\n    {funccount}个方法");
+                ShowMessage($"保存成功！\n总计：\n    {dircount}个文件夹\n    {classcount}个类\n    {funccount}个方法\n    {propertycount}个属性");
                 LoadButton.Tag = true;
                 LoadButton.Content = "重新载入";
             }
