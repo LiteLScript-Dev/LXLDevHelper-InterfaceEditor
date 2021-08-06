@@ -23,10 +23,8 @@ namespace LXLDevHelper.Views
         public MainContent()
         {
             InitializeComponent();
-            //ClassListBox.ItemsSource
-            DataContext = Data;
+            DataContext = Data;//设置数据源
         }
-
         #region 交互
         /// <summary>
         /// 对话框显示信息
@@ -34,11 +32,11 @@ namespace LXLDevHelper.Views
         /// <param name="s">内容</param>
         private void ShowMessage(string s)
         {
-            ModernWpf.MessageBox.Show( s, "提示");
+            ModernWpf.MessageBox.Show(s, "提示");
         }
         private bool ConfirmDialog(string s)
         {
-            return ModernWpf.MessageBox.Show( s, "确认执行",MessageBoxButton.OKCancel) == MessageBoxResult.OK;
+            return ModernWpf.MessageBox.Show(s, "确认执行", MessageBoxButton.OKCancel) == MessageBoxResult.OK;
         }
 
         #endregion
@@ -72,12 +70,12 @@ namespace LXLDevHelper.Views
             var i = FuncListBox.SelectedIndex;
             if (i == -1)//未选中
             {
-                ShowMessage("请选中一个函数后再删除！");
+                ShowMessage("请选中一个方法后再删除！");
             }
             else
             {
                 var item = Data.CurrentFuncCollection[i];
-                if (ConfirmDialog($"确认删除{item.FuncName}函数定义？"))
+                if (ConfirmDialog($"确认删除\"{item.FuncName}\"方法定义？"))
                 {
                     Data.CurrentFuncCollection.RemoveAt(i);
                 }
@@ -116,12 +114,27 @@ namespace LXLDevHelper.Views
         public static ViewModels.MainContentViewModel Data = new();
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            ModernWpf.MessageBox.Show(Newtonsoft.Json.JsonConvert.SerializeObject(Data));
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(Data, Newtonsoft.Json.Formatting.Indented);
+            ModernWpf.MessageBox.Show(json);
+            Clipboard.SetText(json);
         }
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
             ((Button)sender).IsEnabled = false;
         }
         #endregion
+
+        private void InsertParams_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void AddParams_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void DeleteParams_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

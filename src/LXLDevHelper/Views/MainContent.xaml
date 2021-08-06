@@ -10,8 +10,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <Style TargetType="TextBox" BasedOn="{StaticResource  DataGridTextBoxStyle}">
+        <Style TargetType="TextBox" BasedOn="{StaticResource   ComboBoxTextBoxStyle}">
             <!--<Setter Property="Padding" Value="0" />-->
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16" />
         </Style>
         <!--<Style TargetType="ListBox" BasedOn="{StaticResource DefaultListBoxStyle}">
             <Setter Property="Margin" Value="-10" />
@@ -34,15 +37,13 @@
                         <Button Content="增加" Margin="5" Click="AddClassButton_Click"/>
                         <Button Content="删除选中" Margin="5" Click="DeleteClassButton_Click"/>
                     </StackPanel>
-                    <TextBlock Text="类" DockPanel.Dock="Top"/>
+                    <TextBlock Text="类：" DockPanel.Dock="Top"/>
                     <ListBox Name="ClassListBox" HorizontalContentAlignment="Stretch" ItemsSource="{Binding AllClass}" Margin="5,5,0,5" SelectionChanged="ClassListBox_SelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <!--<Grid Width="{Binding ColumnDefinitions/ActualWidth, ElementName=grid, Mode=OneWay}">-->
-                                    <Grid Margin="-8">
-                                        <TextBox Text="{Binding ClassName,Mode=TwoWay}"/>
-                                    </Grid>
-                                <!--</Grid>-->
+                                <Grid Margin="-8">
+                                    <TextBox Text="{Binding ClassName,Mode=TwoWay}"/>
+                                </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -52,7 +53,7 @@
                         <Button Content="增加" Margin="5" Click="AddFuncButton_Click"/>
                         <Button Content="删除选中" Margin="5" Click="DeleteFuncButton_Click"/>
                     </StackPanel>
-                    <TextBlock Text="方法" DockPanel.Dock="Top"/>
+                    <TextBlock Text="方法：" DockPanel.Dock="Top"/>
                     <ListBox Name="FuncListBox"  Margin="5,5,0,5" ItemsSource="{Binding CurrentFuncCollection}" SelectionChanged="FuncListBox_SelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate >
@@ -63,10 +64,35 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </DockPanel>
-             <DockPanel Grid.Column="2">
-                    <TextBlock Text=""/>
+                <DockPanel Grid.Column="2" IsEnabled="{Binding CurrentFuncCollectionHasSet}">
+                    <DockPanel DockPanel.Dock="Top" Margin="2">
+                        <TextBlock Text="类描述：" VerticalAlignment="Center"/>
+                        <TextBox Text="" AcceptsReturn="True" AcceptsTab="True"/>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top" Margin="2" IsEnabled="{Binding CurrentFuncHasSet}">
+                        <TextBlock Text="方法描述：" VerticalAlignment="Center"/>
+                        <TextBox Text="" AcceptsReturn="True" AcceptsTab="True"/>
+                    </DockPanel>
+                    <DockPanel IsEnabled="{Binding CurrentFuncHasSet}">
+                        <TextBlock Text="方法参数表：" DockPanel.Dock="Top"/>
+                        <DataGrid ItemsSource="{Binding CurrentFunc.Params}" AutoGenerateColumns="False">
+                            <DataGrid.ContextMenu>
+                                <ContextMenu StaysOpen="true">
+                                    <MenuItem Header="添加" Click="AddParams_Click" />
+                                    <MenuItem Header="删除" Click="DeleteParams_Click" />
+                                    <MenuItem Header="插入" Click="InsertParams_Click" />
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Width ="3*" Header="参数名称" Binding="{Binding ParamName}"/>
+                                <DataGridTextColumn Width ="2*" Header="类型" Binding="{Binding ParamType}"/>
+                                <DataGridTextColumn Width ="7*" Header="描述" Binding="{Binding Description}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
                 </DockPanel>
-           </Grid>
+            </Grid>
+
             <!--<ListView DockPanel.Dock="Bottom">
                 <ListView.ItemTemplate>
                     <DataTemplate>
