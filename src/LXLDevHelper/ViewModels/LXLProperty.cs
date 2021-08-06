@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Newtonsoft.Json;
+using Prism.Mvvm;
 using System.Collections.ObjectModel;
 
 namespace LXLDevHelper.ViewModels
@@ -6,34 +7,31 @@ namespace LXLDevHelper.ViewModels
     /// <summary>
     /// 方法定义
     /// </summary>
-    public class LXLFunction : BindableBase
+    public class LXLProperty : BindableBase
     {
+        [JsonIgnore] public LXLProperty Me { get => this; }
+
         /// <summary>
-        /// 方法名
+        /// 属性名
         /// </summary>
-        public string FuncName { get => _funcName; set => SetProperty(ref _funcName, value); }
-        private string _funcName =
+        public string PropertyName { get => _propertyName; set => SetProperty(ref _propertyName, value); }
+        private string _propertyName =
 #if DEBUG
-"方法名称"
+"属性名"
 #else
 ""
 #endif
             ;
         /// <summary>
-        /// 方法描述
+        /// 属性描述
         /// </summary>
         public string Description { get => _description; set => SetProperty(ref _description, value); }
         private string _description =
 #if DEBUG
-"方法描述"
+"属性描述"
 #else
 ""
 #endif
             ;
-        /// <summary>
-        /// 方法参数
-        /// </summary>
-        public ObservableCollection<LXLFuncParams> Params { get => _params; set => SetProperty(ref _params, value); }
-        private ObservableCollection<LXLFuncParams> _params = new();
     }
 }

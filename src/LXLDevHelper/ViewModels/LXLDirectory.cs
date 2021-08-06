@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Newtonsoft.Json;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +11,8 @@ namespace LXLDevHelper.ViewModels
 {
     public class LXLDirectory : BindableBase
     {
+        [JsonIgnore] public LXLDirectory Me { get => this; }
+
         private string _DirName = "新建文件夹";
         public string DirName { get => _DirName; set => SetProperty(ref _DirName, value.Trim()); }
         /// <summary>
@@ -20,6 +23,6 @@ namespace LXLDevHelper.ViewModels
             get { return _AllClass; }
             set { SetProperty(ref _AllClass, value); }
         }
-        private ObservableCollection<LXLClass> _AllClass = new()  ;
+        private ObservableCollection<LXLClass> _AllClass = new();
     }
 }

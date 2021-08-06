@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Newtonsoft.Json;
+using Prism.Mvvm;
 using System.Collections.ObjectModel;
 
 namespace LXLDevHelper.ViewModels
@@ -8,6 +9,7 @@ namespace LXLDevHelper.ViewModels
     /// </summary>
     public class LXLClass : BindableBase
     {
+        [JsonIgnore] public LXLClass Me { get => this; }
         private string _className =
 #if DEBUG
             "类名称"

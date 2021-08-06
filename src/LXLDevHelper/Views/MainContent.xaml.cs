@@ -157,10 +157,10 @@ namespace LXLDevHelper.Views
         private void ClassListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var i = ClassListBox.SelectedIndex;
-            if (i == -1) { Data.CurrentClassHasSet = false;   }
+            if (i == -1) { Data.CurrentClassHasSet = false; }
             else
             {
-                Data.CurrentClass = Data.CurrentClassCollection[i] ;
+                Data.CurrentClass = Data.CurrentClassCollection[i];
                 Data.CurrentClassHasSet = true;
             }
         }
@@ -314,5 +314,41 @@ namespace LXLDevHelper.Views
         }
         #endregion
 
+        private void DirNameTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var c = (ViewModels.LXLDirectory)((TextBox)sender).Tag;
+                DirListBox.SelectedItem = c;
+            }
+            catch { }
+        }
+        private void ClassNameTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var c = (ViewModels.LXLClass)((TextBox)sender).Tag;
+                ClassListBox.SelectedItem = c;
+            }
+            catch { }
+        }
+        private void FuncNameTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var c = (ViewModels.LXLFunction)((TextBox)sender).Tag;
+                FuncListBox.SelectedItem = c;
+            }
+            catch { }
+        }
+        private void PropertyNameTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var c = (ViewModels.LXLProperty)((TextBox)sender).Tag;
+                PropertyListBox.SelectedItem = c;
+            }
+            catch { }
+        }
     }
 }

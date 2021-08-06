@@ -32,7 +32,8 @@
         <!--
         </Style>-->
         <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
 
         <!--<Style TargetType="ListBox" BasedOn="{StaticResource DefaultListBoxStyle}">
@@ -66,7 +67,7 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid Margin="-8">
-                                    <TextBox Text="{Binding DirName,Mode=TwoWay}"/>
+                                    <TextBox Tag="{Binding Me,Mode=OneWay}" Text="{Binding DirName,Mode=TwoWay}" GotFocus="DirNameTextBox_GotFocus"/>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -82,7 +83,7 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid Margin="-8">
-                                    <TextBox Text="{Binding ClassName,Mode=TwoWay}"/>
+                                    <TextBox Tag="{Binding Me,Mode=OneWay}" Text="{Binding ClassName,Mode=TwoWay}"  GotFocus="ClassNameTextBox_GotFocus"/>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -132,18 +133,42 @@
                         </TabItem>
                     </TabControl>
                 </DockPanel>
-                <DockPanel Grid.Column="3" IsEnabled="{Binding CurrentClassHasSet,Mode=OneWay}" Opacity="{Binding CurrentClassHasSet,Mode=OneWay,Converter={StaticResource BoolToOpacity}}">
-                    <DockPanel DockPanel.Dock="Top" Margin="2">
+                <DockPanel Grid.Column="3" IsEnabled="{Binding CurrentClassHasSet,Mode=OneWay}">
+                    <DockPanel DockPanel.Dock="Top" Margin="2" Opacity="{Binding CurrentClassHasSet,Mode=OneWay,Converter={StaticResource BoolToOpacity}}">
                         <TextBlock Text="类描述：" VerticalAlignment="Center"/>
                         <TextBox Text="{Binding CurrentClass.ClassName,Mode=TwoWay}" AcceptsReturn="True" AcceptsTab="True"/>
                     </DockPanel>
                     <Grid>
-                        <DockPanel Visibility="{Binding EditFunc,Converter={StaticResource BoolToVisibility},Mode=OneWay}">
-                            <DockPanel DockPanel.Dock="Top" Margin="2" IsEnabled="{Binding CurrentFuncHasSet}">
-                                <TextBlock Text="方法描述：" VerticalAlignment="Center"/>
+                        <DockPanel Visibility="{Binding EditFunc,Converter={StaticResource BoolToVisibility},Mode=OneWay}"
+                                    IsEnabled="{Binding CurrentFuncHasSet}" Opacity="{Binding CurrentFuncHasSet,Mode=OneWay,Converter={StaticResource BoolToOpacity}}">
+                            <DockPanel DockPanel.Dock="Top" Margin="2">
+                                <TextBlock Text="静态"/>
+                                <TextBlock Text="方法描述："/>
                                 <TextBox Text="{Binding CurrentFunc.Description}" AcceptsReturn="True" AcceptsTab="True"/>
                             </DockPanel>
-                            <DockPanel IsEnabled="{Binding CurrentFuncHasSet}">
+                            <DockPanel DockPanel.Dock="Top" Margin="2">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="返回值" VerticalAlignment="Center"/>
+                                    <DockPanel Grid.Column="1">
+                                        <TextBlock Text="名称：" VerticalAlignment="Center"/>
+                                        <TextBox Text="{Binding CurrentFunc.ReturnName}"/>
+                                    </DockPanel>
+                                    <DockPanel Grid.Column="2">
+                                        <TextBlock Text="类型：" VerticalAlignment="Center"/>
+                                        <TextBox Text="{Binding CurrentFunc.ReturnType}"/>
+                                    </DockPanel>
+                                </Grid>
+                            </DockPanel>
+                            <DockPanel DockPanel.Dock="Top" Margin="2">
+                                <TextBlock Text="返回值描述：" VerticalAlignment="Center"/>
+                                <TextBox Text="{Binding CurrentFunc.ReturnDescription}" AcceptsReturn="True" AcceptsTab="True"/>
+                            </DockPanel>
+                            <DockPanel>
                                 <TextBlock Text="方法参数表：" DockPanel.Dock="Top"/>
                                 <DataGrid Name="ParamsDataGrid" CanUserSortColumns="False" ItemsSource="{Binding CurrentFunc.Params}" AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserResizeRows="False">
                                     <DataGrid.ContextMenu>
@@ -163,8 +188,9 @@
                             </DockPanel>
 
                         </DockPanel>
-                        <DockPanel Visibility="{Binding EditProperty,Converter={StaticResource BoolToVisibility},Mode=OneWay}">
-                            <DockPanel DockPanel.Dock="Top" Margin="2" IsEnabled="{Binding CurrentPropertyHasSet}">
+                        <DockPanel Visibility="{Binding EditProperty,Converter={StaticResource BoolToVisibility},Mode=OneWay}"
+                                   IsEnabled="{Binding CurrentPropertyHasSet}" Opacity="{Binding CurrentPropertyHasSet,Mode=OneWay,Converter={StaticResource BoolToOpacity}}">
+                            <DockPanel DockPanel.Dock="Top" Margin="2">
                                 <TextBlock Text="属性描述：" VerticalAlignment="Center"/>
                                 <TextBox Text="{Binding CurrentProperty.Description}" AcceptsReturn="True" AcceptsTab="True"/>
                             </DockPanel>
