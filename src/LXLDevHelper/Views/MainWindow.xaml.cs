@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using ModernWpf;
 using Prism.Ioc;
 using Prism.Regions;

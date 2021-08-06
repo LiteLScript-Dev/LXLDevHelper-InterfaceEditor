@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-
+using static LXLDevHelper.Tools.Message;
 namespace LXLDevHelper.Views
 {
     /// <summary>
@@ -24,18 +24,6 @@ namespace LXLDevHelper.Views
         private void ShowMessage(string s)
         {
             ModernWpf.MessageBox.Show(s, "提示");
-        }
-        /// <summary>
-        /// 对话框显示错误
-        /// </summary>
-        /// <param name="s">内容</param>
-        private void ShowWarn(string s)
-        {
-            ModernWpf.MessageBox.Show(s, "出错啦！");
-        }
-        private bool ConfirmDialog(string s)
-        {
-            return ModernWpf.MessageBox.Show(s, "确认执行", MessageBoxButton.OKCancel) == MessageBoxResult.OK;
         }
         #endregion
         #region 增删
@@ -357,9 +345,25 @@ namespace LXLDevHelper.Views
             catch { }
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void SelectTypeMenuItem_Click(object sender, RoutedEventArgs e)
         {
-
+            var text = (string)((MenuItem)sender).Tag;
+            var result =  EditFunction(text);
+            Dispatcher.InvokeAsync(() => ((MenuItem)sender).Tag = result);//奇怪的bug，事件内直接改没效果，所以只能post到事件完成后运行
+        }
+        private void SelectTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var me = (ComboBox)sender;
+            if (me.SelectedItem?.ToString() == "Function")
+            {
+                //e.Handled = true;
+                var result = EditFunction("Function");
+                Dispatcher.InvokeAsync(() => me.Text = result);//奇怪的bug，事件内直接改没效果，所以只能post到事件完成后运行
+            }
+        }
+        private string EditFunction(string text)
+        {
+            return EditFunctionWindow.ShowEditFunctionDialog(text);
         }
     }
 }

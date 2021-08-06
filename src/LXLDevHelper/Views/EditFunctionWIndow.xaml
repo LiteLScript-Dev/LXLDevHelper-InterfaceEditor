@@ -1,12 +1,85 @@
-﻿<Window x:Class="LXLDevHelper.Views.EditFunctionWIndow"
+﻿<Window x:Class="LXLDevHelper.Views.EditFunctionWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LXLDevHelper.Views"
-        mc:Ignorable="d"
-        Title="EditFunctionWIndow" Height="450" Width="800">
+        xmlns:viewmodels="clr-namespace:LXLDevHelper.ViewModels" 
+        xmlns:ui="http://schemas.modernwpf.com/2019" xmlns:converters="clr-namespace:Elements.Converters"
+        d:DataContext="{d:DesignInstance Type=viewmodels:EditFunctionWindowViewModel}"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        mc:Ignorable="d" Topmost="True" 
+        WindowStyle="ToolWindow"
+        Title="EditFunctionWIndow" Height="250" Width="400">
+    <Window.Resources >
+        <Style TargetType="TextBox" BasedOn="{StaticResource ComboBoxTextBoxStyle}">
+            <Setter Property="ui:ControlHelper.CornerRadius" Value="0" />
+        </Style>
+        <Style x:Key="DataTextBlock" TargetType="TextBlock" BasedOn="{StaticResource DataGridTextBlockStyle}">
+            <Setter Property="Padding" Value="5,0,0,0" />
+        </Style>
+        <Style x:Key="EditingTextbox" TargetType="TextBox" BasedOn="{StaticResource ComboBoxTextBoxStyle}">
+            <Setter Property="Padding" Value="5,0,0,0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="ui:ControlHelper.CornerRadius" Value="0" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <converters:RevBoolToVisibility x:Key="RevBoolToVisibility" />
+        <converters:BoolToVisibility x:Key="BoolToVisibility" />
+        <converters:BoolToOpacity  x:Key="BoolToOpacity" />
+    </Window.Resources>
+
     <Grid>
-        
+        <DockPanel>
+             <Grid DockPanel.Dock="Bottom" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="取消" HorizontalAlignment="Stretch" Click="CancelButton_Click"/>
+                <Button Content="保存" Grid.Column="2" HorizontalAlignment="Stretch" Click="SaveButton_Click"/>
+            </Grid>
+           <DataGrid DockPanel.Dock="Top" Name="ParamsDataGrid" CanUserSortColumns="False" ItemsSource="{Binding Func.Params}" AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserResizeRows="False">
+                <DataGrid.ContextMenu>
+                    <ContextMenu StaysOpen="true">
+                        <MenuItem Header="添加" Click="AddParams_Click" />
+                        <MenuItem Header="删除" Click="DeleteParams_Click" />
+                        <MenuItem Header="插入" Click="InsertParams_Click" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Width ="44" Header="可选" Binding="{Binding Optional}" CanUserResize="False" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}"/>
+                    <DataGridTemplateColumn Width ="6*" Header="类型" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ParamType,Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <ComboBox HorizontalAlignment="Stretch" Text="{Binding ParamType,Mode=TwoWay}" IsEditable="True"  ui:ControlHelper.CornerRadius="0" 
+                                                    ItemsSource="{Binding AvaliableTypes,Mode=OneWay}" SelectionChanged="SelectTypeComboBox_SelectionChanged">
+                                    <ComboBox.ToolTip>
+                                        <StackPanel>
+                                            <TextBlock Text="选择或手动输入类型"/>
+                                            <TextBlock Text="右键下拉框箭头位置编辑匿名函数"/>
+                                        </StackPanel>
+                                    </ComboBox.ToolTip>
+                                    <ComboBox.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Tag="{Binding ParamType,Mode=TwoWay}" Header="编辑匿名函数" Click="SelectTypeMenuItem_Click"/>
+                                        </ContextMenu>
+                                    </ComboBox.ContextMenu>
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
     </Grid>
 </Window>

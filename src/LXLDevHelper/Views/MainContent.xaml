@@ -11,7 +11,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="850">
     <UserControl.Resources>
-
         <Style TargetType="TextBox" BasedOn="{StaticResource ComboBoxTextBoxStyle}">
             <Setter Property="ui:ControlHelper.CornerRadius" Value="0" />
         </Style>
@@ -19,26 +18,14 @@
             <Setter Property="Padding" Value="5,0,0,0" />
         </Style>
         <Style x:Key="EditingTextbox" TargetType="TextBox" BasedOn="{StaticResource ComboBoxTextBoxStyle}">
-            <!--<Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="SelectionBrush" Value="Transparent"/>
-            <Setter Property="CaretBrush" Value="Transparent"/>-->
-            <!--<Setter Property="Margin" Value="2" />-->
             <Setter Property="Padding" Value="5,0,0,0" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="ui:ControlHelper.CornerRadius" Value="0" />
         </Style>
-
-        <!--<Setter Property="Padding" Value="0" />-->
-        <!--
-        </Style>-->
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="14" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
-
-        <!--<Style TargetType="ListBox" BasedOn="{StaticResource DefaultListBoxStyle}">
-            <Setter Property="Margin" Value="-10" />
-        </Style>-->
         <converters:RevBoolToVisibility x:Key="RevBoolToVisibility" />
         <converters:BoolToVisibility x:Key="BoolToVisibility" />
         <converters:BoolToOpacity  x:Key="BoolToOpacity" />
@@ -90,7 +77,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </DockPanel>
-                <DockPanel Grid.Column="2">
+                <DockPanel Grid.Column="2" IsEnabled="{Binding CurrentClassHasSet}">
                     <TabControl DockPanel.Dock="Top" Background="{x:Null}" BorderBrush="Transparent" Foreground="Transparent">
                         <TabItem IsEnabled="{Binding CurrentClassHasSet}" IsSelected="{Binding EditFunc}"  Style="{StaticResource TabItemPivotStyle}">
                             <TabItem.Header>
@@ -167,7 +154,7 @@
                                     <DockPanel Grid.Column="2">
                                         <TextBlock Text=" 类型：" VerticalAlignment="Center"/>
                                         <ComboBox HorizontalAlignment="Stretch" Text="{Binding CurrentFunc.ReturnType}" IsEditable="True"  ui:ControlHelper.CornerRadius="0" 
-                                                  ItemsSource="{Binding AvaliableTypes,Mode=OneWay}">
+                                                  ItemsSource="{Binding AvaliableTypes,Mode=OneWay}" SelectionChanged="SelectTypeComboBox_SelectionChanged">
                                             <ComboBox.ToolTip>
                                                 <StackPanel>
                                                 <TextBlock Text="选择或手动输入类型"/>
@@ -176,7 +163,7 @@
                                             </ComboBox.ToolTip>
                                             <ComboBox.ContextMenu>
                                                 <ContextMenu>
-                                                    <MenuItem Header="编辑匿名函数" Click="MenuItem_Click"/>
+                                                    <MenuItem Tag="{Binding CurrentFunc.ReturnType}" Header="编辑匿名函数" Click="SelectTypeMenuItem_Click"/>
                                                 </ContextMenu>
                                             </ComboBox.ContextMenu>
                                         </ComboBox>
@@ -209,7 +196,7 @@
                                             <DataGridTemplateColumn.CellEditingTemplate>
                                                 <DataTemplate>
                                                     <ComboBox HorizontalAlignment="Stretch" Text="{Binding ParamType}" IsEditable="True"  ui:ControlHelper.CornerRadius="0" 
-                                                  ItemsSource="{Binding AvaliableTypes,Mode=OneWay}">
+                                                    ItemsSource="{Binding AvaliableTypes,Mode=OneWay}" SelectionChanged="SelectTypeComboBox_SelectionChanged">  
                                                         <ComboBox.ToolTip>
                                                             <StackPanel>
                                                                 <TextBlock Text="选择或手动输入类型"/>
@@ -218,19 +205,17 @@
                                                         </ComboBox.ToolTip>
                                                         <ComboBox.ContextMenu>
                                                             <ContextMenu>
-                                                                <MenuItem Header="编辑匿名函数" Click="MenuItem_Click"/>
+                                                                <MenuItem Tag="{Binding ParamType}" Header="编辑匿名函数" Click="SelectTypeMenuItem_Click"/>
                                                             </ContextMenu>
                                                         </ComboBox.ContextMenu>
                                                     </ComboBox>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellEditingTemplate>
                                         </DataGridTemplateColumn>
-                                        <!--<DataGridTextColumn Width ="3*" Header="类型" Binding="{Binding ParamType}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>-->
                                         <DataGridTextColumn Width ="9*" Header="描述" Binding="{Binding Description}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </DockPanel>
-
                         </DockPanel>
                         <DockPanel Visibility="{Binding EditProperty,Converter={StaticResource BoolToVisibility},Mode=OneWay}"
                                    IsEnabled="{Binding CurrentPropertyHasSet}" Opacity="{Binding CurrentPropertyHasSet,Mode=OneWay,Converter={StaticResource BoolToOpacity}}">
@@ -254,8 +239,8 @@
                             </DockPanel>
                             <DockPanel DockPanel.Dock="Top" Margin="2">
                                 <TextBlock Text="属性类型：" VerticalAlignment="Center"/>
-                                <ComboBox HorizontalAlignment="Stretch" Text="{Binding CurrentProperty.PropertyType}" IsEditable="True"  ui:ControlHelper.CornerRadius="0" 
-                                                  ItemsSource="{Binding AvaliableTypes,Mode=OneWay}">
+                                <ComboBox HorizontalAlignment="Stretch" Text="{Binding CurrentProperty.PropertyType,Mode=TwoWay}" IsEditable="True"  ui:ControlHelper.CornerRadius="0" 
+                                                  ItemsSource="{Binding AvaliableTypes,Mode=OneWay}" SelectionChanged="SelectTypeComboBox_SelectionChanged">
                                     <ComboBox.ToolTip>
                                         <StackPanel>
                                             <TextBlock Text="选择或手动输入类型"/>
@@ -264,11 +249,10 @@
                                     </ComboBox.ToolTip>
                                     <ComboBox.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Header="编辑匿名函数" Click="MenuItem_Click"/>
+                                            <MenuItem Tag="{Binding CurrentProperty.PropertyType}" Header="编辑匿名函数" Click="SelectTypeMenuItem_Click"/>
                                         </ContextMenu>
                                     </ComboBox.ContextMenu>
                                 </ComboBox>
-
                             </DockPanel>
                             <Grid/>
                             <!--<DockPanel IsEnabled="{Binding CurrentFuncHasSet}">
