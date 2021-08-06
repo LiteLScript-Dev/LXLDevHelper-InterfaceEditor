@@ -43,9 +43,9 @@ namespace LXLDevHelper.Views
                 if (edited)
                 {
                     try
-                    {
+                    { 
                         //ShowWarn("Function@" + Newtonsoft.Json.JsonConvert.SerializeObject(Data, Newtonsoft.Json.Formatting.None));
-                        return "Function@" + Newtonsoft.Json.JsonConvert.SerializeObject(Data, Newtonsoft.Json.Formatting.None);
+                        return "Function@" +  JsonConvert.SerializeObject(Data,  Formatting.None);
                     }
                     catch (System.Exception ex) { ShowWarn("保存方法参数出错\n" + ex.ToString()); }
                 }

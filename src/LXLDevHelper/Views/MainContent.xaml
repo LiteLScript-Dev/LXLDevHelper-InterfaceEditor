@@ -158,7 +158,9 @@
                                             <ComboBox.ToolTip>
                                                 <StackPanel>
                                                 <TextBlock Text="选择或手动输入类型"/>
-                                                <TextBlock Text="右键下拉框箭头位置编辑匿名函数"/>
+                                                    <TextBlock Text="右键下拉框箭头位置编辑匿名函数"/>
+                                                    <TextBlock Text="当前内容:"/>
+                                                    <TextBlock Text="{Binding CurrentFunc.ReturnType,Mode=OneWay}" TextWrapping="Wrap"/>
                                                 </StackPanel>
                                             </ComboBox.ToolTip>
                                             <ComboBox.ContextMenu>
@@ -201,6 +203,8 @@
                                                             <StackPanel>
                                                                 <TextBlock Text="选择或手动输入类型"/>
                                                                 <TextBlock Text="右键下拉框箭头位置编辑匿名函数"/>
+                                                                <TextBlock Text="当前内容:"/>
+                                                                <TextBlock Text="{Binding ParamType,Mode=OneWay}" TextWrapping="Wrap"/>
                                                             </StackPanel>
                                                         </ComboBox.ToolTip>
                                                         <ComboBox.ContextMenu>
@@ -245,6 +249,8 @@
                                         <StackPanel>
                                             <TextBlock Text="选择或手动输入类型"/>
                                             <TextBlock Text="右键下拉框箭头位置编辑匿名函数"/>
+                                            <TextBlock Text="当前内容:"/>
+                                            <TextBlock Text="{Binding CurrentProperty.PropertyType,Mode=OneWay}" TextWrapping="Wrap"/>
                                         </StackPanel>
                                     </ComboBox.ToolTip>
                                     <ComboBox.ContextMenu>

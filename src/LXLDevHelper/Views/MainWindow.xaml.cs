@@ -15,6 +15,7 @@ namespace LXLDevHelper.Views
             _container = container;
             _regionManager = regionManager;
             regionManager.RegisterViewWithRegion("ContentRegion", typeof(MainContent));
+            //SystemFonts.MessageFontFamily = FontFamily;
         }
 
         private delegate void MethodInvoker();

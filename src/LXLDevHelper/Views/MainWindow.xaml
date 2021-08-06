@@ -11,12 +11,19 @@
         WindowStartupLocation="CenterScreen"
         Title="LXL接口编辑器" 
         Height="450" 
-        Width="800">
-    <Grid>
-        <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Right" VerticalAlignment="Top">
-            <ui:ToggleSwitch FontSize="16" AutomationProperties.HelpText="置顶" IsOn="False" OffContent="置顶" OnContent="已置顶" Toggled="TopToggleSwitch_Toggled" Margin="0,0,-40,0"/>
-            <ui:ToggleSwitch FontSize="16" AutomationProperties.HelpText="切换主题" IsOn="True" OffContent="Light Theme" OnContent="Dark Theme" Toggled="DarkLight_Toggled"/>
-        </DockPanel>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion"/>
-    </Grid>
+        Width="800"
+        FontFamily="Microsoft YaHei"
+        TextElement.FontFamily="Microsoft YaHei" 
+        >
+    <!--<DockPanel>
+        <ui:TitleBarControl DockPanel.Dock="Top">
+        </ui:TitleBarControl>-->
+        <Grid>
+            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <ui:ToggleSwitch FontSize="16" AutomationProperties.HelpText="置顶" IsOn="False" OffContent="置顶" OnContent="已置顶" Toggled="TopToggleSwitch_Toggled" Margin="0,0,-40,0"/>
+                <ui:ToggleSwitch FontSize="16" AutomationProperties.HelpText="切换主题" IsOn="True" OffContent="Light Theme" OnContent="Dark Theme" Toggled="DarkLight_Toggled"/>
+            </DockPanel>
+            <ContentControl prism:RegionManager.RegionName="ContentRegion"/>
+        </Grid>
+    <!--</DockPanel>-->
 </Window>

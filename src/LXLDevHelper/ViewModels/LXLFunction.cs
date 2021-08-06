@@ -7,17 +7,6 @@ namespace LXLDevHelper.ViewModels
     public class LXLFunctionBase : BindableBase
     {
         /// <summary>
-        /// 方法描述
-        /// </summary>
-        public string Description { get => _description; set => SetProperty(ref _description, value); }
-        private string _description =
-#if DEBUG
-"方法描述"
-#else
-""
-#endif
-            ;
-        /// <summary>
         /// 返回值类型
         /// </summary>
         public string ReturnType { get => _returnType; set => SetProperty(ref _returnType, value); }
@@ -41,7 +30,17 @@ namespace LXLDevHelper.ViewModels
     public class LXLFunction : LXLFunctionBase
     {
         [JsonIgnore] public LXLFunction Me { get => this; }
-
+        /// <summary>
+        /// 方法描述
+        /// </summary>
+        public string Description { get => _description; set => SetProperty(ref _description, value); }
+        private string _description =
+#if DEBUG
+"方法描述"
+#else
+""
+#endif
+            ;
         /// <summary>
         /// 方法名
         /// </summary>

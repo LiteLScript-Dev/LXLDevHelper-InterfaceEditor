@@ -21,6 +21,17 @@ namespace LXLDevHelper.ViewModels
 #endif
             ;
         /// <summary>
+        /// 参数名称
+        /// </summary>
+        public string ParamName { get => _paramName; set => SetProperty(ref _paramName, value); }
+        private string _paramName =
+#if DEBUG
+           "参数名"
+#else
+""
+#endif
+            ;
+        /// <summary>
         /// 参数可选
         /// </summary>
         public bool Optional { get => _optional; set => SetProperty(ref _optional, value); }
@@ -33,17 +44,6 @@ namespace LXLDevHelper.ViewModels
     public class LXLFuncParams : LXLFuncParamsBase
     {
 
-        /// <summary>
-        /// 参数名称
-        /// </summary>
-        public string ParamName { get => _paramName; set => SetProperty(ref _paramName, value); }
-        private string _paramName =
-#if DEBUG
-           "参数名"
-#else
-""
-#endif
-            ;
         /// <summary>
         /// 参数描述
         /// </summary>

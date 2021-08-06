@@ -10,10 +10,13 @@
         ui:WindowHelper.UseModernWindowStyle="True"
         mc:Ignorable="d" Topmost="True" 
         WindowStyle="ToolWindow"
-        Title="EditFunctionWIndow" Height="250" Width="400">
+        Title="EditFunctionWIndow" Height="250" Width="400" 
+        FontFamily="Microsoft YaHei" 
+        >
     <Window.Resources >
         <Style TargetType="TextBox" BasedOn="{StaticResource ComboBoxTextBoxStyle}">
             <Setter Property="ui:ControlHelper.CornerRadius" Value="0" />
+            <Setter Property="FontFamily" Value="Red" />
         </Style>
         <Style x:Key="DataTextBlock" TargetType="TextBlock" BasedOn="{StaticResource DataGridTextBlockStyle}">
             <Setter Property="Padding" Value="5,0,0,0" />
@@ -34,7 +37,7 @@
 
     <Grid>
         <DockPanel>
-             <Grid DockPanel.Dock="Bottom" Margin="5">
+            <Grid DockPanel.Dock="Bottom" Margin="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="10"/>
@@ -43,7 +46,7 @@
                 <Button Content="取消" HorizontalAlignment="Stretch" Click="CancelButton_Click"/>
                 <Button Content="保存" Grid.Column="2" HorizontalAlignment="Stretch" Click="SaveButton_Click"/>
             </Grid>
-           <DataGrid DockPanel.Dock="Top" Name="ParamsDataGrid" CanUserSortColumns="False" ItemsSource="{Binding Func.Params}" AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserResizeRows="False">
+            <DataGrid DockPanel.Dock="Top" Name="ParamsDataGrid" CanUserSortColumns="False" ItemsSource="{Binding Func.Params}" AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserResizeRows="False">
                 <DataGrid.ContextMenu>
                     <ContextMenu StaysOpen="true">
                         <MenuItem Header="添加" Click="AddParams_Click" />
@@ -53,7 +56,8 @@
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns>
                     <DataGridCheckBoxColumn Width ="44" Header="可选" Binding="{Binding Optional}" CanUserResize="False" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}"/>
-                    <DataGridTemplateColumn Width ="6*" Header="类型" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}">
+                    <DataGridTextColumn Width ="2*" Header="参数名" Binding="{Binding ParamName}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
+                    <DataGridTemplateColumn Width ="3*" Header="类型" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding ParamType,Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0"/>
