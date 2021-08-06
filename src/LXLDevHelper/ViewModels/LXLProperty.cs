@@ -33,5 +33,20 @@ namespace LXLDevHelper.ViewModels
 ""
 #endif
             ;
+        /// <summary>
+        /// 属性类型
+        /// </summary>
+        public string PropertyType { get => _propertyType; set => SetProperty(ref _propertyType, value); }
+        private string _propertyType = "";
+        /// <summary>
+        /// 只读
+        /// </summary>
+        public bool IsReadonly { get => _isReadonly; set => SetProperty(ref _isReadonly, value); }
+        private bool _isReadonly = false;
+        /// <summary>
+        /// 是否静态属性
+        /// </summary>
+        public bool IsStatic { get => _isStatic; set => SetProperty(ref _isStatic, value); }
+        private bool _isStatic = false;
     }
 }
