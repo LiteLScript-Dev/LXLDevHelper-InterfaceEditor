@@ -47,8 +47,8 @@
                 </DockPanel>
                 <DockPanel Grid.Column="1">
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" >
-                        <Button Content="增加" Margin="5"/>
-                        <Button Content="删除选中" Margin="5"/>
+                        <Button Content="增加" Margin="5" Click="AddFuncButton_Click"/>
+                        <Button Content="删除选中" Margin="5" Click="DeleteFuncButton_Click"/>
                     </StackPanel>
                     <TextBlock Text="方法" DockPanel.Dock="Top"/>
                     <ListBox Name="FuncListBox"  Margin="5,5,0,5" ItemsSource="{Binding CurrentFuncCollection}" >

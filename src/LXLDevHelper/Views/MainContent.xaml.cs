@@ -43,8 +43,8 @@ namespace LXLDevHelper.Views
             var i = ClassListBox.SelectedIndex;
             if (i == -1) { return; }
             Data.CurrentFuncCollection = Data.AllClass[i].AllFunc;
-            ShowMessage(i.ToString());
-            ShowMessage(Data.CurrentFuncCollection.Count.ToString());
+            //ShowMessage(i.ToString());
+            //ShowMessage(Data.CurrentFuncCollection.Count.ToString());
         }
         /// <summary>
         /// 对话框显示信息
@@ -63,7 +63,6 @@ namespace LXLDevHelper.Views
         {
             Data.AllClass.Add(new());
         }
-
         private void DeleteClassButton_Click(object sender, RoutedEventArgs e)
         {
             var i = ClassListBox.SelectedIndex;
@@ -74,9 +73,29 @@ namespace LXLDevHelper.Views
             else
             {
                 var item = Data.AllClass[i];
-                if (ConfirmDialog($"确认删除{item.ClassName}类及其所有子内容？"))
+                if (ConfirmDialog($"确认删除{item.ClassName}类定义及其所有子内容？"))
                 {
                     Data.AllClass.RemoveAt(i);
+                }
+            }
+        }
+        private void AddFuncButton_Click(object sender, RoutedEventArgs e)
+        {
+            Data.CurrentFuncCollection.Add(new());
+        }
+        private void DeleteFuncButton_Click(object sender, RoutedEventArgs e)
+        {
+            var i =FuncListBox.SelectedIndex;
+            if (i == -1)//未选中
+            {
+                ShowMessage("请选中一个函数后再删除！");
+            }
+            else
+            {
+                var item = Data.CurrentFuncCollection[i];
+                if (ConfirmDialog($"确认删除{item.FuncName}函数定义？"))
+                {
+                    Data.CurrentFuncCollection.RemoveAt(i);
                 }
             }
         }
