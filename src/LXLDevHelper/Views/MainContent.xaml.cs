@@ -159,39 +159,47 @@ namespace LXLDevHelper.Views
         const string RootDir = "src";
         private void CopyButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!CheckData()) { return; }   //检查
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(Data, Newtonsoft.Json.Formatting.None);
-            ModernWpf.MessageBox.Show(json);
+            ModernWpf.MessageBox.Show(json, "已复制到剪切板！");
             json = Newtonsoft.Json.JsonConvert.SerializeObject(Data, Newtonsoft.Json.Formatting.Indented);
             Clipboard.SetText(json);
+        }
+        private bool CheckData()
+        {
+            if (Data.DirCollection.Count == 0)
+            {
+                ShowWarn("无数据！"); return false;
+            }
+            foreach (var dir in Data.DirCollection)
+            {
+                if (Data.DirCollection.Any(x => x != dir && x.DirName == dir.DirName))
+                {
+                    DirListBox.SelectedItem = Data.DirCollection.First(x => x != dir && x.DirName == dir.DirName);
+                    ShowWarn("文件名不得重复！"); return false;
+                }
+                foreach (var cla in dir.AllClass)
+                {
+                    if (dir.AllClass.Any(x => x != cla && x.ClassName == cla.ClassName))
+                    {
+                        DirListBox.SelectedItem = dir;
+                        ClassListBox.SelectedItem = dir.AllClass.First(x => x != cla && x.ClassName == cla.ClassName);
+                        ShowWarn("类名不得重复！"); return false;
+                    }
+                }
+            }
+            return true;
         }
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                //检查
-                if (Data.DirCollection.Count==0)
-                {
-                    ShowWarn("无数据！");return;
-                }
-                foreach (var dir in Data.DirCollection)
-                {
-                    if (Data.DirCollection.Any(x => x != dir && x.DirName == dir.DirName))
-                    {
-                        DirListBox.SelectedItem = Data.DirCollection.First(x => x != dir && x.DirName == dir.DirName);
-                        ShowWarn("文件名不得重复！"); return;
-                    }
-                    foreach (var cla in dir.AllClass)
-                    {
-                        if (dir.AllClass.Any(x => x != cla && x.ClassName == cla.ClassName))
-                        {
-                            DirListBox.SelectedItem = dir;
-                            ClassListBox.SelectedItem = dir.AllClass.First(x => x != cla && x.ClassName == cla.ClassName);
-                            ShowWarn("类名不得重复！"); return;
-                        }
-                    }
-                }
+                if (!CheckData()) { return; }   //检查
                 //写入
+                int dircount = 0, classcount = 0, funccount = 0;
+
                 string root = Path.GetFullPath(RootDir + "_temp");
+                if (!Directory.Exists(root)) { Directory.CreateDirectory(root); }
                 foreach (var dir in Data.DirCollection)
                 {
                     string DirPath = Path.Combine(root, dir.DirName);
@@ -200,11 +208,17 @@ namespace LXLDevHelper.Views
                     {
                         string fileName = Path.Combine(DirPath, cla.ClassName + ".json");
                         File.WriteAllText(fileName, Newtonsoft.Json.JsonConvert.SerializeObject(cla));
+                        funccount += cla.AllFunc.Count;
+                        classcount++;
                     }
+                    dircount++;
                 }
                 string rootbase = Path.GetFullPath(RootDir);
-                Directory.Delete(rootbase, true);
+                if (Directory.Exists(rootbase)) { Directory.Delete(rootbase, true); }
                 Directory.Move(root, rootbase);
+                ShowMessage($"保存成功！\n总计：\n    {dircount}个文件夹\n    {classcount}个类\n    {funccount}个方法");
+                LoadButton.Tag = true;
+                LoadButton.Content = "重新载入";
             }
             catch (System.Exception ex)
             {
@@ -226,7 +240,7 @@ namespace LXLDevHelper.Views
                 string root = Path.GetFullPath(RootDir);
                 if (!Directory.Exists(root))
                 {
-                    ShowWarn("载入失败！\n未找到数据。");return;
+                    ShowWarn("载入失败！\n未找到数据。"); return;
                 }
                 Data.DirCollection.Clear();
                 foreach (var dir in Directory.GetDirectories(root))

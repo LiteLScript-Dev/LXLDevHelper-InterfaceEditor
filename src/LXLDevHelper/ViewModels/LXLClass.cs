@@ -11,7 +11,7 @@ namespace LXLDevHelper.ViewModels
         private string _className = "类名称";
         public string ClassName { get => _className; set => SetProperty(ref _className, value.Trim()); }
 
-        private ObservableCollection<LXLFunction> _AllFunc = new() { new LXLFunction() };
+        private ObservableCollection<LXLFunction> _AllFunc = new()  ;
         /// <summary>
         /// 当前类定义的所有方法集合
         /// </summary>

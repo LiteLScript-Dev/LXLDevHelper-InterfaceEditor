@@ -23,7 +23,7 @@
     <Grid>
         <DockPanel>
             <StackPanel VerticalAlignment="Top" Orientation="Horizontal" DockPanel.Dock="Top">
-                <Button Content="加载" Click="LoadButton_Click" Margin="5,5,0,5"/>
+                <Button Name="LoadButton" Content="加载" Click="LoadButton_Click" Margin="5,5,0,5"/>
                 <Button Content="保存" Click="SaveButton_Click" Margin="5,5,0,5"/>
                 <Button Content="复制Json数据到剪切板" Click="CopyButton_Click" Margin="5,5,0,5"/>
             </StackPanel>

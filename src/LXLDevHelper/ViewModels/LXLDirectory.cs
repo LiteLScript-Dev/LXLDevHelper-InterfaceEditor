@@ -20,6 +20,6 @@ namespace LXLDevHelper.ViewModels
             get { return _AllClass; }
             set { SetProperty(ref _AllClass, value); }
         }
-        private ObservableCollection<LXLClass> _AllClass = new() { new LXLClass() };
+        private ObservableCollection<LXLClass> _AllClass = new()  ;
     }
 }
