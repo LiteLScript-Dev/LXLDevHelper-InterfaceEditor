@@ -347,9 +347,24 @@ namespace LXLDevHelper.Views
 
         private void SelectTypeMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var text = (string)((MenuItem)sender).Tag;
-            var result =  EditFunction(text);
-            Dispatcher.InvokeAsync(() => ((MenuItem)sender).Tag = result);//奇怪的bug，事件内直接改没效果，所以只能post到事件完成后运行
+            var me = (MenuItem)sender;
+            if (me.GetType() == typeof(ViewModels.LXLFuncParams))
+            {
+                var text = ((ViewModels.LXLFuncParams)me.Tag).ParamType;
+                var result = EditFunction(text);
+                ((ViewModels.LXLFuncParams)me.Tag).ParamType = result;
+            }
+            else if (me.GetType() == typeof(ViewModels.LXLFunction))
+            {
+                var text = ((ViewModels.LXLFunction)me.Tag).ReturnType;
+                var result = EditFunction(text);
+                ((ViewModels.LXLFunction)me.Tag).ReturnType = result;
+            }   else if (me.GetType() == typeof(ViewModels.LXLProperty))
+            {
+                var text = ((ViewModels.LXLProperty)me.Tag).PropertyType;
+                var result = EditFunction(text);
+                ((ViewModels.LXLProperty)me.Tag).PropertyType = result;
+            }
         }
         private void SelectTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -357,7 +372,7 @@ namespace LXLDevHelper.Views
             if (me.SelectedItem?.ToString() == "Function")
             {
                 //e.Handled = true;
-                var result = EditFunction("Function");
+                var result = EditFunction(me.Text);//还未更新的Text
                 Dispatcher.InvokeAsync(() => me.Text = result);//奇怪的bug，事件内直接改没效果，所以只能post到事件完成后运行
             }
         }

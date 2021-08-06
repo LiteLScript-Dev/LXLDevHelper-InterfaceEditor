@@ -163,7 +163,7 @@
                                             </ComboBox.ToolTip>
                                             <ComboBox.ContextMenu>
                                                 <ContextMenu>
-                                                    <MenuItem Tag="{Binding CurrentFunc.ReturnType}" Header="编辑匿名函数" Click="SelectTypeMenuItem_Click"/>
+                                                    <MenuItem Tag="{Binding CurrentFunc.Me}" Header="编辑匿名函数" Click="SelectTypeMenuItem_Click"/>
                                                 </ContextMenu>
                                             </ComboBox.ContextMenu>
                                         </ComboBox>
@@ -205,7 +205,7 @@
                                                         </ComboBox.ToolTip>
                                                         <ComboBox.ContextMenu>
                                                             <ContextMenu>
-                                                                <MenuItem Tag="{Binding ParamType}" Header="编辑匿名函数" Click="SelectTypeMenuItem_Click"/>
+                                                                <MenuItem Tag="{Binding Me}" Header="编辑匿名函数" Click="SelectTypeMenuItem_Click"/>
                                                             </ContextMenu>
                                                         </ComboBox.ContextMenu>
                                                     </ComboBox>
@@ -249,7 +249,7 @@
                                     </ComboBox.ToolTip>
                                     <ComboBox.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Tag="{Binding CurrentProperty.PropertyType}" Header="编辑匿名函数" Click="SelectTypeMenuItem_Click"/>
+                                            <MenuItem Tag="{Binding CurrentProperty.Me}" Header="编辑匿名函数" Click="SelectTypeMenuItem_Click"/>
                                         </ContextMenu>
                                     </ComboBox.ContextMenu>
                                 </ComboBox>

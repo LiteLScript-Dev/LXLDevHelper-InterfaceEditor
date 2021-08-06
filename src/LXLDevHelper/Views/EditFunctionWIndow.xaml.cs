@@ -79,9 +79,10 @@ namespace LXLDevHelper.Views
         }
         private void SelectTypeMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var text = ((ViewModels.LXLFuncParamsBase)((MenuItem)sender).Tag).ParamType;
+            var me = (MenuItem)sender;
+            var text = ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType;
             var result = EditFunction(text);
-            ((ViewModels.LXLFuncParamsBase)((MenuItem)sender).Tag).ParamType = result;
+            ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType = result;
 
         }
         private void SelectTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
