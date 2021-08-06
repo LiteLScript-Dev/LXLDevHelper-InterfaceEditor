@@ -15,6 +15,7 @@ namespace LXLDevHelper.Views
         {
             InitializeComponent();
             DataContext = Data;//设置数据源
+            EditFuncOrProperty.SelectedIndex = 0;//编辑方法
         }
         #region 交互
         /// <summary>
@@ -169,23 +170,19 @@ namespace LXLDevHelper.Views
         private void FuncListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var i = FuncListBox.SelectedIndex;
-            if (i == -1) { Data.CurrentFuncHasSet = false; Data.CurrentPropertyHasSet = false; }
+            if (i == -1) { Data.CurrentFuncHasSet = false; }
             else
             {
                 Data.CurrentFunc = Data.CurrentFuncCollection[i];
                 Data.CurrentFuncHasSet = true;
-                Data.CurrentProperty = Data.CurrentPropertyCollection[i];
-                Data.CurrentPropertyHasSet = true;
             }
         }
         private void PropertyListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var i = PropertyListBox.SelectedIndex;
-            if (i == -1) { Data.CurrentPropertyHasSet = false; Data.CurrentPropertyHasSet = false; }
+            if (i == -1) {; Data.CurrentPropertyHasSet = false; }
             else
             {
-                Data.CurrentProperty = Data.CurrentPropertyCollection[i];
-                Data.CurrentPropertyHasSet = true;
                 Data.CurrentProperty = Data.CurrentPropertyCollection[i];
                 Data.CurrentPropertyHasSet = true;
             }

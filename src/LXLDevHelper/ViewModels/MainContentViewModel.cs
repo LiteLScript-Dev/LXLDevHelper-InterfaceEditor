@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Windows;
+
 namespace LXLDevHelper.ViewModels
 {
     public class MainContentViewModel : BindableBase
@@ -28,7 +30,7 @@ namespace LXLDevHelper.ViewModels
             get { return _CurrentClassCollection; }
             set { SetProperty(ref _CurrentClassCollection, value); }
         }
-        private ObservableCollection<LXLClass> _CurrentClassCollection = new() ;
+        private ObservableCollection<LXLClass> _CurrentClassCollection = new();
         private bool _CurrentClassCollectionHasSet = false;
         [JsonIgnore]
         public bool CurrentClassCollectionHasSet
@@ -133,6 +135,64 @@ namespace LXLDevHelper.ViewModels
                 {
                     CurrentProperty = new();
                 }
+            }
+        }
+
+
+
+
+        private bool _editProperty = false;
+        //[JsonIgnore]
+        //public Visibility EditPropertyVisibility
+        //{
+        //    get => BoolToVisibility(_editProperty); set
+        //    {
+        //        SetProperty(ref _editProperty, VisibilityToBool(value));
+        //        if (value == Visibility.Visible)
+        //        { EditFuncVisibility = Visibility.Collapsed; }
+        //        else
+        //        { CurrentPropertyHasSet = false; }
+        //    }
+        //}
+        [JsonIgnore]
+        public bool EditProperty
+        {
+            get => _editProperty; set
+            {
+                SetProperty(ref _editProperty, value);
+                if (value)
+                {
+                    EditFunc = false;
+                }
+                else
+                { CurrentPropertyHasSet = false; }
+            }
+        }
+        private bool _editFunc = false;
+        //[JsonIgnore]
+        //public Visibility EditFuncVisibility
+        //{
+        //    get => BoolToVisibility(_editFunc); set
+        //    {
+        //        SetProperty(ref _editFunc, VisibilityToBool(value));
+        //        if (value == Visibility.Visible)
+        //        { EditPropertyVisibility = Visibility.Collapsed; }
+        //        else
+        //        { CurrentFuncHasSet = false; }
+        //    }
+        //}
+        [JsonIgnore]
+        public bool EditFunc
+        {
+            get => _editFunc; set
+            {
+                SetProperty(ref _editFunc, value);
+                if (value)
+                {
+                    EditProperty =false;
+                }
+                else
+                { CurrentFuncHasSet = false; }
             }
         }
     }

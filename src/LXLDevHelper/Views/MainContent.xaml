@@ -7,9 +7,11 @@
              xmlns:ui="http://schemas.modernwpf.com/2019"
              d:DataContext="{d:DesignInstance Type=viewmodels:MainContentViewModel}"
              xmlns:local="clr-namespace:LXLDevHelper.Views"
+             xmlns:converters="clr-namespace:Elements.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="850">
     <UserControl.Resources>
+        
         <Style TargetType="TextBox" BasedOn="{StaticResource ComboBoxTextBoxStyle}">
             <Setter Property="ui:ControlHelper.CornerRadius" Value="0" />
         </Style>
@@ -36,6 +38,7 @@
         <!--<Style TargetType="ListBox" BasedOn="{StaticResource DefaultListBoxStyle}">
             <Setter Property="Margin" Value="-10" />
         </Style>-->
+        <converters:BoolToVisibility x:Key="BoolToVisibility" />
     </UserControl.Resources>
     <Grid>
         <DockPanel>
@@ -85,8 +88,8 @@
                     </ListBox>
                 </DockPanel>
                 <DockPanel Grid.Column="2">
-                    <TabControl DockPanel.Dock="Top" Background="{x:Null}">
-                        <TabItem  IsEnabled="{Binding CurrentFuncCollectionHasSet}">
+                    <TabControl Name="EditFuncOrProperty" DockPanel.Dock="Top" Background="{x:Null}">
+                        <TabItem IsEnabled="{Binding CurrentFuncCollectionHasSet}" IsSelected="{Binding EditFunc}">
                             <TabItem.Header>
                                 <TextBlock Text="方法" Margin="0,-5"/>
                             </TabItem.Header>
@@ -106,7 +109,7 @@
                                 </ListBox>
                             </DockPanel>
                         </TabItem>
-                        <TabItem  IsEnabled="{Binding CurrentPropertyCollectionHasSet}">
+                        <TabItem  IsEnabled="{Binding CurrentPropertyCollectionHasSet}" IsSelected="{Binding EditProperty}">
                             <TabItem.Header>
                                 <TextBlock Text="属性" Margin="0,-5"/>
                             </TabItem.Header>
@@ -133,7 +136,7 @@
                         <TextBlock Text="类描述：" VerticalAlignment="Center"/>
                         <TextBox Text="" AcceptsReturn="True" AcceptsTab="True"/>
                     </DockPanel>
-                    <DockPanel>
+                    <DockPanel Visibility="{Binding EditFunc,Converter={StaticResource BoolToVisibility}}">
                         <DockPanel DockPanel.Dock="Top" Margin="2" IsEnabled="{Binding CurrentFuncHasSet}">
                             <TextBlock Text="方法描述：" VerticalAlignment="Center"/>
                             <TextBox Text="" AcceptsReturn="True" AcceptsTab="True"/>
@@ -153,20 +156,7 @@
                                     <DataGridTextColumn Width ="3*" Header="参数名称" Binding="{Binding ParamName}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
                                     <DataGridTextColumn Width ="2*" Header="类型" Binding="{Binding ParamType}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
                                     <DataGridTextColumn Width ="6*" Header="描述" Binding="{Binding Description}" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}" EditingElementStyle="{StaticResource EditingTextbox}" ElementStyle="{StaticResource DataTextBlock}"/>
-                                    <!--<DataGridTemplateColumn Width ="7*" Header="描述" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}">
-                                    <DataGridTemplateColumn.CellEditingTemplate>
-                                        <ItemContainerTemplate>
-                                            <TextBox Text="{Binding Description}" AcceptsReturn="True" BorderBrush="Transparent" SelectionBrush="Transparent" CaretBrush="Transparent"/>
-                                        </ItemContainerTemplate>
-                                    </DataGridTemplateColumn.CellEditingTemplate>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Description}" VerticalAlignment="Center" Margin="11,0,0,0"/>
-                                            -->
-                                    <!--<TextBox Text="{Binding Description}" IsHitTestVisible="False" AcceptsReturn="True" BorderBrush="Transparent"/>-->
-                                    <!--</DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>-->
+                                    
                                 </DataGrid.Columns>
                             </DataGrid>
                         </DockPanel>
