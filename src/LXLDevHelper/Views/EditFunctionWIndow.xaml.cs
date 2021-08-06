@@ -20,6 +20,15 @@ namespace LXLDevHelper.Views
         public EditFunctionWindow(string text)
         {
             input = text;
+            const string prefix = "Function@";
+            if (text.StartsWith(prefix))
+            {
+                try
+                {
+                    Data = Newtonsoft.Json.JsonConvert.DeserializeObject<ViewModels.EditFunctionWindowViewModel>(text.Substring(prefix.Length));
+                }
+                catch (System.Exception ex) { ShowWarn($"加载数据失败！\n{text}\n{ex}"); }
+            }
             InitializeComponent();
             DataContext = Data;
         }
