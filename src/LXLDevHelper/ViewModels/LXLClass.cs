@@ -8,10 +8,16 @@ namespace LXLDevHelper.ViewModels
     /// </summary>
     public class LXLClass : BindableBase
     {
-        private string _className = "类名称";
+        private string _className =
+#if DEBUG
+            "类名称"
+#else
+""
+#endif
+            ;
         public string ClassName { get => _className; set => SetProperty(ref _className, value.Trim()); }
 
-        private ObservableCollection<LXLFunction> _AllFunc = new()  ;
+        private ObservableCollection<LXLFunction> _AllFunc = new();
         /// <summary>
         /// 当前类定义的所有方法集合
         /// </summary>

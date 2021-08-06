@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -173,6 +174,11 @@ namespace LXLDevHelper.Views
             }
             foreach (var dir in Data.DirCollection)
             {
+                if (string.IsNullOrWhiteSpace(dir.DirName))
+                {
+                    DirListBox.SelectedItem = dir;
+                    ShowWarn("文件名不能为空！"); return false;
+                }
                 if (Data.DirCollection.Any(x => x != dir && x.DirName == dir.DirName))
                 {
                     DirListBox.SelectedItem = Data.DirCollection.First(x => x != dir && x.DirName == dir.DirName);
@@ -180,6 +186,12 @@ namespace LXLDevHelper.Views
                 }
                 foreach (var cla in dir.AllClass)
                 {
+                    if (string.IsNullOrWhiteSpace(cla.ClassName))
+                    {
+                        DirListBox.SelectedItem = dir;
+                        ClassListBox.SelectedItem = cla;
+                        ShowWarn("类名不能为空！"); return false;
+                    }
                     if (dir.AllClass.Any(x => x != cla && x.ClassName == cla.ClassName))
                     {
                         DirListBox.SelectedItem = dir;
@@ -207,7 +219,7 @@ namespace LXLDevHelper.Views
                     foreach (var cla in dir.AllClass)
                     {
                         string fileName = Path.Combine(DirPath, cla.ClassName + ".json");
-                        File.WriteAllText(fileName, Newtonsoft.Json.JsonConvert.SerializeObject(cla));
+                        File.WriteAllText(fileName, Newtonsoft.Json.JsonConvert.SerializeObject(cla, Newtonsoft.Json.Formatting.Indented));
                         funccount += cla.AllFunc.Count;
                         classcount++;
                     }
@@ -266,6 +278,11 @@ namespace LXLDevHelper.Views
             catch (System.Exception ex)
             { ShowWarn($"载入失败！\n{ex}"); }
         }
+        private void OpenDirButton_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("explorer.exe", Path.GetFullPath(RootDir));
+        }
         #endregion
+
     }
 }
