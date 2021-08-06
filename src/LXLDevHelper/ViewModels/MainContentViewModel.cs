@@ -8,29 +8,6 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 namespace LXLDevHelper.ViewModels
 {
-    public class LXLFunction : BindableBase
-    {
-        private string _funcName = "方法名称";
-        /// <summary>
-        /// 方法名
-        /// </summary>
-        public string FuncName { get => _funcName; set => SetProperty(ref _funcName, value); }
-    }
-    public class LXLClass : BindableBase
-    {
-        private string _className = "类名称";
-        public string ClassName { get => _className; set => SetProperty(ref _className, value); }
-
-        private ObservableCollection<LXLFunction> _AllFunc = new() { new LXLFunction() };
-        /// <summary>
-        /// 当前类定义的所有方法集合
-        /// </summary>
-        public ObservableCollection<LXLFunction> AllFunc
-        {
-            get { return _AllFunc; }
-            set { SetProperty(ref _AllFunc, value); }
-        }
-    }
 
     public class MainContentViewModel : BindableBase
     {
