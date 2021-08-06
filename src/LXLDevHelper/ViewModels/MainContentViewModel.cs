@@ -53,18 +53,30 @@ namespace LXLDevHelper.ViewModels
         }
         private ObservableCollection<LXLFunction> _CurrentFuncCollection = new() { };
         private bool _currentFuncCollectionHasSet = false;
+        /// <summary>
+        /// 当前正在编辑的类的所有属性集合
+        /// </summary>
         [JsonIgnore]
-        public bool CurrentFuncCollectionHasSet
+        public ObservableCollection<LXLProperty> CurrentPropertyCollection
         {
-            get => _currentFuncCollectionHasSet; set
+            get { return _CurrentPropertyCollection; }
+            set { SetProperty(ref _CurrentPropertyCollection, value); }
+        }
+        private ObservableCollection<LXLProperty> _CurrentPropertyCollection = new() { };
+        private bool _currentPropertyCollectionHasSet = false;
+        [JsonIgnore]
+        public bool CurrentPropertyCollectionHasSet
+        {
+            get => _currentPropertyCollectionHasSet; set
             {
-                SetProperty(ref _currentFuncCollectionHasSet, value);
+                SetProperty(ref _currentPropertyCollectionHasSet, value);
                 if (!value)//设置false=>未设定，移除当前项
                 {
-                    CurrentFuncCollection = new();
+                    CurrentPropertyCollection = new();
                 }
             }
         }
+
         /// <summary>
         /// 当前正在编辑的方法定义
         /// </summary>
@@ -85,6 +97,41 @@ namespace LXLDevHelper.ViewModels
                 if (!value)//设置false=>未设定，移除当前项
                 {
                     CurrentFunc = new();
+                }
+            }
+        }
+        [JsonIgnore]
+        public bool CurrentFuncCollectionHasSet
+        {
+            get => _currentFuncCollectionHasSet; set
+            {
+                SetProperty(ref _currentFuncCollectionHasSet, value);
+                if (!value)//设置false=>未设定，移除当前项
+                {
+                    CurrentFuncCollection = new();
+                }
+            }
+        }
+        /// <summary>
+        /// 当前正在编辑的属性定义
+        /// </summary>
+        [JsonIgnore]
+        public LXLProperty CurrentProperty
+        {
+            get { return _CurrentProperty; }
+            set { SetProperty(ref _CurrentProperty, value); }
+        }
+        private LXLProperty _CurrentProperty = new() { };
+        private bool _currentPropertyHasSet = false;
+        [JsonIgnore]
+        public bool CurrentPropertyHasSet
+        {
+            get => _currentPropertyHasSet; set
+            {
+                SetProperty(ref _currentPropertyHasSet, value);
+                if (!value)//设置false=>未设定，移除当前项
+                {
+                    CurrentProperty = new();
                 }
             }
         }

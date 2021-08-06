@@ -99,6 +99,26 @@ namespace LXLDevHelper.Views
                 }
             }
         }
+        private void AddPropertyButton_Click(object sender, RoutedEventArgs e)
+        {
+            Data.CurrentPropertyCollection.Add(new());
+        }
+        private void DeletePropertyButton_Click(object sender, RoutedEventArgs e)
+        {
+            var i = PropertyListBox.SelectedIndex;
+            if (i == -1)//未选中
+            {
+                ShowMessage("请选中一个方法后再删除！");
+            }
+            else
+            {
+                var item = Data.CurrentPropertyCollection[i];
+                if (ConfirmDialog($"确认删除\"{item.PropertyName}\"属性定义？"))
+                {
+                    Data.CurrentPropertyCollection.RemoveAt(i);
+                }
+            }
+        }
         private void InsertParams_Click(object sender, RoutedEventArgs e)
         {
             if (ParamsDataGrid.SelectedIndex == -1)
@@ -137,21 +157,37 @@ namespace LXLDevHelper.Views
         private void ClassListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var i = ClassListBox.SelectedIndex;
-            if (i == -1) { Data.CurrentFuncCollectionHasSet = false; }
+            if (i == -1) { Data.CurrentFuncCollectionHasSet = false; Data.CurrentPropertyCollectionHasSet = false; }
             else
             {
                 Data.CurrentFuncCollection = Data.CurrentClassCollection[i].AllFunc;
                 Data.CurrentFuncCollectionHasSet = true;
+                Data.CurrentPropertyCollection = Data.CurrentClassCollection[i].AllProperty;
+                Data.CurrentPropertyCollectionHasSet = true;
             }
         }
         private void FuncListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var i = FuncListBox.SelectedIndex;
-            if (i == -1) { Data.CurrentFuncHasSet = false; }
+            if (i == -1) { Data.CurrentFuncHasSet = false; Data.CurrentPropertyHasSet = false; }
             else
             {
                 Data.CurrentFunc = Data.CurrentFuncCollection[i];
                 Data.CurrentFuncHasSet = true;
+                Data.CurrentProperty = Data.CurrentPropertyCollection[i];
+                Data.CurrentPropertyHasSet = true;
+            }
+        }
+        private void PropertyListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var i = PropertyListBox.SelectedIndex;
+            if (i == -1) { Data.CurrentPropertyHasSet = false; Data.CurrentPropertyHasSet = false; }
+            else
+            {
+                Data.CurrentProperty = Data.CurrentPropertyCollection[i];
+                Data.CurrentPropertyHasSet = true;
+                Data.CurrentProperty = Data.CurrentPropertyCollection[i];
+                Data.CurrentPropertyHasSet = true;
             }
         }
         #endregion

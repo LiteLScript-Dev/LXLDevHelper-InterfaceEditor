@@ -17,7 +17,6 @@ namespace LXLDevHelper.ViewModels
             ;
         public string ClassName { get => _className; set => SetProperty(ref _className, value.Trim()); }
 
-        private ObservableCollection<LXLFunction> _AllFunc = new();
         /// <summary>
         /// 当前类定义的所有方法集合
         /// </summary>
@@ -26,5 +25,15 @@ namespace LXLDevHelper.ViewModels
             get { return _AllFunc; }
             set { SetProperty(ref _AllFunc, value); }
         }
+        private ObservableCollection<LXLFunction> _AllFunc = new();
+        /// <summary>
+        /// 当前类定义的所有属性集合
+        /// </summary>
+        public ObservableCollection<LXLProperty> AllProperty
+        {
+            get { return _AllProperty; }
+            set { SetProperty(ref _AllProperty, value); }
+        }
+        private ObservableCollection<LXLProperty> _AllProperty = new();
     }
 }
