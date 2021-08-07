@@ -46,6 +46,37 @@
                 <Button Content="取消" HorizontalAlignment="Stretch" Click="CancelButton_Click"/>
                 <Button Content="保存" Grid.Column="2" HorizontalAlignment="Stretch" Click="SaveButton_Click"/>
             </Grid>
+            <Grid DockPanel.Dock="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <!--<ColumnDefinition Width="4*"/>-->
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="返回值" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <!--<DockPanel Grid.Column="1">
+                    <TextBlock Text="名称：" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Func.ReturnName}"/>
+                </DockPanel>-->
+                <DockPanel Grid.Column="1">
+                    <TextBlock Text=" 类型：" VerticalAlignment="Center"/>
+                    <ComboBox HorizontalAlignment="Stretch" Text="{Binding Func.ReturnType}" IsEditable="True"  ui:ControlHelper.CornerRadius="0" 
+                                                 Tag="{Binding Func}" ItemsSource="{Binding Func.AvaliableTypes,Mode=OneWay}" SelectionChanged="SelectTypeComboBox_SelectionChanged">
+                        <ComboBox.ToolTip>
+                            <StackPanel>
+                                <TextBlock Text="选择或手动输入类型"/>
+                                <TextBlock Text="右键下拉框箭头位置编辑匿名函数"/>
+                                <TextBlock Text="当前内容:"/>
+                                <TextBlock Text="{Binding Func.ReturnType,Mode=OneWay}" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </ComboBox.ToolTip>
+                        <ComboBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Tag="{Binding Func}" Header="编辑匿名函数" Click="SelectTypeMenuItem_Click"/>
+                            </ContextMenu>
+                        </ComboBox.ContextMenu>
+                    </ComboBox>
+                </DockPanel>
+            </Grid>
             <DataGrid DockPanel.Dock="Top" Name="ParamsDataGrid" CanUserSortColumns="False" ItemsSource="{Binding Func.Params}" AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserResizeRows="False">
                 <DataGrid.ContextMenu>
                     <ContextMenu StaysOpen="true">

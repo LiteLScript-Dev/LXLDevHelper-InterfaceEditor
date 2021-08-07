@@ -155,7 +155,7 @@ namespace LXLDevHelper.ViewModels
             "ByteBuffer",
             "Function",
         };
-        public static ObservableCollection<string> AvaliableTypes { get => _avaliableTypes; }
+        [JsonIgnore] public static ObservableCollection<string> AvaliableTypes { get => _avaliableTypes; }
        
     }
 }

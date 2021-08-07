@@ -23,6 +23,7 @@ namespace LXLDevHelper.ViewModels
         /// </summary>
         public virtual ObservableCollection<LXLFuncParamsBase> Params { get => _params; set => SetProperty(ref _params, value); }
         private ObservableCollection<LXLFuncParamsBase> _params = new();
+        [JsonIgnore] public static ObservableCollection<string> AvaliableTypes { get => MainContentViewModel.AvaliableTypes; }
     }
     /// <summary>
     /// 非匿名方法定义

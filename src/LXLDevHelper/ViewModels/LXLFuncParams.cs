@@ -36,7 +36,7 @@ namespace LXLDevHelper.ViewModels
         /// </summary>
         public bool Optional { get => _optional; set => SetProperty(ref _optional, value); }
         private bool _optional = false;
-        public static ObservableCollection<string> AvaliableTypes { get => MainContentViewModel.AvaliableTypes; }
+        [JsonIgnore] public static ObservableCollection<string> AvaliableTypes { get => MainContentViewModel.AvaliableTypes; }
     }
     /// <summary>
     /// 方法形参描述
