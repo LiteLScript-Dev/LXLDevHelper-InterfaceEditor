@@ -127,7 +127,7 @@
                             <TextBlock Text="静态" Opacity="{Binding CurrentClass.IsStatic,Mode=OneWay,Converter={StaticResource BoolToOpacity}}"/>
                         </CheckBox>
                         <TextBlock Text="类描述：" VerticalAlignment="Center"/>
-                        <TextBox Text="{Binding CurrentClass.ClassName,Mode=TwoWay}" AcceptsReturn="True" AcceptsTab="True"/>
+                        <TextBox Text="{Binding CurrentClass.Description,Mode=TwoWay}" AcceptsReturn="True" AcceptsTab="True"/>
                     </DockPanel>
                     <Grid>
                         <DockPanel Visibility="{Binding EditFunc,Converter={StaticResource BoolToVisibility},Mode=OneWay}"

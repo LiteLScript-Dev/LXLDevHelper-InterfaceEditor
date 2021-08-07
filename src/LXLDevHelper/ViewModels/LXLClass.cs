@@ -42,6 +42,10 @@ namespace LXLDevHelper.ViewModels
         /// </summary>
         public bool IsStatic { get => _isStatic; set => SetProperty(ref _isStatic, value); }
         private bool _isStatic = false;
-
+        /// <summary>
+        /// 类描述
+        /// </summary>
+        public string Description { get => _description; set => SetProperty(ref _description, value); }
+        private string _description ="" ;
     }
 }
