@@ -123,8 +123,11 @@
                 </DockPanel>
                 <DockPanel Grid.Column="3" IsEnabled="{Binding CurrentClassHasSet,Mode=OneWay}">
                     <DockPanel DockPanel.Dock="Top" Margin="2" Opacity="{Binding CurrentClassHasSet,Mode=OneWay,Converter={StaticResource BoolToOpacity}}">
-                        <CheckBox Style="{StaticResource DataGridCheckBoxStyle}" DockPanel.Dock="Right" IsChecked="{Binding CurrentClass.IsStatic}" ToolTip="静态类下所有方法在保存时会自动设置静态">
-                            <TextBlock Text="静态" Opacity="{Binding CurrentClass.IsStatic,Mode=OneWay,Converter={StaticResource BoolToOpacity}}"/>
+                        <CheckBox Style="{StaticResource DataGridCheckBoxStyle}" DockPanel.Dock="Right" IsChecked="{Binding CurrentClass.IsStatic}" ToolTip="静态类下所有方法在保存时会自动设置静态" Margin="2,0,0,0">
+                            <TextBlock Text="静态" Opacity="{Binding CurrentClass.IsStatic,Mode=OneWay,Converter={StaticResource BoolToOpacity}}" Margin="-7,0,0,0"/>
+                        </CheckBox>
+                        <CheckBox Style="{StaticResource DataGridCheckBoxStyle}" DockPanel.Dock="Right" IsChecked="{Binding CurrentClass.IsInterface}" ToolTip="是否接口（接口类无构造函数）" Margin="5,0,0,0">
+                            <TextBlock Text="接口" Opacity="{Binding CurrentClass.IsInterface,Mode=OneWay,Converter={StaticResource BoolToOpacity}}" Margin="-7,0,0,0"/>
                         </CheckBox>
                         <TextBlock Text="类描述：" VerticalAlignment="Center"/>
                         <TextBox Text="{Binding CurrentClass.Description,Mode=TwoWay}" AcceptsReturn="True" AcceptsTab="True"/>

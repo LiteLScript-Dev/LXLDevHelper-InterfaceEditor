@@ -10,9 +10,13 @@ namespace LXLDevHelper.Views
     /// </summary>
     public partial class EditFunctionWindow : Window
     {
-        public static string ShowEditFunctionDialog(string target)
+        public static string ShowEditFunctionDialog(string target, Window parent)
         {
-            var dialog = new EditFunctionWindow(target);
+            var dialog = new EditFunctionWindow(target)
+            {
+                Top = parent.Top + 30,
+                Left = parent.Left + 30
+            };
             dialog.ShowDialog();
             return dialog.Result;
         }
@@ -85,8 +89,16 @@ namespace LXLDevHelper.Views
             var me = (MenuItem)sender;
             var text = ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType;
             var result = EditFunction(text);
-            ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType = result;
-            Dispatcher.InvokeAsync(() => ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType = result);
+            if (me.Tag.GetType() == typeof(ViewModels.LXLFuncParamsBase))
+            {
+                ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType = result;
+                Dispatcher.InvokeAsync(() => ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType = result);
+            }
+            else
+            {
+                ((ViewModels.LXLFunctionAnonymous)me.Tag).ReturnType = result;
+                Dispatcher.InvokeAsync(() => ((ViewModels.LXLFunctionAnonymous)me.Tag).ReturnType = result);
+            }
         }
         private void SelectTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -94,14 +106,22 @@ namespace LXLDevHelper.Views
             if (me.SelectedItem?.ToString() == "Function")
             {
                 var result = EditFunction(me.Text);
-                ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType = result;
-                Dispatcher.InvokeAsync(() => ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType = result);
+                if (me.Tag.GetType() == typeof(ViewModels.LXLFuncParamsBase))
+                {
+                    ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType = result;
+                    Dispatcher.InvokeAsync(() => ((ViewModels.LXLFuncParamsBase)me.Tag).ParamType = result);
+                }
+                else
+                {
+                    ((ViewModels.LXLFunctionAnonymous)me.Tag).ReturnType = result;
+                    Dispatcher.InvokeAsync(() => ((ViewModels.LXLFunctionAnonymous)me.Tag).ReturnType = result);
+                }
             }
         }
         private string EditFunction(string text)
         {
             CommitEdit();
-            return ShowEditFunctionDialog(text);
+            return ShowEditFunctionDialog(text, this);
         }
         private void CommitEdit()
         {

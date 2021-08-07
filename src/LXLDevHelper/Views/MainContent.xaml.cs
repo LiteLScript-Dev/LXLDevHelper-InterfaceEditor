@@ -390,7 +390,7 @@ namespace LXLDevHelper.Views
         }
         private string EditFunction(string text)
         {
-            return EditFunctionWindow.ShowEditFunctionDialog(text);
+            return EditFunctionWindow.ShowEditFunctionDialog(text, Application.Current.MainWindow);
         }
     }
 }
