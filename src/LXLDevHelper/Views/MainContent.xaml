@@ -143,19 +143,19 @@
                                 <TextBox Text="{Binding CurrentFunc.Description}" AcceptsReturn="True" AcceptsTab="True"/>
                             </DockPanel>
                             <DockPanel DockPanel.Dock="Top" Margin="2">
-                                <Grid>
+                                <!--<Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="4*"/>
+                                        --><!--<ColumnDefinition Width="4*"/>--><!--
                                         <ColumnDefinition Width="3*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="返回值" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                                    <DockPanel Grid.Column="1">
+                                    </Grid.ColumnDefinitions>-->
+                                    <!--<TextBlock Text="" VerticalAlignment="Center"/>-->
+                                    <!--<DockPanel Grid.Column="1">
                                         <TextBlock Text="名称：" VerticalAlignment="Center"/>
-                                        <TextBox Text="{Binding CurrentFunc.ReturnName}"/>
-                                    </DockPanel>
-                                    <DockPanel Grid.Column="2">
-                                        <TextBlock Text=" 类型：" VerticalAlignment="Center"/>
+                                        --><!--<TextBox Text="{Binding CurrentFunc.ReturnName}"/>--><!--
+                                    </DockPanel>-->
+                                    <DockPanel Grid.Column="1">
+                                    <TextBlock Text="返回值类型：" VerticalAlignment="Center"/>
                                         <ComboBox HorizontalAlignment="Stretch" Text="{Binding CurrentFunc.ReturnType}" IsEditable="True"  ui:ControlHelper.CornerRadius="0" 
                                                   ItemsSource="{Binding AvaliableTypes,Mode=OneWay}" SelectionChanged="SelectTypeComboBox_SelectionChanged">
                                             <ComboBox.ToolTip>
@@ -173,7 +173,7 @@
                                             </ComboBox.ContextMenu>
                                         </ComboBox>
                                     </DockPanel>
-                                </Grid>
+                                <!--</Grid>-->
                             </DockPanel>
                             <DockPanel DockPanel.Dock="Top" Margin="2">
                                 <TextBlock Text="返回值描述：" VerticalAlignment="Center"/>

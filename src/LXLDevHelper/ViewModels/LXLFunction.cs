@@ -53,11 +53,11 @@ namespace LXLDevHelper.ViewModels
 ""
 #endif
             ;
-        /// <summary>
-        /// 返回值名
-        /// </summary>
-        public string ReturnName { get => _returnName; set => SetProperty(ref _returnName, value); }
-        private string _returnName = "";
+        ///// <summary>
+        ///// 返回值名
+        ///// </summary>
+        //public string ReturnName { get => _returnName; set => SetProperty(ref _returnName, value); }
+        //private string _returnName = "";
         /// <summary>
         /// 返回值描述
         /// </summary>

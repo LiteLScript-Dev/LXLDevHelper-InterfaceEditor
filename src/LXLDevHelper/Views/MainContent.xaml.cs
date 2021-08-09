@@ -278,24 +278,7 @@ namespace LXLDevHelper.Views
                 {
                     ShowWarn("载入失败！\n未找到数据。"); return;
                 }
-                Data.DirCollection.Clear();
-                foreach (var dir in Directory.GetDirectories(root))
-                {
-                    var dirInfo = new ViewModels.LXLDirectory() { DirName = Path.GetFileName(dir) };
-                    foreach (var file in Directory.GetFiles(dir))
-                    {
-                        try
-                        {
-                            var raw = File.ReadAllText(file);
-                            dirInfo.AllClass.Add(Newtonsoft.Json.JsonConvert.DeserializeObject<ViewModels.LXLClass>(raw));
-                        }
-                        catch (System.Exception ex)
-                        {
-                            ShowWarn($"读取{file}时遇到错误\n{ex}");
-                        }
-                    }
-                    Data.DirCollection.Add(dirInfo);
-                }
+                Loader.DataLoader.LoadFromPath(root,ref Data);
                 ((Button)sender).Tag = true;
                 ((Button)sender).Content = "重新载入";
             }
@@ -415,11 +398,13 @@ namespace LXLDevHelper.Views
         {
             try
             {
-                if (ConfirmDialog("粘贴将会覆盖当前编辑的内容！")) { 
+                if (ConfirmDialog("粘贴将会覆盖当前编辑的内容！"))
+                {
                     var i = Data.CurrentClass.AllFunc.IndexOf(Data.CurrentFunc);
-                if (i == -1) { return; }
-                Data.CurrentClass.AllFunc[i] = Newtonsoft.Json.JsonConvert.DeserializeObject<ViewModels.LXLFunction>(Clipboard.GetText());
-                FuncListBox.SelectedIndex = i;}
+                    if (i == -1) { return; }
+                    Data.CurrentClass.AllFunc[i] = Newtonsoft.Json.JsonConvert.DeserializeObject<ViewModels.LXLFunction>(Clipboard.GetText());
+                    FuncListBox.SelectedIndex = i;
+                }
             }
             catch (System.Exception ex)
             {
@@ -450,10 +435,10 @@ namespace LXLDevHelper.Views
             {
                 if (ConfirmDialog("粘贴将会覆盖当前编辑的内容！"))
                 {
- var i = Data.CurrentClass.AllProperty.IndexOf(Data.CurrentProperty);
-                if (i == -1) { return; }
-                Data.CurrentClass.AllProperty[i] = Newtonsoft.Json.JsonConvert.DeserializeObject<ViewModels.LXLProperty>(Clipboard.GetText());
-                PropertyListBox.SelectedIndex = i;
+                    var i = Data.CurrentClass.AllProperty.IndexOf(Data.CurrentProperty);
+                    if (i == -1) { return; }
+                    Data.CurrentClass.AllProperty[i] = Newtonsoft.Json.JsonConvert.DeserializeObject<ViewModels.LXLProperty>(Clipboard.GetText());
+                    PropertyListBox.SelectedIndex = i;
                 }
             }
             catch (System.Exception ex)
