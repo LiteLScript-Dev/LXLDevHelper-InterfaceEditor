@@ -123,7 +123,7 @@
                 </DockPanel>
                 <DockPanel Grid.Column="3" IsEnabled="{Binding CurrentClassHasSet,Mode=OneWay}">
                     <DockPanel DockPanel.Dock="Top" Margin="2" Opacity="{Binding CurrentClassHasSet,Mode=OneWay,Converter={StaticResource BoolToOpacity}}">
-                        <CheckBox Style="{StaticResource DataGridCheckBoxStyle}" DockPanel.Dock="Right" IsChecked="{Binding CurrentClass.IsStatic}" ToolTip="静态类下所有方法在保存时会自动设置静态" Margin="2,0,0,0">
+                        <CheckBox Style="{StaticResource DataGridCheckBoxStyle}" DockPanel.Dock="Right" IsChecked="{Binding CurrentClass.IsStatic}" ToolTip="静态类下所有方法在保存时会自动设置静态" Margin="2,0,2,0">
                             <TextBlock Text="静态" Opacity="{Binding CurrentClass.IsStatic,Mode=OneWay,Converter={StaticResource BoolToOpacity}}" Margin="-7,0,0,0"/>
                         </CheckBox>
                         <CheckBox Style="{StaticResource DataGridCheckBoxStyle}" DockPanel.Dock="Right" IsChecked="{Binding CurrentClass.IsInterface}" ToolTip="是否接口（接口类无构造函数）" Margin="5,0,0,0">
@@ -136,8 +136,8 @@
                         <DockPanel Visibility="{Binding EditFunc,Converter={StaticResource BoolToVisibility},Mode=OneWay}"
                                     IsEnabled="{Binding CurrentFuncHasSet}" Opacity="{Binding CurrentFuncHasSet,Mode=OneWay,Converter={StaticResource BoolToOpacity}}">
                             <DockPanel DockPanel.Dock="Top" Margin="2">
-                                <CheckBox Visibility="{Binding CurrentClass.IsStatic,Converter={StaticResource RevBoolToVisibility}}" Style="{StaticResource DataGridCheckBoxStyle}" DockPanel.Dock="Right" IsChecked="{Binding CurrentFunc.IsStatic}">
-                                    <TextBlock Text="静态" Opacity="{Binding CurrentFunc.IsStatic,Mode=OneWay,Converter={StaticResource BoolToOpacity}}"/>
+                                <CheckBox Visibility="{Binding CurrentClass.IsStatic,Converter={StaticResource RevBoolToVisibility}}" Style="{StaticResource DataGridCheckBoxStyle}" DockPanel.Dock="Right" IsChecked="{Binding CurrentFunc.IsStatic}" Margin="5,0,2,0">
+                                    <TextBlock Text="静态" Opacity="{Binding CurrentFunc.IsStatic,Mode=OneWay,Converter={StaticResource BoolToOpacity}}" Margin="-7,0,0,0"/>
                                 </CheckBox>
                                 <TextBlock Text="方法描述："/>
                                 <TextBox Text="{Binding CurrentFunc.Description}" AcceptsReturn="True" AcceptsTab="True"/>
@@ -276,9 +276,18 @@
                                     </ComboBox.ContextMenu>
                                 </ComboBox>
                             </DockPanel>
-                            <Button Content="手动修改JSON" DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="5" Click="EditCurrentPropertyJsonButton_Click"/>
-                            <Button Content="复制JSON" Click="CopyCurrentPropertyJsonButton_Click"/>
-                            <Button Content="粘贴（覆盖）JSON" Click="PasteCurrentPropertyJsonButton_Click"/>
+                            <Grid DockPanel.Dock="Bottom" Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button HorizontalAlignment="Stretch" Content="手动修改JSON" Click="EditCurrentPropertyJsonButton_Click"/>
+                                <Button Grid.Column="2" HorizontalAlignment="Stretch" Content="复制JSON" Click="CopyCurrentPropertyJsonButton_Click"/>
+                                <Button Grid.Column="4" HorizontalAlignment="Stretch" Content="粘贴(覆盖)JSON" Click="PasteCurrentPropertyJsonButton_Click"/>
+                            </Grid>
                             <Grid/>
                             <!--<DockPanel IsEnabled="{Binding CurrentFuncHasSet}">
                                 <TextBlock Text="方法参数表：" DockPanel.Dock="Top"/>
