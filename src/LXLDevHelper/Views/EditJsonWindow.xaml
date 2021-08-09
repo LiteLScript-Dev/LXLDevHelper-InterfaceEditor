@@ -8,6 +8,7 @@
         xmlns:ui="http://schemas.modernwpf.com/2019" xmlns:converters="clr-namespace:Elements.Converters"
         d:DataContext="{d:DesignInstance Type=viewmodels:EditJsonWindowViewModel}"
         ui:WindowHelper.UseModernWindowStyle="True"
+        WindowStyle="ToolWindow"
         mc:Ignorable="d" Topmost="True" 
         Title="EditJsonWindow" Height="250" Width="400" >
     <DockPanel>

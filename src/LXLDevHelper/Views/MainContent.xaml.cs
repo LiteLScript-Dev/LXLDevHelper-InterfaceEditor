@@ -406,6 +406,25 @@ namespace LXLDevHelper.Views
             }
             catch { }
         }
+        private void CopyCurrentFuncJsonButton_Click(object sender, RoutedEventArgs e)
+        {
+            var raw = Newtonsoft.Json.JsonConvert.SerializeObject(Data.CurrentFunc);
+            Clipboard.SetText(raw);
+        }
+        private void PasteCurrentFuncJsonButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var i = Data.CurrentClass.AllFunc.IndexOf(Data.CurrentFunc);
+                if (i == -1) { return; }
+                Data.CurrentClass.AllFunc[i] = Newtonsoft.Json.JsonConvert.DeserializeObject<ViewModels.LXLFunction>(Clipboard.GetText());
+                FuncListBox.SelectedIndex = i;
+            }
+            catch (System.Exception ex)
+            {
+                ShowWarn(ex.Message, "粘贴失败");
+            }
+        }
         private void EditCurrentPropertyJsonButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -418,6 +437,29 @@ namespace LXLDevHelper.Views
                 PropertyListBox.SelectedIndex = i;
             }
             catch { }
+        }
+        private void CopyCurrentPropertyJsonButton_Click(object sender, RoutedEventArgs e)
+        {
+            var raw = Newtonsoft.Json.JsonConvert.SerializeObject(Data.CurrentProperty);
+            Clipboard.SetText(raw);
+        }
+        private void PasteCurrentPropertyJsonButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (ConfirmDialog("粘贴将会覆盖当前编辑的内容！"))
+                {
+
+                }
+                var i = Data.CurrentClass.AllProperty.IndexOf(Data.CurrentProperty);
+                if (i == -1) { return; }
+                Data.CurrentClass.AllProperty[i] = Newtonsoft.Json.JsonConvert.DeserializeObject<ViewModels.LXLProperty>(Clipboard.GetText());
+                PropertyListBox.SelectedIndex = i;
+            }
+            catch (System.Exception ex)
+            {
+                ShowWarn(ex.Message, "粘贴失败");
+            }
         }
     }
 }

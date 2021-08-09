@@ -99,7 +99,7 @@
                                 </ListBox>
                             </DockPanel>
                         </TabItem>
-                        <TabItem IsEnabled="{Binding CurrentClassHasSet}" IsSelected="{Binding EditProperty}" Style="{StaticResource TabItemPivotStyle}"> 
+                        <TabItem IsEnabled="{Binding CurrentClassHasSet}" IsSelected="{Binding EditProperty}" Style="{StaticResource TabItemPivotStyle}">
                             <TabItem.Header>
                                 <ToggleButton Content="属性" Margin="-10,-10,-10,-5" Padding="10,5" IsChecked="{Binding EditProperty}"/>
                             </TabItem.Header>
@@ -111,7 +111,7 @@
                                 <ListBox Name="PropertyListBox" Margin="5,5,0,5" ItemsSource="{Binding CurrentClass.AllProperty}" SelectionChanged="PropertyListBox_SelectionChanged">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <Grid  Margin="-8"> 
+                                            <Grid  Margin="-8">
                                                 <TextBox Tag="{Binding Me}" Text="{Binding PropertyName,Mode=TwoWay}" GotFocus="PropertyNameTextBox_GotFocus"/>
                                             </Grid>
                                         </DataTemplate>
@@ -160,7 +160,7 @@
                                                   ItemsSource="{Binding AvaliableTypes,Mode=OneWay}" SelectionChanged="SelectTypeComboBox_SelectionChanged">
                                             <ComboBox.ToolTip>
                                                 <StackPanel>
-                                                <TextBlock Text="选择或手动输入类型"/>
+                                                    <TextBlock Text="选择或手动输入类型"/>
                                                     <TextBlock Text="右键下拉框箭头位置编辑匿名函数"/>
                                                     <TextBlock Text="当前内容:"/>
                                                     <TextBlock Text="{Binding CurrentFunc.ReturnType,Mode=OneWay}" TextWrapping="Wrap"/>
@@ -179,7 +179,19 @@
                                 <TextBlock Text="返回值描述：" VerticalAlignment="Center"/>
                                 <TextBox Text="{Binding CurrentFunc.ReturnDescription}" AcceptsReturn="True" AcceptsTab="True"/>
                             </DockPanel>
-                            <Button Content="手动修改JSON" DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="5" Click="EditCurrentFuncJsonButton_Click"/>
+                            <Grid DockPanel.Dock="Bottom" Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button HorizontalAlignment="Stretch" Content="手动修改JSON" Click="EditCurrentFuncJsonButton_Click"/>
+                                <Button Grid.Column="2" HorizontalAlignment="Stretch" Content="复制JSON" Click="CopyCurrentFuncJsonButton_Click"/>
+                                <Button Grid.Column="4" HorizontalAlignment="Stretch" Content="粘贴(覆盖)JSON" Click="PasteCurrentFuncJsonButton_Click"/>
+                            </Grid>
+
                             <DockPanel>
                                 <TextBlock Text="方法参数表：" DockPanel.Dock="Top"/>
                                 <DataGrid Name="ParamsDataGrid" CanUserSortColumns="False" ItemsSource="{Binding CurrentFunc.Params}" AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserResizeRows="False">
@@ -202,7 +214,7 @@
                                             <DataGridTemplateColumn.CellEditingTemplate>
                                                 <DataTemplate>
                                                     <ComboBox HorizontalAlignment="Stretch" Text="{Binding ParamType}" IsEditable="True"  ui:ControlHelper.CornerRadius="0" 
-                                                    ItemsSource="{Binding AvaliableTypes,Mode=OneWay}" SelectionChanged="SelectTypeComboBox_SelectionChanged">  
+                                                    ItemsSource="{Binding AvaliableTypes,Mode=OneWay}" SelectionChanged="SelectTypeComboBox_SelectionChanged">
                                                         <ComboBox.ToolTip>
                                                             <StackPanel>
                                                                 <TextBlock Text="选择或手动输入类型"/>
@@ -265,6 +277,8 @@
                                 </ComboBox>
                             </DockPanel>
                             <Button Content="手动修改JSON" DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="5" Click="EditCurrentPropertyJsonButton_Click"/>
+                            <Button Content="复制JSON" Click="CopyCurrentPropertyJsonButton_Click"/>
+                            <Button Content="粘贴（覆盖）JSON" Click="PasteCurrentPropertyJsonButton_Click"/>
                             <Grid/>
                             <!--<DockPanel IsEnabled="{Binding CurrentFuncHasSet}">
                                 <TextBlock Text="方法参数表：" DockPanel.Dock="Top"/>
