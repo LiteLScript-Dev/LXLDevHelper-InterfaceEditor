@@ -110,8 +110,8 @@
                                 </StackPanel>
                                 <ListBox Name="PropertyListBox" Margin="5,5,0,5" ItemsSource="{Binding CurrentClass.AllProperty}" SelectionChanged="PropertyListBox_SelectionChanged">
                                     <ListBox.ItemTemplate>
-                                        <DataTemplate >
-                                            <Grid  Margin="-8" >
+                                        <DataTemplate>
+                                            <Grid  Margin="-8"> 
                                                 <TextBox Tag="{Binding Me}" Text="{Binding PropertyName,Mode=TwoWay}" GotFocus="PropertyNameTextBox_GotFocus"/>
                                             </Grid>
                                         </DataTemplate>
@@ -179,6 +179,7 @@
                                 <TextBlock Text="返回值描述：" VerticalAlignment="Center"/>
                                 <TextBox Text="{Binding CurrentFunc.ReturnDescription}" AcceptsReturn="True" AcceptsTab="True"/>
                             </DockPanel>
+                            <Button Content="手动修改JSON" DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="5" Click="EditCurrentFuncJsonButton_Click"/>
                             <DockPanel>
                                 <TextBlock Text="方法参数表：" DockPanel.Dock="Top"/>
                                 <DataGrid Name="ParamsDataGrid" CanUserSortColumns="False" ItemsSource="{Binding CurrentFunc.Params}" AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserResizeRows="False">
@@ -263,6 +264,7 @@
                                     </ComboBox.ContextMenu>
                                 </ComboBox>
                             </DockPanel>
+                            <Button Content="手动修改JSON" DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="5" Click="EditCurrentPropertyJsonButton_Click"/>
                             <Grid/>
                             <!--<DockPanel IsEnabled="{Binding CurrentFuncHasSet}">
                                 <TextBlock Text="方法参数表：" DockPanel.Dock="Top"/>

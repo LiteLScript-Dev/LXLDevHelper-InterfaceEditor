@@ -1,0 +1,25 @@
+﻿<Window x:Class="LXLDevHelper.Views.EditJsonWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LXLDevHelper.Views"
+        xmlns:viewmodels="clr-namespace:LXLDevHelper.ViewModels" 
+        xmlns:ui="http://schemas.modernwpf.com/2019" xmlns:converters="clr-namespace:Elements.Converters"
+        d:DataContext="{d:DesignInstance Type=viewmodels:EditJsonWindowViewModel}"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        mc:Ignorable="d" Topmost="True" 
+        Title="EditJsonWindow" Height="250" Width="400" >
+    <DockPanel>
+        <Grid DockPanel.Dock="Bottom" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="取消" HorizontalAlignment="Stretch"  Click="CancelButton_Click"/>
+            <Button Content="保存" Grid.Column="2" HorizontalAlignment="Stretch" Click="SaveButton_Click"/> 
+        </Grid>
+        <TextBox  ui:ControlHelper.CornerRadius="0"   DockPanel.Dock="Top" Text="{Binding Json}" AcceptsReturn="True" AcceptsTab="True" TextWrapping="WrapWithOverflow" />
+    </DockPanel>
+</Window>

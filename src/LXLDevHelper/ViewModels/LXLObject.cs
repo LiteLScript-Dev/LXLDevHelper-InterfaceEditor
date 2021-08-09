@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace LXLDevHelper.ViewModels
 {
-    public class LXLObject
-    {
+    //public class LXLObject : BindableBase
+    //{
         /*
         {
             "Property":
@@ -23,5 +23,7 @@ namespace LXLDevHelper.ViewModels
                 ]
         }
          */
-    }
+//         public string _name =""
+//public string Name { get; set=>SetProperty( ref _name, value ); }
+    //}
 }

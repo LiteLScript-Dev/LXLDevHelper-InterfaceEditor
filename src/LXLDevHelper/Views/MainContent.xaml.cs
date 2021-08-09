@@ -392,5 +392,32 @@ namespace LXLDevHelper.Views
         {
             return EditFunctionWindow.ShowEditFunctionDialog(text, Application.Current.MainWindow);
         }
+
+        private void EditCurrentFuncJsonButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var raw = Newtonsoft.Json.Linq.JToken.FromObject(Data.CurrentFunc);
+                var result = EditJsonWindow.ShowEditJsonDialog(raw, Application.Current.MainWindow);
+                var i = Data.CurrentClass.AllFunc.IndexOf(Data.CurrentFunc);
+                if (i == -1) { return; }
+                Data.CurrentClass.AllFunc[i] = result.ToObject<ViewModels.LXLFunction>();
+                FuncListBox.SelectedIndex = i;
+            }
+            catch { }
+        }
+        private void EditCurrentPropertyJsonButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var raw = Newtonsoft.Json.Linq.JToken.FromObject(Data.CurrentProperty);
+                var result = EditJsonWindow.ShowEditJsonDialog(raw, Application.Current.MainWindow);
+                var i = Data.CurrentClass.AllProperty.IndexOf(Data.CurrentProperty);
+                if (i == -1) { return; }
+                Data.CurrentClass.AllProperty[i] = result.ToObject<ViewModels.LXLProperty>();
+                PropertyListBox.SelectedIndex = i;
+            }
+            catch { }
+        }
     }
 }

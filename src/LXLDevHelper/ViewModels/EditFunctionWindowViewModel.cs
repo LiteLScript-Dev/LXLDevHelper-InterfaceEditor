@@ -1,10 +1,4 @@
-﻿using Newtonsoft.Json;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Prism.Mvvm;
 
 namespace LXLDevHelper.ViewModels
 {
@@ -15,6 +9,6 @@ namespace LXLDevHelper.ViewModels
             get { return _func; }
             set { SetProperty(ref _func, value); }
         }
-        private LXLFunctionAnonymous _func = new() { };
+        private LXLFunctionAnonymous _func = new() ;
     }
 }

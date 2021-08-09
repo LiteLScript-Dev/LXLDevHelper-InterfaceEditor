@@ -52,12 +52,12 @@
                     <!--<ColumnDefinition Width="4*"/>-->
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="返回值" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <TextBlock Text="返回值" VerticalAlignment="Center" Margin="10,0,5,0"/>
                 <!--<DockPanel Grid.Column="1">
                     <TextBlock Text="名称：" VerticalAlignment="Center"/>
                     <TextBox Text="{Binding Func.ReturnName}"/>
                 </DockPanel>-->
-                <DockPanel Grid.Column="1">
+                <DockPanel Grid.Column="1" Margin="0,0,5,0">
                     <TextBlock Text=" 类型：" VerticalAlignment="Center"/>
                     <ComboBox HorizontalAlignment="Stretch" Text="{Binding Func.ReturnType}" IsEditable="True"  ui:ControlHelper.CornerRadius="0" 
                                                  Tag="{Binding Func}" ItemsSource="{Binding Func.AvaliableTypes,Mode=OneWay}" SelectionChanged="SelectTypeComboBox_SelectionChanged">
