@@ -37,7 +37,7 @@ namespace LXLDevHelperBuilder
                     }
                     sb.AppendLine($"declare class {cla.ClassName} {{");//类起始位置
                     void AppendLine(string str) => sb.AppendLine("\t" + str);
-                    string DecodeType(string raw)
+                    string DecodeType(string raw)//转换类型
                     {
                         var sp = raw.Split('|');
                         for (int i = 0; i < sp.Length; i++)
@@ -49,6 +49,8 @@ namespace LXLDevHelperBuilder
                             }
                             else if (v.StartsWith("Function@"))
                             {
+                                var funcraw = v.Substring(9);
+                             
                                 sp[i] = "(any)=>any";
                             }
                             else

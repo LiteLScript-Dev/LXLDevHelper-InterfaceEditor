@@ -55,6 +55,7 @@ namespace LXLDevHelper.ViewModels
         }
         private LXLClass _CurrentClass = new() { };
         private bool _currentClassHasSet = false;
+        [JsonIgnore]
         public bool CurrentClassHasSet
         {
             get => _currentClassHasSet; set

@@ -20,7 +20,8 @@
     <DefineConstants>TRACE;Core</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-	  <PackageReference Include="dnMerge" Version="0.5.13">
+	  <PackageReference Include="Costura.Fody" Version="4.1.0" />
+	  <PackageReference Include="Fody" Version="6.1.0">
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
