@@ -11,24 +11,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="850">
     <UserControl.Resources>
-        <Style TargetType="TextBox" BasedOn="{StaticResource ComboBoxTextBoxStyle}">
-            <Setter Property="ui:ControlHelper.CornerRadius" Value="0" />
-        </Style>
-        <Style x:Key="DataTextBlock" TargetType="TextBlock" BasedOn="{StaticResource DataGridTextBlockStyle}">
-            <Setter Property="Padding" Value="5,0,0,0" />
-        </Style>
-        <Style x:Key="EditingTextbox" TargetType="TextBox" BasedOn="{StaticResource ComboBoxTextBoxStyle}">
-            <Setter Property="Padding" Value="5,0,0,0" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="ui:ControlHelper.CornerRadius" Value="0" />
-        </Style>
-        <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
-        <converters:RevBoolToVisibility x:Key="RevBoolToVisibility" />
-        <converters:BoolToVisibility x:Key="BoolToVisibility" />
-        <converters:BoolToOpacity  x:Key="BoolToOpacity" />
+        <!--<Style TargetType="ListBox" BasedOn="{StaticResource DefaultListBoxStyle}">
+            <Setter Property="ItemContainerStyle" Value="{StaticResource  ComboBoxTextBoxStyle}" />
+        </Style>-->
+
     </UserControl.Resources>
     <Grid>
         <DockPanel>
@@ -40,12 +26,13 @@
             </StackPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <DockPanel>
+                <DockPanel MaxWidth="200" x:Name="C1">
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
                         <Button Content="增加" Margin="5" Click="AddDirButton_Click"/>
                         <Button Content="删除选中" Margin="0,5" Click="DeleteDirButton_Click"/>
@@ -54,30 +41,84 @@
                     <ListBox Name="DirListBox" HorizontalContentAlignment="Stretch" ItemsSource="{Binding DirCollection}" Margin="5,5,0,5" SelectionChanged="DirListBox_SelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid Margin="-8">
-                                    <TextBox Tag="{Binding Me,Mode=OneWay}" Text="{Binding DirName,Mode=TwoWay}" GotFocus="DirNameTextBox_GotFocus"/>
-                                </Grid>
+                                <TextBox Tag="{Binding Me,Mode=OneWay}" Text="{Binding DirName,Mode=TwoWay}" GotFocus="DirNameTextBox_GotFocus"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </DockPanel>
-                <DockPanel Grid.Column="1" IsEnabled="{Binding CurrentClassCollectionHasSet}">
+                <DockPanel MaxWidth="200" x:Name="C2" Grid.Column="1" IsEnabled="{Binding CurrentClassCollectionHasSet}">
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" >
                         <Button Content="增加" Margin="5" Click="AddClassButton_Click"/>
                         <Button Content="删除选中" Margin="0,5" Click="DeleteClassButton_Click"/>
                     </StackPanel>
                     <TextBlock Text="类：" DockPanel.Dock="Top"/>
-                    <ListBox Name="ClassListBox" HorizontalContentAlignment="Stretch" ItemsSource="{Binding CurrentClassCollection}" Margin="5,5,0,5" SelectionChanged="ClassListBox_SelectionChanged">
+                    <ListBox Name="ClassListBox"  HorizontalContentAlignment="Stretch" ItemsSource="{Binding CurrentClassCollection}" Margin="5,5,0,5" SelectionChanged="ClassListBox_SelectionChanged">
+
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid Margin="-8">
-                                    <TextBox Tag="{Binding Me,Mode=OneWay}" Text="{Binding ClassName,Mode=TwoWay}"  GotFocus="ClassNameTextBox_GotFocus"/>
-                                </Grid>
+                                <TextBox Tag="{Binding Me,Mode=OneWay}" Text="{Binding ClassName,Mode=TwoWay}"  GotFocus="ClassNameTextBox_GotFocus"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </DockPanel>
-                <DockPanel Grid.Column="2" IsEnabled="{Binding CurrentClassHasSet}">
+                <DockPanel Grid.Column="2">
+                    <ToggleButton Padding="0" Margin="3,0,-1,0" >
+                        <ToggleButton.Triggers>
+                            <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                <BeginStoryboard>
+                                    <Storyboard Storyboard.TargetProperty="Text" Storyboard.TargetName="ExpandButtonText">
+                                        <ObjectAnimationUsingKeyFrames>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="›"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                                <BeginStoryboard>
+                                    <Storyboard Storyboard.TargetName="C1" Storyboard.TargetProperty="MaxWidth">
+                                        <DoubleAnimationUsingKeyFrames>
+                                            <SplineDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=C1,Path=ActualWidth}"/>
+                                            <SplineDoubleKeyFrame KeyTime="0:0:01" Value="0" KeySpline="0.17,0.86,0.17,0.86"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                                <BeginStoryboard>
+                                    <Storyboard Storyboard.TargetName="C2" Storyboard.TargetProperty="MaxWidth">
+                                        <DoubleAnimationUsingKeyFrames>
+                                            <SplineDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=C2,Path=ActualWidth}"/>
+                                            <SplineDoubleKeyFrame KeyTime="0:0:01" Value="0" KeySpline="0.17,0.86,0.17,0.86"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard Storyboard.TargetProperty="Text" Storyboard.TargetName="ExpandButtonText">
+                                        <ObjectAnimationUsingKeyFrames>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="‹"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                                <BeginStoryboard>
+                                    <Storyboard Storyboard.TargetName="C1" Storyboard.TargetProperty="MaxWidth">
+                                        <DoubleAnimationUsingKeyFrames>
+                                            <SplineDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                                            <SplineDoubleKeyFrame KeyTime="0:0:01" Value="200" KeySpline="0.17,0.86,0.17,0.86"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                                <BeginStoryboard>
+                                    <Storyboard Storyboard.TargetName="C2" Storyboard.TargetProperty="MaxWidth">
+                                        <DoubleAnimationUsingKeyFrames>
+                                            <SplineDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                                            <SplineDoubleKeyFrame KeyTime="0:0:01" Value="200" KeySpline="0.17,0.86,0.17,0.86"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ToggleButton.Triggers>
+                        <TextBlock Name="ExpandButtonText" Text="‹" FontSize="50" Margin="0,-14,0,0"/>
+                    </ToggleButton>
+                </DockPanel>
+                <DockPanel Grid.Column="3" IsEnabled="{Binding CurrentClassHasSet}" MaxWidth="200">
                     <TabControl DockPanel.Dock="Top" Background="{x:Null}" BorderBrush="Transparent" Foreground="Transparent">
                         <TabItem IsEnabled="{Binding CurrentClassHasSet}" IsSelected="{Binding EditFunc}"  Style="{StaticResource TabItemPivotStyle}">
                             <TabItem.Header>
@@ -91,9 +132,7 @@
                                 <ListBox Name="FuncListBox" Margin="5,5,0,5" ItemsSource="{Binding CurrentClass.AllFunc}" SelectionChanged="FuncListBox_SelectionChanged">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate >
-                                            <Grid  Margin="-8" >
-                                                <TextBox  Tag="{Binding Me}"  Text="{Binding FuncName,Mode=TwoWay}" GotFocus="FuncNameTextBox_GotFocus"/>
-                                            </Grid>
+                                            <TextBox  Tag="{Binding Me}"  Text="{Binding FuncName,Mode=TwoWay}" GotFocus="FuncNameTextBox_GotFocus"/>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                 </ListBox>
@@ -111,9 +150,7 @@
                                 <ListBox Name="PropertyListBox" Margin="5,5,0,5" ItemsSource="{Binding CurrentClass.AllProperty}" SelectionChanged="PropertyListBox_SelectionChanged">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <Grid  Margin="-8">
-                                                <TextBox Tag="{Binding Me}" Text="{Binding PropertyName,Mode=TwoWay}" GotFocus="PropertyNameTextBox_GotFocus"/>
-                                            </Grid>
+                                            <TextBox Tag="{Binding Me}" Text="{Binding PropertyName,Mode=TwoWay}" GotFocus="PropertyNameTextBox_GotFocus"/>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                 </ListBox>
@@ -121,7 +158,7 @@
                         </TabItem>
                     </TabControl>
                 </DockPanel>
-                <DockPanel Grid.Column="3" IsEnabled="{Binding CurrentClassHasSet,Mode=OneWay}">
+                <DockPanel Grid.Column="4" IsEnabled="{Binding CurrentClassHasSet,Mode=OneWay}">
                     <DockPanel DockPanel.Dock="Top" Margin="2" Opacity="{Binding CurrentClassHasSet,Mode=OneWay,Converter={StaticResource BoolToOpacity}}">
                         <CheckBox Style="{StaticResource DataGridCheckBoxStyle}" DockPanel.Dock="Right" IsChecked="{Binding CurrentClass.IsStatic}" ToolTip="静态类下所有方法在保存时会自动设置静态" Margin="2,0,2,0">
                             <TextBlock Text="静态" Opacity="{Binding CurrentClass.IsStatic,Mode=OneWay,Converter={StaticResource BoolToOpacity}}" Margin="-7,0,0,0"/>
@@ -130,8 +167,11 @@
                             <TextBlock Text="接口" Opacity="{Binding CurrentClass.IsInterface,Mode=OneWay,Converter={StaticResource BoolToOpacity}}" Margin="-7,0,0,0"/>
                         </CheckBox>
                         <TextBlock Text="类描述：" VerticalAlignment="Center"/>
-                        <TextBox Text="{Binding CurrentClass.Description,Mode=TwoWay}" AcceptsReturn="True" AcceptsTab="True"/>
+                        <ScrollViewer BorderBrush="{Binding Content.BorderBrush,RelativeSource={RelativeSource Self}}" BorderThickness="1" MaxHeight="88" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ui:ScrollViewerHelper.AutoHideScrollBars="True">
+                            <TextBox BorderThickness="0" Text="{Binding CurrentClass.Description,Mode=TwoWay}" AcceptsReturn="True" AcceptsTab="True"/>
+                        </ScrollViewer>
                     </DockPanel>
+                    <Separator DockPanel.Dock="Top"/>
                     <Grid>
                         <DockPanel Visibility="{Binding EditFunc,Converter={StaticResource BoolToVisibility},Mode=OneWay}"
                                     IsEnabled="{Binding CurrentFuncHasSet}" Opacity="{Binding CurrentFuncHasSet,Mode=OneWay,Converter={StaticResource BoolToOpacity}}">
@@ -140,40 +180,30 @@
                                     <TextBlock Text="静态" Opacity="{Binding CurrentFunc.IsStatic,Mode=OneWay,Converter={StaticResource BoolToOpacity}}" Margin="-7,0,0,0"/>
                                 </CheckBox>
                                 <TextBlock Text="方法描述："/>
-                                <TextBox Text="{Binding CurrentFunc.Description}" AcceptsReturn="True" AcceptsTab="True"/>
+                                <ScrollViewer BorderBrush="{Binding Content.BorderBrush,RelativeSource={RelativeSource Self}}" BorderThickness="1" MaxHeight="88" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ui:ScrollViewerHelper.AutoHideScrollBars="True">
+                                    <TextBox BorderThickness="0" Text="{Binding CurrentFunc.Description}" AcceptsReturn="True" AcceptsTab="True"/>
+                                </ScrollViewer>
                             </DockPanel>
-                            <DockPanel DockPanel.Dock="Top" Margin="2">
-                                <!--<Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        --><!--<ColumnDefinition Width="4*"/>--><!--
-                                        <ColumnDefinition Width="3*"/>
-                                    </Grid.ColumnDefinitions>-->
-                                    <!--<TextBlock Text="" VerticalAlignment="Center"/>-->
-                                    <!--<DockPanel Grid.Column="1">
-                                        <TextBlock Text="名称：" VerticalAlignment="Center"/>
-                                        --><!--<TextBox Text="{Binding CurrentFunc.ReturnName}"/>--><!--
-                                    </DockPanel>-->
-                                    <DockPanel Grid.Column="1">
+                            <DockPanel DockPanel.Dock="Top" Margin="2"> 
+                                <DockPanel Grid.Column="1">
                                     <TextBlock Text="返回值类型：" VerticalAlignment="Center"/>
-                                        <ComboBox HorizontalAlignment="Stretch" Text="{Binding CurrentFunc.ReturnType}" IsEditable="True"  ui:ControlHelper.CornerRadius="0" 
+                                    <ComboBox HorizontalAlignment="Stretch" Text="{Binding CurrentFunc.ReturnType}" IsEditable="True"  ui:ControlHelper.CornerRadius="0" 
                                                   ItemsSource="{Binding AvaliableTypes,Mode=OneWay}" SelectionChanged="SelectTypeComboBox_SelectionChanged">
-                                            <ComboBox.ToolTip>
-                                                <StackPanel>
-                                                    <TextBlock Text="选择或手动输入类型"/>
-                                                    <TextBlock Text="右键下拉框箭头位置编辑匿名函数"/>
-                                                    <TextBlock Text="当前内容:"/>
-                                                    <TextBlock Text="{Binding CurrentFunc.ReturnType,Mode=OneWay}" TextWrapping="Wrap"/>
-                                                </StackPanel>
-                                            </ComboBox.ToolTip>
-                                            <ComboBox.ContextMenu>
-                                                <ContextMenu>
-                                                    <MenuItem Tag="{Binding CurrentFunc.Me}" Header="编辑匿名函数" Click="SelectTypeMenuItem_Click"/>
-                                                </ContextMenu>
-                                            </ComboBox.ContextMenu>
-                                        </ComboBox>
-                                    </DockPanel>
-                                <!--</Grid>-->
+                                        <ComboBox.ToolTip>
+                                            <StackPanel>
+                                                <TextBlock Text="选择或手动输入类型"/>
+                                                <TextBlock Text="右键下拉框箭头位置编辑匿名函数"/>
+                                                <TextBlock Text="当前内容:"/>
+                                                <TextBlock Text="{Binding CurrentFunc.ReturnType,Mode=OneWay}" TextWrapping="Wrap"/>
+                                            </StackPanel>
+                                        </ComboBox.ToolTip>
+                                        <ComboBox.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Tag="{Binding CurrentFunc.Me}" Header="编辑匿名函数" Click="SelectTypeMenuItem_Click"/>
+                                            </ContextMenu>
+                                        </ComboBox.ContextMenu>
+                                    </ComboBox>
+                                </DockPanel>
                             </DockPanel>
                             <DockPanel DockPanel.Dock="Top" Margin="2">
                                 <TextBlock Text="返回值描述：" VerticalAlignment="Center"/>
@@ -191,7 +221,6 @@
                                 <Button Grid.Column="2" HorizontalAlignment="Stretch" Content="复制JSON" Click="CopyCurrentFuncJsonButton_Click"/>
                                 <Button Grid.Column="4" HorizontalAlignment="Stretch" Content="粘贴(覆盖)JSON" Click="PasteCurrentFuncJsonButton_Click"/>
                             </Grid>
-
                             <DockPanel>
                                 <TextBlock Text="方法参数表：" DockPanel.Dock="Top"/>
                                 <DataGrid Name="ParamsDataGrid" CanUserSortColumns="False" ItemsSource="{Binding CurrentFunc.Params}" AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserResizeRows="False">
@@ -208,7 +237,7 @@
                                         <DataGridTemplateColumn Width ="6*" Header="类型" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding ParamType}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                    <TextBlock Text="{Binding ParamType,Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                             <DataGridTemplateColumn.CellEditingTemplate>
@@ -241,7 +270,9 @@
                                    IsEnabled="{Binding CurrentPropertyHasSet}" Opacity="{Binding CurrentPropertyHasSet,Mode=OneWay,Converter={StaticResource BoolToOpacity}}">
                             <DockPanel DockPanel.Dock="Top" Margin="2">
                                 <TextBlock Text="属性描述：" VerticalAlignment="Center"/>
-                                <TextBox Text="{Binding CurrentProperty.Description}" AcceptsReturn="True" AcceptsTab="True"/>
+                                <ScrollViewer BorderBrush="{Binding Content.BorderBrush,RelativeSource={RelativeSource Self}}" BorderThickness="1" MaxHeight="88" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ui:ScrollViewerHelper.AutoHideScrollBars="True">
+                                    <TextBox BorderThickness="0" Text="{Binding CurrentProperty.Description}" AcceptsReturn="True" AcceptsTab="True"/>
+                                </ScrollViewer>
                             </DockPanel>
                             <DockPanel DockPanel.Dock="Top">
                                 <Grid>

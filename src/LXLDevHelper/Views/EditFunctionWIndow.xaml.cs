@@ -32,7 +32,7 @@ namespace LXLDevHelper.Views
             {
                 try
                 {//反序列化到结构体
-                    Data = JsonConvert.DeserializeObject<ViewModels.EditFunctionWindowViewModel>(text.Substring(prefix.Length));
+                    Data = ViewModels.EditFunctionWindowViewModel.GetFromRaw(text);
                 }
                 catch (System.Exception ex) { ShowWarn($"加载数据失败！\n{text}\n{ex}"); }
             }
@@ -49,16 +49,13 @@ namespace LXLDevHelper.Views
                     try
                     {
                         //ShowWarn("Function@" + Newtonsoft.Json.JsonConvert.SerializeObject(Data, Newtonsoft.Json.Formatting.None));
-                        return "Function@" + JsonConvert.SerializeObject(Data, Formatting.None);
+                        return Data.ToString();
                     }
                     catch (System.Exception ex) { ShowWarn("保存方法参数出错\n" + ex.ToString()); }
                 }
                 return input;
             }
-        }
-
-
-
+        } 
         #region 事件
 
         private void InsertParams_Click(object sender, RoutedEventArgs e)

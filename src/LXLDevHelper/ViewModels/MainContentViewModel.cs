@@ -151,10 +151,11 @@ namespace LXLDevHelper.ViewModels
             "Float",
             "String",
             "Boolean",
-            "Array",
-            "Object",
+            "Object","Any",
             "ByteBuffer",
             "Function",
+            "Array@Object",
+            "ParamArray@Object"
         };
         [JsonIgnore] public static ObservableCollection<string> AvaliableTypes { get => _avaliableTypes; }
        

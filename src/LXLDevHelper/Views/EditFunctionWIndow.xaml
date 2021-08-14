@@ -10,30 +10,7 @@
         ui:WindowHelper.UseModernWindowStyle="True"
         mc:Ignorable="d" Topmost="True" 
         WindowStyle="ToolWindow"
-        Title="EditFunctionWIndow" Height="250" Width="400" 
-        FontFamily="Microsoft YaHei" 
-        >
-    <Window.Resources >
-        <Style TargetType="TextBox" BasedOn="{StaticResource ComboBoxTextBoxStyle}">
-            <Setter Property="ui:ControlHelper.CornerRadius" Value="0" />
-            <Setter Property="FontFamily" Value="Red" />
-        </Style>
-        <Style x:Key="DataTextBlock" TargetType="TextBlock" BasedOn="{StaticResource DataGridTextBlockStyle}">
-            <Setter Property="Padding" Value="5,0,0,0" />
-        </Style>
-        <Style x:Key="EditingTextbox" TargetType="TextBox" BasedOn="{StaticResource ComboBoxTextBoxStyle}">
-            <Setter Property="Padding" Value="5,0,0,0" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="ui:ControlHelper.CornerRadius" Value="0" />
-        </Style>
-        <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
-        <converters:RevBoolToVisibility x:Key="RevBoolToVisibility" />
-        <converters:BoolToVisibility x:Key="BoolToVisibility" />
-        <converters:BoolToOpacity  x:Key="BoolToOpacity" />
-    </Window.Resources>
+        Title="EditFunctionWIndow" Height="250" Width="400" > 
 
     <Grid>
         <DockPanel>
@@ -91,7 +68,7 @@
                     <DataGridTemplateColumn Width ="3*" Header="类型" HeaderStyle="{StaticResource DateTimePickerFlyoutButtonStyle}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding ParamType,Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                <TextBlock  Text="{Binding ParamType,Mode=OneWay}" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="5,0,0,0"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>

@@ -27,7 +27,7 @@ namespace Elements.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (bool)value ? Visibility.Collapsed :  Visibility.Visible;
+            return (bool)value ? Visibility.Collapsed : Visibility.Visible;
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
     }
@@ -36,6 +36,14 @@ namespace Elements.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return (bool)value ? 1.0 : 0.7;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+    }
+    public class SelectedToBool : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (int)value != -1;
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
     }

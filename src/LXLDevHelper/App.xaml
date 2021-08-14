@@ -1,13 +1,45 @@
 ﻿<Application x:Class="LXLDevHelper.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:ui="http://schemas.modernwpf.com/2019">
+             xmlns:ui="http://schemas.modernwpf.com/2019" xmlns:converters="clr-namespace:Elements.Converters">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemeResources />
                 <ui:XamlControlsResources />
             </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="TextBox" BasedOn="{StaticResource ComboBoxTextBoxStyle}">
+                <Setter Property="ui:ControlHelper.CornerRadius" Value="0" />
+                <Setter Property="ui:TextBoxHelper.IsEnabled" Value="False"/>
+                <Setter Property="FontFamily" Value="Microsoft YaHei" />
+            </Style>
+            <Style x:Key="DataTextBlock" TargetType="TextBlock" BasedOn="{StaticResource DataGridTextBlockStyle}">
+                <Setter Property="Padding" Value="5,0,0,0" />
+                <Setter Property="FontFamily" Value="Microsoft YaHei" />
+            </Style>
+            <Style x:Key="EditingTextbox" TargetType="TextBox" BasedOn="{StaticResource ComboBoxTextBoxStyle}">
+                <Setter Property="Padding" Value="5,0,0,0" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="ui:ControlHelper.CornerRadius" Value="0" />
+                <Setter Property="FontFamily" Value="Microsoft YaHei" />
+            </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="FontFamily" Value="Microsoft YaHei" />
+            </Style>
+            <Style TargetType="ListBoxItem" BasedOn="{StaticResource DefaultListBoxItemStyle}">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="Padding" Value="2"/>
+                <Setter Property="FontFamily" Value="Microsoft YaHei" />
+            </Style>
+            <Style TargetType="ListBox" BasedOn="{StaticResource DefaultListBoxStyle}">
+                <Setter Property="ui:ScrollViewerHelper.AutoHideScrollBars" Value="True" />
+            </Style>
+            <converters:RevBoolToVisibility x:Key="RevBoolToVisibility" />
+            <converters:BoolToVisibility x:Key="BoolToVisibility" />
+            <converters:BoolToOpacity  x:Key="BoolToOpacity" />
+            <converters:SelectedToBool  x:Key="SelectedToBool" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

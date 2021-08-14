@@ -160,6 +160,10 @@ namespace LXLDevHelper.Views
             {
                 Data.CurrentFunc = Data.CurrentClass.AllFunc[i];
                 Data.CurrentFuncHasSet = true;
+                if (Data.CurrentClass.ClassName == "mc" && Data.CurrentFunc.FuncName == "listen")
+                {
+                    EditEventsWindow.ShowEditEventsWindow(Data.CurrentClass.AllFunc,Application.Current.MainWindow);
+                }
             }
         }
         private void PropertyListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -278,7 +282,7 @@ namespace LXLDevHelper.Views
                 {
                     ShowWarn("载入失败！\n未找到数据。"); return;
                 }
-                Loader.DataLoader.LoadFromPath(root,ref Data);
+                Loader.DataLoader.LoadFromPath(root, ref Data);
                 ((Button)sender).Tag = true;
                 ((Button)sender).Content = "重新载入";
             }
